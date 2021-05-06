@@ -1,0 +1,7 @@
+Vagrant.configure("2") do |config|
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+    config.vm.define "otus_hw_1_test" do |h|
+        h.vm.box = "ILLA/centos-7-5"
+        h.vm.provider :virtualbox
+    end
+end
