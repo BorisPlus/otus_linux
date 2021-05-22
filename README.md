@@ -1,6 +1,7 @@
-# OTUS. Administrator Linux. Professional
+# OTUS.ru - курс "Administrator Linux. Professional" 2021
 
 * [С чего начинается Linux](./001.md)
 * [Дисковая подсистема Linux](./002.md)
 * [Файловые системы и LVM](./003.md)
-* [ZFS](./004.md)
+* [Файловая система ZFS](./004.md)
+* [Сетевая файловая система NFS](./005.md)
