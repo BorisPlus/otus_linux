@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "centos/7"
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 256
+    v.cpus = 1
+  end
+
+  config.vm.define "repo_server" do |repo_server|
+    repo_server.vm.network "private_network", ip: "192.168.50.10", virtualbox__intnet: "internal"
+    repo_server.vm.network "forwarded_port", guest: 80, host: 8080
+    repo_server.vm.hostname = "server"
+    repo_server.vm.provision "shell", path: "repo_server_builder_script.sh"
+  end
+
+  config.vm.define "repo_client" do |repo_client|
+    repo_client.vm.network "private_network", ip: "192.168.50.11", virtualbox__intnet: "internal"
+    repo_client.vm.hostname = "client"
+    repo_client.vm.provision "shell", path: "repo_client_builder_script.sh"
+  end
+
+end
