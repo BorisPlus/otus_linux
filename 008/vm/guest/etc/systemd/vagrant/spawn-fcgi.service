@@ -1,0 +1,11 @@
+[Unit]
+Description=Spawn-fCgi Unit
+SourcePath=/etc/init.d/
+
+[Service]
+ExecStart=/etc/init.d/spawn-fcgi start
+ExecStop=/etc/init.d/spawn-fcgi stop
+ExecReload=/etc/init.d/spawn-fcgi reload
+
+[Install]
+WantedBy=multi-user.target

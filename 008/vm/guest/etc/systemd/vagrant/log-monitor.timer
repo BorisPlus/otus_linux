@@ -1,0 +1,10 @@
+[Unit]
+Description=Grep QUERY from FILE scheduled
+Requires=log-monitor.service
+
+[Timer]
+Unit=log-monitor.service
+OnUnitActiveSec=30
+
+[Install]
+WantedBy=timers.target

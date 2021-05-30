@@ -1,0 +1,11 @@
+[Unit]
+Description=Grep FILE for QUERY
+Wants=log-monitor.timer
+
+[Service]
+EnvironmentFile=/etc/sysconfig/vagrant/file-grep
+Type=oneshot
+ExecStart=/home/vagrant/host/hw_part_1/file-grep.sh ${FILE} ${QUERY}
+
+[Install]
+WantedBy=multi-user.target
