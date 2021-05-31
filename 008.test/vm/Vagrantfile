@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  # config.vm.box = "generic/centos8"
+  config.vm.box = "centos/7"
+  config.vm.synced_folder "guest/home/vagrant/test/", "/home/vagrant/test/"
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 256
+    v.cpus = 1
+  end
+
+  config.vm.define "guest" do |guest|
+    guest.vm.provision "shell", path: "guest_script.sh"
+    guest.vm.hostname = "guest"
+  end
+
+end
