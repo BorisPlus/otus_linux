@@ -1,0 +1,2 @@
+FILE=/var/log/secure
+QUERY="COMMAND=/bin/systemctl status log-monitor.service"

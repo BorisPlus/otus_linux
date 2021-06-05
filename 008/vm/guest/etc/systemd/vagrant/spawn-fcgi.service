@@ -1,11 +1,11 @@
 [Unit]
 Description=Spawn-fCgi Unit
-SourcePath=/etc/init.d/
 
 [Service]
-ExecStart=/etc/init.d/spawn-fcgi start
-ExecStop=/etc/init.d/spawn-fcgi stop
-ExecReload=/etc/init.d/spawn-fcgi reload
+ExecStart=/bin/bash -c '/usr/bin/spawn-fcgi -u apache -g apache -s /var/run/php-fcgi.sock -S -M 0600 -C 10 -F 1 -P /var/run/spawn-fcgi.pid -- /usr/bin/php-cgi'
+PIDFile=/var/run/spawn-fcgi.pid
+ExecStop=/bin/bash -c 'echo "Something else"'
+KillMode=process
 
 [Install]
 WantedBy=multi-user.target

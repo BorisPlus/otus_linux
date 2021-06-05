@@ -3,7 +3,7 @@ Description=Grep FILE for QUERY
 Wants=log-monitor.timer
 
 [Service]
-EnvironmentFile=/etc/sysconfig/vagrant/file-grep
+EnvironmentFile=/etc/sysconfig/vagrant/log-monitor
 Type=oneshot
 ExecStart=/home/vagrant/host/hw_part_1/file-grep.sh ${FILE} ${QUERY}
 

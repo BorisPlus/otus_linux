@@ -1,4 +1,3 @@
- cat /etc/init.d/spawn-fcgi
 #!/bin/sh
 #
 # spawn-fcgi   Start and stop FastCGI processes
@@ -19,7 +18,7 @@
 ### END INIT INFO
 
 # Source function library.
-. /etc/rc.d/init.d/functions
+#. /etc/rc.d/init.d/functions
 
 exec="/usr/bin/spawn-fcgi"
 prog="spawn-fcgi"
@@ -29,12 +28,15 @@ config="/etc/sysconfig/spawn-fcgi"
 
 lockfile=/var/lock/subsys/$prog
 
+SOCKET=/var/run/php-fcgi.sock
+OPTIONS="-u apache -g apache -s $SOCKET -S -M 0600 -C 32 -F 1 -P /var/run/spawn-fcgi.pid -- /usr/bin/php-cgi"
+
 start() {
-    [ -x $exec ] || exit 5
-    [ -f $config ] || exit 6
-    echo -n $"Starting $prog: "
+#    [ -x $exec ] || exit 5
+#    [ -f $config ] || exit 6
+#    echo -n $"Starting $prog: "
     # Just in case this is left over with wrong ownership
-    [ -n "${SOCKET}" -a -S "${SOCKET}" ] && rm -f ${SOCKET}
+#    [ -n "${SOCKET}" -a -S "${SOCKET}" ] && rm -f ${SOCKET}
     daemon "$exec $OPTIONS >/dev/null"
     retval=$?
     echo
@@ -107,5 +109,3 @@ case "$1" in
         exit 2
 esac
 exit $?
-
-[root@guest vagrant]#

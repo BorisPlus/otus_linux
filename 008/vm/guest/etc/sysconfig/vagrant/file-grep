@@ -1,2 +1,0 @@
-FILE=/var/log/maillog
-QUERY=root@localhost.localdomain

@@ -15,11 +15,12 @@ exit 1
 fi
 
 file_grep() {
-    local FILE=$1
-    local QUERY=$2
-    # echo "Result of grep file '${FILE}' for query '${QUERY}'"
-    grep -rHn ${QUERY} ${FILE}
+    local FILE=${1}
+    local QUERY=${2}
+    #echo "Result of grep file '${FILE}' for query '${QUERY}'"
+    grep -rHn "${QUERY}" "${FILE}"
     exit 0
 }
-file_grep $1 $2
+#echo "Result of grep file '${1}' for query '${2}'"
+file_grep ${1} "${2}"
 exit 0

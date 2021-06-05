@@ -2,19 +2,21 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
+  # config.vm.box = "generic/centos8"
   config.vm.box = "centos/7"
-
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 256
-    v.cpus = 1
-  end
+  # config.vm.box = "debian/bullseye64"
 
   config.vm.synced_folder "guest/etc/sysconfig/vagrant", "/etc/sysconfig/vagrant"
   config.vm.synced_folder "guest/etc/systemd/vagrant", "/etc/systemd/vagrant"
   config.vm.synced_folder "guest/home/vagrant/host/", "/home/vagrant/host/"
   # Home work - part 3 - additional
-  config.vm.synced_folder "guest/var/www/html_1", "/var/www/html_1"
-  config.vm.synced_folder "guest/var/www/html_2", "/var/www/html_2"
+  # config.vm.synced_folder "guest/var/www/html8080", "/var/www/html8080"
+  # config.vm.synced_folder "guest/var/www/html80", "/var/www/html80"
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 256
+    v.cpus = 1
+  end
 
   config.vm.define "guest" do |guest|
     guest.vm.provision "shell", path: "guest_script.sh"
