@@ -17,13 +17,13 @@ if __name__ == '__main__':
                     file_in_tmp = row_in.split('[template]:')
                     for lex in file_in_tmp[1:]:
                         # <details><summary>подробнее...</summary>
-
-                        file_in_tmp = lex.split('](', 1)[1].split(')', 1)[0]
-
+                        kv = lex.split('](', 1)
+                        file_in_tmp = kv[1].split(')', 1)[0]
+                        name = kv[0].strip(' [')
                         with open(file_in_tmp) as f_in_tmp:
                             rows_count = len(f_in_tmp.readlines())
                             if rows_count > rows_count_detail_limit:
-                                f_out.write('<details><summary>подробнее...</summary>\n')
+                                f_out.write(f'<details><summary>см. {name}</summary>\n')
                                 f_out.write('\n')
 
                         f_out.write('```')
@@ -34,8 +34,10 @@ if __name__ == '__main__':
                         else:
                             f_out.write('properties')
                         f_out.write('\n')
-                        with open(file_in_tmp) as f_in_tmp:
-                            for row_in_tmp in f_in_tmp:
+                        with open(file_in_tmp) as f_in_tmp_2:
+                            for row_in_tmp in f_in_tmp_2:
+                                if row_in_tmp.strip().startswith('#') and file_in_tmp.endswith(('.sh', '.py')):
+                                    continue
                                 f_out.write(row_in_tmp)
                         f_out.write('\n```\n')
                         f_out.write('\n')
