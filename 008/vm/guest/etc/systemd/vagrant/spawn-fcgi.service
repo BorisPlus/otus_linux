@@ -2,7 +2,7 @@
 Description=Spawn-fCgi Unit
 
 [Service]
-ExecStart=/bin/bash -c '/usr/bin/spawn-fcgi -u apache -g apache -s /var/run/php-fcgi.sock -S -M 0600 -C 10 -F 1 -P /var/run/spawn-fcgi.pid -- /usr/bin/php-cgi'
+ExecStart=/bin/bash -c '/usr/bin/spawn-fcgi -u apache -g apache -s /var/run/php-fcgi-myself.sock -S -M 0600 -C 10 -F 1 -P /var/run/spawn-fcgi.pid -- /usr/bin/php-cgi'
 PIDFile=/var/run/spawn-fcgi.pid
 ExecStop=/bin/bash -c 'echo "Something else"'
 KillMode=process
