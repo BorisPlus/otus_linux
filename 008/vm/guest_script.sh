@@ -9,17 +9,13 @@ systemclt start log_monitor
 ln -s /etc/systemd/vagrant/spawn-fcgi.service /etc/systemd/system/vagrant-spawn-fcgi.service
 yum install -y epel-release
 yum install -y spawn-fcgi
-sudo yum -y install php
-sudo cat /etc/sysconfig/spawn-fcgi
+yum -y install php
+cat /etc/sysconfig/spawn-fcgi
+#sed -i 's@#SOCKET=/var/run/php-fcgi.sock@SOCKET=/var/run/php-fcgi-myself.sock@g' /etc/sysconfig/spawn-fcgi
 sed -i 's@#SOCKET=@SOCKET=@g' /etc/sysconfig/spawn-fcgi
 sed -i 's@#OPTIONS=@OPTIONS=@g' /etc/sysconfig/spawn-fcgi
 # Part 3. httpd
 yum -y install httpd
-#ln -s /etc/systemd/vagrant/spawn-fcgi.service /etc/systemd/system/vagrant-spawn-fcgi.service
-#ln -s /etc/systemd/vagrant/httpd-pro@.service /etc/systemd/system/httpd-pro@.service
-#ln -s /etc/systemd/vagrant/httpd-pro@.service /etc/systemd/system/httpd-pro@.service
-
-#sed -i 's@\[Install\]@PIDFile=/run/httpd/%i.pid\n\n[Install]@g' /etc/systemd/system/httpd@.service
 
 yes | cp -f --preserv /usr/lib/systemd/system/httpd.service /etc/systemd/system/httpd@.service
 sed -i 's@EnvironmentFile=/etc/sysconfig/httpd@EnvironmentFile=/etc/sysconfig/%i@g' /etc/systemd/system/httpd@.service

@@ -1,10 +1,12 @@
 [Unit]
 Description=Spawn-fCgi Unit
+After=network.target
 
 [Service]
-ExecStart=/bin/bash -c '/usr/bin/spawn-fcgi -u apache -g apache -s /var/run/php-fcgi-myself.sock -S -M 0600 -C 10 -F 1 -P /var/run/spawn-fcgi.pid -- /usr/bin/php-cgi'
+Type=simple
 PIDFile=/var/run/spawn-fcgi.pid
-ExecStop=/bin/bash -c 'echo "Something else"'
+EnvironmentFile=/etc/sysconfig/spawn-fcgi
+ExecStart=/usr/bin/spawn-fcgi -n $OPTIONS
 KillMode=process
 
 [Install]
