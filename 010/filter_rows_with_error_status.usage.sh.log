@@ -1,0 +1,10 @@
+./filter_rows_with_error_status.usage.sh ./access-4560-644067.log
+DATA AT HOUR 14/Aug/2019:23
+FILTER FOR NOT SUCCESS REQUESTS:
+172.104.242.173 - - [14/Aug/2019:23:22:13 +0300] "9\xCD\xC3V\x8C&\x12Dz/\xB7\xC0t\x96C\xE2" 400 173 "-" "-"rt=0.010 uct="-" uht="-" urt="-"
+54.208.102.37 - - [14/Aug/2019:23:23:59 +0300] "GET / HTTP/1.1" 301 185 "http://dbadmins.ru/" "Mozilla/5.0 (compatible; DuckDuckGo-Favicons-Bot/1.0; +http://duckduckgo.com)"rt=0.000 uct="-" uht="-" urt="-"
+87.250.233.75 - - [14/Aug/2019:23:24:32 +0300] "GET / HTTP/1.1" 301 185 "-" "Mozilla/5.0 (compatible; YandexMetrika/2.0; +http://yandex.com/bots yabs01)"rt=0.000 uct="-" uht="-" urt="-"
+93.158.167.130 - - [14/Aug/2019:23:31:56 +0300] "GET / HTTP/1.1" 404 169 "-" "Mozilla/5.0 (compatible; YandexMetrika/2.0; +http://yandex.com/bots yabs01)"rt=0.000 uct="-" uht="-" urt="-"
+5.255.251.4 - - [14/Aug/2019:23:38:25 +0300] "GET / HTTP/1.1" 301 185 "-" "Mozilla/5.0 (compatible; YandexMetrika/2.0; +http://yandex.com/bots yabs01)"rt=0.000 uct="-" uht="-" urt="-"
+209.17.96.74 - - [14/Aug/2019:23:44:04 +0300] "GET / HTTP/1.1" 301 5 "-" "Mozilla/5.0 (compatible; Nimbostratus-Bot/v1.3.2; http://cloudsystemnetworks.com)"rt=0.185 uct="0.000" uht="0.185" urt="0.185"
+77.247.110.165 - - [14/Aug/2019:23:44:18 +0300] "HEAD /robots.txt HTTP/1.0" 404 0 "-" "-"rt=0.017 uct="-" uht="-" urt="-"

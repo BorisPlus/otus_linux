@@ -1,0 +1,14 @@
+./top_of_group_by.usage.error_rows.sh ./access-4560-644067.log 2
+
+    DATA AT HOUR 14/Aug/2019:23
+    FILTER FOR NOT SUCCESS REQUESTS:
+          4 301
+          2 404
+
+./top_of_group_by.usage.error_rows.sh ./access-4560-644067.log 4
+
+    DATA AT HOUR 14/Aug/2019:23
+    FILTER FOR NOT SUCCESS REQUESTS:
+          4 301
+          2 404
+          1 400
