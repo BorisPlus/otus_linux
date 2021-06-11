@@ -1,0 +1,4 @@
+PROCESS DATA OF HOUR 15/Aug/2019:00 OF LOG-FILE ./access-4560-644067.log
+SELECT "UNSUCCESS" REQUESTS:
+87.250.233.68 - - [15/Aug/2019:00:00:37 +0300] "GET / HTTP/1.1" 404 169 "-" "Mozilla/5.0 (compatible; YandexMetrika/2.0; +http://yandex.com/bots yabs01)"rt=0.000 uct="-" uht="-" urt="-"
+182.254.243.249 - - [15/Aug/2019:00:24:38 +0300] "PROPFIND / HTTP/1.1" 405 173 "-" "-"rt=0.214 uct="-" uht="-" urt="-"

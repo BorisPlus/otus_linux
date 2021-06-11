@@ -1,7 +1,8 @@
 #!/bin/sh
-# file: filter_for_urn.usage.sh
-# usage: ./filter_for_urn.usage.sh ./access-4560-644067.log
-. ./filter_for_urn.sh
+# file: fetch_urn.usage.sh
+# usage: ./fetch_urn.usage.sh ./access-4560-644067.log > ./fetch_urn.usage.sh.log
+. ./select_rows_at_hour.sh
+. ./fetch_urn.sh
 
 # Проверка на переданный параметр
 USAGE="SYNOPSIS: filter_for_uri.usage.sh LOG_FILE"
@@ -14,14 +15,7 @@ fi
 
 LOG_FILE="${1}"
 
-. ./get_hour.sh
-AT_HOUR=$(get_hour)
-DEBUG=true
-if $DEBUG
-then
-  echo "GET DATA OF HOUR" $AT_HOUR
-fi
 echo 'FILTER FOR UNIFORM RESOURCE NAME:'
-get_data_at_hour | filter_for_urn
+select_rows_at_hour | fetch_urn
 
 exit 0

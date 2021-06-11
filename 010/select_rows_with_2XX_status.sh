@@ -2,6 +2,6 @@
 # Внимание: разработано для лог-файлов строго определенной структуры!
 #
 # Функция применит фильтр к записям файла c HTTP-статусом 200-299
-filter_rows_with_2XX_status() {
+select_rows_with_2XX_status() {
     awk 'BEGIN { FS = "\" "; OFS= "#"} ; {print $0,$2}' | awk 'BEGIN { FS = "#" }; { if ((match($2,/2[0-9][0-9]/))) { print $1 }}'
 }

@@ -1,6 +1,0 @@
-./top_of_group_by_statistic.usage.urn.sh ./access-4560-644067.log 3
-GET DATA OF HOUR 14/Aug/2019:23
-TOP 3-COUNT URN REQUEST TARGETS
-      8 /
-      6 /wp-login.php
-      3 /xmlrpc.php

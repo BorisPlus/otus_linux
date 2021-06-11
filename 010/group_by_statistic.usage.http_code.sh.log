@@ -1,9 +1,0 @@
-./group_by_statistic.usage.http_code.sh ./access-4560-644067.log
-
-GET DATA OF HOUR 14/Aug/2019:23
-CALCULATE COUNT OF HTTP-STATUS CODES
-     14 200
-      4 301
-      2 404
-      1 400
-
