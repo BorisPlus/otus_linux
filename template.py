@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# run: ./template.py  008.template.md
+# run: python3 ./template.py  010.template.md 0
 import sys
 if __name__ == '__main__':
     # file_in = '008.template.md'
@@ -36,8 +36,8 @@ if __name__ == '__main__':
                         f_out.write('\n')
                         with open(file_in_tmp) as f_in_tmp_2:
                             for row_in_tmp in f_in_tmp_2:
-                                if row_in_tmp.strip().startswith('#') and file_in_tmp.endswith(('.sh', '.py')):
-                                    continue
+                                # if row_in_tmp.strip().startswith('#') and file_in_tmp.endswith(('.sh', '.py')):
+                                #     continue
                                 f_out.write(row_in_tmp)
                         f_out.write('\n```\n')
                         f_out.write('\n')
