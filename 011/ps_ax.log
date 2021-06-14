@@ -1,4 +1,4 @@
-$ps ax
+$ ps ax
 
   PID TTY      STAT   TIME COMMAND
     1 ?        Ss     1:27 /sbin/init
