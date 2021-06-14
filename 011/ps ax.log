@@ -1,0 +1,262 @@
+$ps ax
+
+  PID TTY      STAT   TIME COMMAND
+    1 ?        Ss     1:27 /sbin/init
+    2 ?        S      0:00 [kthreadd]
+    3 ?        I<     0:00 [rcu_gp]
+    4 ?        I<     0:00 [rcu_par_gp]
+    6 ?        I<     0:00 [kworker/0:0H-kblockd]
+    8 ?        I<     0:00 [mm_percpu_wq]
+    9 ?        S      0:06 [ksoftirqd/0]
+   10 ?        I      1:24 [rcu_sched]
+   11 ?        I      0:00 [rcu_bh]
+   12 ?        S      0:00 [migration/0]
+   14 ?        S      0:00 [cpuhp/0]
+   15 ?        S      0:00 [cpuhp/1]
+   16 ?        S      0:01 [migration/1]
+   17 ?        S      0:02 [ksoftirqd/1]
+   19 ?        I<     0:00 [kworker/1:0H-kblockd]
+   20 ?        S      0:00 [cpuhp/2]
+   21 ?        S      0:00 [migration/2]
+   22 ?        S      0:02 [ksoftirqd/2]
+   24 ?        I<     0:00 [kworker/2:0H-kblockd]
+   25 ?        S      0:00 [cpuhp/3]
+   26 ?        S      0:00 [migration/3]
+   27 ?        S      0:02 [ksoftirqd/3]
+   29 ?        I<     0:00 [kworker/3:0H-kblockd]
+   30 ?        S      0:00 [kdevtmpfs]
+   31 ?        I<     0:00 [netns]
+   32 ?        S      0:00 [kauditd]
+   33 ?        S      0:00 [khungtaskd]
+   34 ?        S      0:00 [oom_reaper]
+   35 ?        I<     0:00 [writeback]
+   36 ?        S      0:01 [kcompactd0]
+   37 ?        SN     0:00 [ksmd]
+   38 ?        SN     0:02 [khugepaged]
+   39 ?        I<     0:00 [crypto]
+   40 ?        I<     0:00 [kintegrityd]
+   41 ?        I<     0:00 [kblockd]
+   45 ?        I<     0:00 [edac-poller]
+   46 ?        I<     0:00 [devfreq_wq]
+   47 ?        S      0:00 [watchdogd]
+   48 ?        S      0:02 [kswapd0]
+   66 ?        I<     0:00 [kthrotld]
+   67 ?        S      0:00 [irq/28-pciehp]
+   68 ?        I<     0:00 [ipv6_addrconf]
+   79 ?        I<     0:00 [kstrp]
+  121 ?        I<     0:00 [acpi_thermal_pm]
+  154 ?        I<     0:00 [ata_sff]
+  161 ?        S      0:00 [scsi_eh_0]
+  162 ?        I<     0:00 [scsi_tmf_0]
+  163 ?        S      0:00 [scsi_eh_1]
+  164 ?        I<     0:00 [scsi_tmf_1]
+  165 ?        S      0:00 [scsi_eh_2]
+  166 ?        I<     0:00 [scsi_tmf_2]
+  167 ?        S      0:00 [scsi_eh_3]
+  168 ?        I<     0:00 [scsi_tmf_3]
+  169 ?        S      0:00 [scsi_eh_4]
+  170 ?        I<     0:00 [scsi_tmf_4]
+  171 ?        S      0:00 [scsi_eh_5]
+  172 ?        I<     0:00 [scsi_tmf_5]
+  178 ?        I<     0:00 [nvkm-disp]
+  180 ?        I<     0:00 [ttm_swap]
+  181 ?        I<     0:00 [kworker/3:1H-kblockd]
+  182 ?        I<     0:01 [kworker/2:1H-kblockd]
+  189 ?        I<     0:00 [uas]
+  190 ?        S      0:00 [scsi_eh_6]
+  191 ?        I<     0:00 [scsi_tmf_6]
+  192 ?        S      0:20 [usb-storage]
+  224 ?        I<     0:01 [kworker/0:1H-kblockd]
+  225 ?        I<     0:00 [kworker/1:1H-kblockd]
+  379 ?        I<     0:00 [kdmflush]
+  381 ?        I<     0:00 [kcryptd_io]
+  384 ?        I<     0:00 [kcryptd]
+  385 ?        S      0:10 [dmcrypt_write]
+  397 ?        I<     0:00 [kdmflush]
+  398 ?        I<     0:00 [kdmflush]
+  436 ?        S      0:07 [jbd2/dm-1-8]
+  437 ?        I<     0:00 [ext4-rsv-conver]
+  484 ?        Ss     0:06 /lib/systemd/systemd-journald
+  496 ?        Ss     0:07 /lib/systemd/systemd-udevd
+  511 ?        S<     0:01 [loop0]
+  533 ?        S<     0:00 [loop1]
+  536 ?        S<     0:00 [loop2]
+  538 ?        S<     0:00 [loop3]
+  539 ?        S<     0:00 [loop4]
+  540 ?        S<     0:00 [loop5]
+  542 ?        S<     0:00 [loop6]
+  565 ?        S<     0:00 [loop7]
+  566 ?        S<     0:00 [loop8]
+  573 ?        S<     0:00 [loop9]
+  602 ?        I<     0:00 [cfg80211]
+  718 ?        I<     0:00 [ext4-rsv-conver]
+  729 ?        Ssl    0:00 /lib/systemd/systemd-timesyncd
+  785 ?        Ss     0:00 /usr/sbin/cron -f
+  789 ?        Ssl    0:20 /usr/lib/snapd/snapd
+  790 ?        Ssl    0:29 /usr/lib/udisks2/udisksd
+  793 ?        Ss     0:30 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+  794 ?        Ss     0:01 /sbin/wpa_supplicant -u -s -O /run/wpa_supplicant
+  799 ?        SNs    0:00 /usr/sbin/alsactl -E HOME=/run/alsa -s -n 19 -c rdaemon
+  801 ?        Ssl    0:00 /usr/sbin/ModemManager --filter-policy=strict
+  804 ?        Ss     0:19 /lib/systemd/systemd-logind
+  805 ?        Ss     0:00 avahi-daemon: running [b.local]
+  806 ?        Ssl    0:00 /usr/lib/accountsservice/accounts-daemon
+  807 ?        Ssl    0:01 /usr/sbin/rsyslogd -n -iNONE
+  809 ?        Ssl    0:09 /usr/sbin/NetworkManager --no-daemon
+  827 ?        S      0:00 avahi-daemon: chroot helper
+  835 ?        Ssl    0:02 /usr/lib/policykit-1/polkitd --no-debug
+  859 ?        Ssl    0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+  872 ?        Ssl    0:00 /usr/sbin/gdm3
+  883 ?        Sl     0:00 gdm-session-worker [pam/gdm-autologin]
+  897 ?        I<     0:00 [iprt-VBoxWQueue]
+  903 ?        S      0:00 [iprt-VBoxTscThr]
+  925 ?        Ss     0:03 /lib/systemd/systemd --user
+  928 ?        S      0:00 (sd-pam)
+  964 ?        SLl    0:00 /usr/bin/gnome-keyring-daemon --daemonize --login
+  968 tty2     Ssl+   0:00 /usr/lib/gdm3/gdm-wayland-session /usr/bin/gnome-session
+  970 ?        Ss     0:02 /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+  972 tty2     Sl+    0:00 /usr/lib/gnome-session/gnome-session-binary
+ 1012 tty2     Sl+  120:42 /usr/bin/gnome-shell
+ 1071 ?        Ssl    0:00 /usr/lib/gvfs/gvfsd
+ 1076 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-fuse /run/user/1000/gvfs -f -o big_writes
+ 1085 tty2     Sl+  126:22 /usr/bin/Xwayland :0 -rootless -terminate -accessx -core -listen 4 -listen 5 -displayfd 6
+ 1093 ?        Ssl    0:00 /usr/lib/at-spi2-core/at-spi-bus-launcher
+ 1098 ?        S      0:05 /usr/bin/dbus-daemon --config-file=/usr/share/defaults/at-spi2/accessibility.conf --nofork --print-address 3
+ 1100 ?        Sl     0:21 /usr/lib/at-spi2-core/at-spi2-registryd --use-gnome-session
+ 1104 ?        Ssl   48:14 /usr/bin/pulseaudio --daemonize=no
+ 1105 ?        SNsl   0:01 /usr/lib/rtkit/rtkit-daemon
+ 1114 tty2     Sl     3:34 ibus-daemon --xim --panel disable
+ 1118 tty2     Sl     0:00 /usr/lib/ibus/ibus-dconf
+ 1119 tty2     Sl     0:21 /usr/lib/ibus/ibus-extension-gtk3
+ 1122 tty2     Sl     1:55 /usr/lib/ibus/ibus-x11 --kill-daemon
+ 1126 ?        Sl     0:00 /usr/lib/ibus/ibus-portal
+ 1135 ?        Ssl    0:00 /usr/libexec/xdg-permission-store
+ 1140 ?        Sl     0:00 /usr/lib/gnome-shell/gnome-shell-calendar-server
+ 1144 ?        Ssl    0:00 /usr/lib/evolution/evolution-source-registry
+ 1150 ?        Sl     0:00 /usr/lib/gnome-online-accounts/goa-daemon
+ 1151 ?        Ssl    0:03 /usr/lib/upower/upowerd
+ 1160 ?        Sl     0:00 /usr/lib/dconf/dconf-service
+ 1175 ?        Ssl    0:03 /usr/lib/gvfs/gvfs-udisks2-volume-monitor
+ 1182 ?        Ssl    0:00 /usr/lib/gvfs/gvfs-goa-volume-monitor
+ 1191 ?        Sl     0:00 /usr/lib/gnome-online-accounts/goa-identity-service
+ 1196 ?        Ssl    0:00 /usr/lib/gvfs/gvfs-mtp-volume-monitor
+ 1200 ?        Ssl    0:00 /usr/lib/gvfs/gvfs-afc-volume-monitor
+ 1205 ?        Ssl    0:00 /usr/lib/gvfs/gvfs-gphoto2-volume-monitor
+ 1210 tty2     Sl+    0:03 /usr/lib/gnome-settings-daemon/gsd-power
+ 1211 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-print-notifications
+ 1214 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-rfkill
+ 1216 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-screensaver-proxy
+ 1217 tty2     Sl+    0:03 /usr/lib/gnome-settings-daemon/gsd-sharing
+ 1218 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-smartcard
+ 1227 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-sound
+ 1232 tty2     Sl+    0:04 /usr/lib/gnome-settings-daemon/gsd-xsettings
+ 1233 tty2     Sl+    0:01 /usr/lib/gnome-settings-daemon/gsd-wacom
+ 1245 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-a11y-settings
+ 1246 tty2     Sl+    0:01 /usr/lib/gnome-settings-daemon/gsd-clipboard
+ 1247 tty2     Sl+    0:02 /usr/lib/gnome-settings-daemon/gsd-color
+ 1249 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-datetime
+ 1250 tty2     Sl+    0:07 /usr/lib/gnome-settings-daemon/gsd-housekeeping
+ 1252 tty2     Sl+    0:01 /usr/lib/gnome-settings-daemon/gsd-keyboard
+ 1255 tty2     Sl+    0:02 /usr/lib/gnome-settings-daemon/gsd-media-keys
+ 1256 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-mouse
+ 1275 tty2     Sl+    0:00 /usr/lib/gnome-settings-daemon/gsd-printer
+ 1281 ?        Ssl    0:00 /usr/lib/evolution/evolution-calendar-factory
+ 1296 ?        Ssl    0:00 /usr/lib/evolution/evolution-addressbook-factory
+ 1308 tty2     Sl     1:07 /usr/lib/ibus/ibus-engine-simple
+ 1361 tty2     Sl+    0:00 /usr/lib/evolution/evolution-data-server/evolution-alarm-notify
+ 1362 ?        Ssl    0:00 /usr/lib/colord/colord
+ 1363 tty2     Sl+    0:11 /usr/bin/gnome-software --gapplication-service
+ 1368 tty2     Sl+    0:00 /usr/lib/gnome-disk-utility/gsd-disk-utility-notify
+ 1369 tty2     SNl+   0:00 /usr/lib/tracker/tracker-miner-fs
+ 1376 tty2     SNl+   0:00 /usr/lib/tracker/tracker-miner-apps
+ 1383 ?        Ssl    0:00 /usr/lib/tracker/tracker-store
+ 1458 ?        Ssl    0:00 /usr/lib/gvfs/gvfsd-metadata
+ 2214 tty2     Sl+  104:54 /usr/lib/firefox-esr/firefox-esr
+ 2316 tty2     Sl+    1:02 /usr/lib/firefox-esr/firefox-esr -contentproc -childID 2 -isForBrowser -prefsLen 6427 -prefMapSize 220111 -parentBuildID 20210412162915 -appdir /usr/lib/firefox-esr/bro
+ 2381 tty2     Sl+    0:29 /usr/lib/firefox-esr/firefox-esr -contentproc -childID 4 -isForBrowser -prefsLen 7330 -prefMapSize 220111 -parentBuildID 20210412162915 -appdir /usr/lib/firefox-esr/bro
+ 3100 tty2     Sl+    0:01 /usr/lib/firefox-esr/firefox-esr -contentproc -parentBuildID 20210412162915 -prefsLen 8985 -prefMapSize 220111 -appdir /usr/lib/firefox-esr/browser 2214 true rdd
+ 3240 tty2     Sl+    0:18 /usr/lib/speech-dispatcher-modules/sd_generic /etc/speech-dispatcher/modules/generic.conf
+ 3243 tty2     Sl+    0:17 /usr/lib/speech-dispatcher-modules/sd_generic /etc/speech-dispatcher/modules/mary-generic.conf
+ 3246 tty2     Sl+    0:17 /usr/lib/speech-dispatcher-modules/sd_espeak-ng /etc/speech-dispatcher/modules/espeak-ng.conf
+ 3252 tty2     Sl+    0:18 /usr/lib/speech-dispatcher-modules/sd_dummy /etc/speech-dispatcher/modules/dummy.conf
+ 3255 ?        Ssl    0:00 /usr/bin/speech-dispatcher --spawn --communication-method unix_socket --socket-path /run/user/1000/speech-dispatcher/speechd.sock
+ 3260 tty2     Sl+  102:02 /usr/lib/firefox-esr/firefox-esr -contentproc -childID 6 -isForBrowser -prefsLen 9279 -prefMapSize 220111 -parentBuildID 20210412162915 -appdir /usr/lib/firefox-esr/bro
+ 3903 ?        I<     0:03 [kworker/u33:1-kcryptd]
+ 4700 ?        SLl    0:00 /usr/bin/seahorse --gapplication-service
+ 4729 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-trash --spawner :1.13 /org/gtk/gvfs/exec_spaw/0
+ 4862 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-burn --spawner :1.13 /org/gtk/gvfs/exec_spaw/1
+ 5039 ?        I      0:00 [kworker/u32:0-events_unbound]
+11640 ?        I      0:00 [kworker/u32:2-events_unbound]
+11664 ?        I<     0:00 [kworker/u33:2-kcryptd]
+11967 ?        I      0:01 [kworker/1:2-mm_percpu_wq]
+12064 ?        I<     0:00 [kworker/u33:3-kcryptd]
+12194 ?        I      0:00 [kworker/2:1-events]
+12273 ?        I<     0:00 [kworker/u33:0-kcryptd]
+12296 ?        I      0:00 [kworker/0:1-events]
+12304 ?        I      0:00 [kworker/1:1-events]
+12409 ?        I      0:00 [kworker/2:2-events]
+13614 ?        I      0:01 [kworker/0:2-events]
+14123 ?        I      0:00 [kworker/1:0-events_freezable_power_]
+14142 pts/1    R+     0:00 ps ax
+16110 ?        I      0:00 [kworker/3:1-events]
+17217 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-network --spawner :1.13 /org/gtk/gvfs/exec_spaw/3
+17238 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-dnssd --spawner :1.13 /org/gtk/gvfs/exec_spaw/6
+18167 ?        I      0:00 [kworker/3:0-events]
+18867 tty2     Sl+   27:14 /usr/lib/firefox-esr/firefox-esr -contentproc -childID 21 -isForBrowser -prefsLen 9923 -prefMapSize 220111 -parentBuildID 20210412162915 -appdir /usr/lib/firefox-esr/br
+19562 ?        Sl     0:00 /usr/lib/gvfs/gvfsd-http --spawner :1.13 /org/gtk/gvfs/exec_spaw/8
+20261 ?        I      0:03 [kworker/2:0-mm_percpu_wq]
+23951 ?        S      0:00 [irq/32-mei_me]
+24145 ?        S      0:00 /sbin/dhclient -d -q -sf /usr/lib/NetworkManager/nm-dhcp-helper -pf /run/dhclient-wlp3s0.pid -lf /var/lib/NetworkManager/dhclient-ac925668-f3f7-4536-87fb-3b9062b6dcc7-w
+24300 ?        Sl     0:00 /usr/lib/NetworkManager/nm-openvpn-service --bus-name org.freedesktop.NetworkManager.openvpn.Connection_28
+24307 ?        S      1:13 /usr/sbin/openvpn --remote 192.168.101.2 61194 tcp-client --remote 192.168.100.2 61194 tcp-client --remote 192.168.100.1 61194 tcp-client --remote 78.36.1.235 61194 tcp
+24414 tty2     Sl+    2:18 /usr/lib/firefox-esr/firefox-esr -contentproc -childID 25 -isForBrowser -prefsLen 10080 -prefMapSize 220111 -parentBuildID 20210412162915 -appdir /usr/lib/firefox-esr/b
+25213 ?        S      0:00 /usr/bin/ssh-agent -D -a /run/user/1000/keyring/.ssh
+25466 tty2     S+     0:00 /bin/sh /snap/pycharm-community/240/bin/pycharm.sh
+25507 tty2     Sl+   51:54 /snap/pycharm-community/240/jbr/bin/java -classpath /snap/pycharm-community/240/lib/bootstrap.jar:/snap/pycharm-community/240/lib/util.jar:/snap/pycharm-community/240/l
+25562 tty2     S+     0:01 /snap/pycharm-community/240/bin/fsnotifier64
+25712 tty2     S+     0:00 /snap/pycharm-community/240/jbr/lib/jcef_helper --type=zygote --no-zygote-sandbox --disable-in-process-stack-traces --no-sandbox --force-device-scale-factor=1.0 --local
+25713 tty2     S+     0:00 /snap/pycharm-community/240/jbr/lib/jcef_helper --type=zygote --disable-in-process-stack-traces --no-sandbox --force-device-scale-factor=1.0 --locales-dir-path=/snap/py
+25726 tty2     Sl+    0:36 /snap/pycharm-community/240/jbr/lib/jcef_helper --type=gpu-process --field-trial-handle=9261215645749785570,12063823614658998049,131072 --enable-features=CastMediaRoute
+25736 tty2     Sl+    0:00 /snap/pycharm-community/240/jbr/lib/jcef_helper --type=utility --utility-sub-type=network.mojom.NetworkService --field-trial-handle=9261215645749785570,1206382361465899
+25756 pts/1    Ss     0:03 /bin/bash --rcfile /snap/pycharm-community/240/plugins/terminal/jediterm-bash.in -i
+25778 tty2     Sl+    0:56 /snap/pycharm-community/240/jbr/lib/jcef_helper --type=renderer --disable-in-process-stack-traces --no-sandbox --force-device-scale-factor=1.0 --log-file=/home/b/jcef_2
+25845 tty2     Sl+   45:28 /usr/lib/firefox-esr/firefox-esr -contentproc -childID 27 -isForBrowser -prefsLen 10083 -prefMapSize 220111 -parentBuildID 20210412162915 -appdir /usr/lib/firefox-esr/b
+26059 pts/1    T      0:00 man ps
+26069 pts/1    T      0:00 pager
+26446 tty2     Sl+    1:15 /usr/lib/firefox-esr/firefox-esr -contentproc -childID 31 -isForBrowser -prefsLen 10083 -prefMapSize 220111 -parentBuildID 20210412162915 -appdir /usr/lib/firefox-esr/b
+26574 pts/0    Ss     0:00 /bin/bash --rcfile /snap/pycharm-community/240/plugins/terminal/jediterm-bash.in -i
+26924 pts/0    S      0:00 su
+26925 pts/0    S+     0:00 bash
+26928 tty2     Sl+   39:38 /usr/lib/firefox-esr/firefox-esr -contentproc -childID 35 -isForBrowser -prefsLen 10083 -prefMapSize 220111 -parentBuildID 20210412162915 -appdir /usr/lib/firefox-esr/b
+27014 tty2     Sl+    0:34 /usr/lib/firefox-esr/firefox-esr -contentproc -childID 37 -isForBrowser -prefsLen 10083 -prefMapSize 220111 -parentBuildID 20210412162915 -appdir /usr/lib/firefox-esr/b
+27097 pts/1    T      0:00 man ps
+27107 pts/1    T      0:00 pager
+27179 pts/1    T      0:00 man proc
+27189 pts/1    T      0:00 pager
+27278 pts/1    T      0:00 man proc
+27288 pts/1    T      0:00 pager
+27339 tty2     Sl+    0:43 /usr/bin/python3 /snap/pycharm-community/240/plugins/python-ce/helpers/pydev/pydevconsole.py --mode=client --port=40765
+27379 pts/1    T      0:00 man proc
+27389 pts/1    T      0:00 pager
+27420 ?        Ss     0:00 /usr/sbin/cupsd -l
+27421 ?        Ssl    0:00 /usr/sbin/cups-browsed
+27576 pts/1    T      0:00 man proc
+27586 pts/1    T      0:00 pager
+27617 tty2     Sl+    0:08 /usr/lib/firefox-esr/firefox-esr -contentproc -childID 38 -isForBrowser -prefsLen 10083 -prefMapSize 220111 -parentBuildID 20210412162915 -appdir /usr/lib/firefox-esr/b
+27925 pts/0    T      0:00 man proc
+27935 pts/0    T      0:00 pager
+28028 pts/0    T      0:00 man proc
+28038 pts/0    T      0:00 pager
+28629 pts/1    T      0:00 man date
+28639 pts/1    T      0:00 pager
+28772 ?        I      0:28 [kworker/3:2-mm_percpu_wq]
+28837 pts/1    T      0:00 man ps
+28847 pts/1    T      0:00 pager
+28859 pts/1    T      0:00 man ps
+28869 pts/1    T      0:00 pager
+29107 ?        I      0:46 [kworker/0:0-events]
+29131 pts/1    T      0:00 man ps
+29141 pts/1    T      0:00 pager
+29190 ?        I<     0:05 [kworker/u33:4-kcryptd]
+29340 pts/1    T      0:00 man ls
+29350 pts/1    T      0:00 pager
