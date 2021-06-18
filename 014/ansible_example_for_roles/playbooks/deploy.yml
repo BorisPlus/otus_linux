@@ -1,0 +1,8 @@
+---
+
+- name: Playbook of application deploy
+  hosts: web # можно наследовать ?
+  become: true
+  roles:
+    # так как в поддиректории относительной
+    - role: '../roles/deploy'

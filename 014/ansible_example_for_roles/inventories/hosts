@@ -1,0 +1,2 @@
+[web]
+nginx ansible_host=127.0.0.1 ansible_port=2201 ansible_private_key_file=../vm/.vagrant/machines/roles/virtualbox/private_key
