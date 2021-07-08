@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  nginx_node:
+    image: image_nginx_node
+    build: nginx/
+    ports:
+      - "8081:80"
