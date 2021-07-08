@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.14.0
 RUN apk add nginx
 # Замена дефолтной конфигурации nginx, отдающую всегда "404"
 COPY host/default.conf /etc/nginx/http.d/
