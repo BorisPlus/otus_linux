@@ -1,0 +1,35 @@
+version: "2"
+
+services:
+  nginx_node:
+    image: image_nginx
+    container_name: container_nginx
+    build: nginx/
+    ports:
+      - "8081:80"
+    volumes:
+      - "./var-logs-nginx:/var/log/nginx"
+    networks:
+      internal:
+        ipv4_address: 172.16.1.2
+  php_node:
+    image: image_php
+    container_name: container_php
+    build: php/
+    ports:
+      - "9000:9000"
+    volumes:
+      - "./var-logs-php7:/var/log/php7"
+    networks:
+      internal:
+        ipv4_address: 172.16.1.7
+
+networks:
+    internal:
+      driver: bridge
+      ipam:
+        driver: default
+        config:
+          -
+            subnet: 172.16.1.0/24
+            gateway: 172.16.1.1
