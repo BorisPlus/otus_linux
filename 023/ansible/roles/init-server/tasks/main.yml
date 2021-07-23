@@ -1,0 +1,56 @@
+---
+
+- name: Configure rsyslog | ModLoad imtcp
+  replace:
+    path: '/etc/rsyslog.conf'
+    regexp: '#\$ModLoad\ imtcp'
+    replace: '$ModLoad imtcp'
+    backup: yes # TODO: что это значит
+  notify:
+    - restart rsyslog
+  tags:
+    - enable-rsyslog-tcp
+
+- name: Configure rsyslog | InputTCPServerRun 514
+  replace:
+    path: '/etc/rsyslog.conf'
+    regexp: '#\$InputTCPServerRun\ 514'
+    replace: '$InputTCPServerRun 514'
+  notify:
+    - restart rsyslog
+  tags:
+    - enable-rsyslog-tcp
+
+- name: Configure rsyslog | log formatting
+  replace:
+    path: '/etc/rsyslog.conf'
+    regexp: '\$ActionFileDefaultTemplate\ RSYSLOG_TraditionalFileFormat'
+    replace: '$ActionFileDefaultTemplate RSYSLOG_FileFormat'
+  notify:
+    - restart rsyslog
+  tags:
+    - enable-rsyslog-formatting
+
+- name: Get rsyslog contents
+  ansible.builtin.shell: cat /etc/rsyslog.conf
+  register: rsyslog_contents
+  tags:
+    - configure-rsyslog-logs-accept
+
+- name: Configure rsyslog | Logs accept
+  lineinfile:
+    insertafter: EOF
+    path: '/etc/rsyslog.conf'
+    line: |
+
+      # Remote logging
+      $template logging,"/var/log/rsyslog/%HOSTNAME% - %FROMHOST-IP%/%PROGRAMNAME%.log"
+      if $programname contains 'nginx_access' then ?logging
+      if $programname contains 'file_change_audit' then ?logging
+      # & ~
+      *.=crit ?logging
+  when: rsyslog_contents.stdout.find('# Remote logging') == -1
+  notify:
+    - restart rsyslog
+  tags:
+    - configure-rsyslog-logs-accept

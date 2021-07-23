@@ -1,0 +1,7 @@
+---
+
+- name: Playbook of server initialization
+  hosts: hw023log # можно наследовать ?
+  become: true
+  roles:
+    - role: '../roles/init-server'

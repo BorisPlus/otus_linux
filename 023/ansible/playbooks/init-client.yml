@@ -1,0 +1,7 @@
+---
+
+- name: Playbook of client initialization
+  hosts: hw023web # можно наследовать ?
+  become: true
+  roles:
+    - role: '../roles/init-client'

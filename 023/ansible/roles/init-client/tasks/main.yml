@@ -1,0 +1,67 @@
+---
+
+- name: Install EPEL Repo package from standart repo
+  yum:
+    name: epel-release
+    state: present
+  tags:
+    - add-epel-repo
+
+- name: NGINX | Install NGINX package from EPEL Repo
+  yum:
+    name: nginx
+    state: latest
+  notify:
+    - restart nginx
+  tags:
+    - install-nginx
+
+- name: NGINX | Create NGINX config file from template
+  template:
+    src: ../templates/etc_nginx/nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  notify:
+    - reload nginx
+  tags:
+    - configure-nginx
+
+- name: Rsyslog | Configure facility with security levels of critical only
+  template:
+    src: ../templates/etc_rsyslog.d/all_critical_only_log.conf.j2
+    dest: /etc/rsyslog.d/all_critical_only_log.conf
+  notify:
+    - restart rsyslog
+  tags:
+    - configure-rsyslog-for-critical-only
+
+- name: Rsyslog | Configure NGINX access log sending
+  template:
+    src: ../templates/etc_rsyslog.d/nginx_access_log.conf.j2
+    dest: /etc/rsyslog.d/nginx_access_log.conf
+  notify:
+    - restart rsyslog
+  tags:
+    - configure-rsyslog-for-nginx
+
+- name: Self | Configure file change audit | shell
+  template:
+    src: ../templates/external/file_change_audit.sh
+    dest: /home/vagrant/file_change_audit.sh
+  tags:
+    - configure-file-change-audit
+
+- name: Self | Configure file change audit | service
+  template:
+    src: ../templates/external/nginx_conf_file_change_audit.service
+    dest: /etc/systemd/system/nginx_conf_file_change_audit.service
+  tags:
+    - configure-file-change-audit
+
+- name: Rsyslog | Configure facility with security levels of critical only
+  template:
+    src: ../templates/etc_rsyslog.d/file_change_audit_log.conf.j2
+    dest: /etc/rsyslog.d/file_change_audit_log.conf
+  notify:
+    - restart rsyslog
+  tags:
+    - configure-file-change-audit

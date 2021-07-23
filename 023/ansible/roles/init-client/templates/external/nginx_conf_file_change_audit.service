@@ -1,0 +1,13 @@
+[Unit]
+Description=Check file change facts
+
+[Service]
+ExecStart=/home/vagrant/file_change_audit.sh /etc/nginx/nginx.conf
+Type=idle
+KillMode=process
+SyslogIdentifier=file-change-audit
+SyslogFacility=daemon
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

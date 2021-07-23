@@ -1,0 +1,4 @@
+[hw023web]
+nginx ansible_host=127.0.0.1 ansible_port=2222 ansible_private_key_file=../vm/.vagrant/machines/hw023web/virtualbox/private_key
+[hw023log]
+vagrant ansible_host=127.0.0.1 ansible_port=2200 ansible_private_key_file=../vm/.vagrant/machines/hw023log/virtualbox/private_key

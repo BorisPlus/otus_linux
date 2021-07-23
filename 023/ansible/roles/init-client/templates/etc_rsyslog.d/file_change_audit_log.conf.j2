@@ -1,0 +1,8 @@
+$ModLoad imfile
+$InputFileName /var/log/file_change_audit.log
+$InputFileTag file_change_audit
+$InputFileSeverity info
+$InputFileFacility daemon
+$InputRunFileMonitor
+
+*.*   @@192.168.23.90:514
