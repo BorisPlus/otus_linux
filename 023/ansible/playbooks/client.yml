@@ -4,4 +4,4 @@
   hosts: hw023web # можно наследовать ?
   become: true
   roles:
-    - role: '../roles/init-client'
+    - role: '../roles/client'

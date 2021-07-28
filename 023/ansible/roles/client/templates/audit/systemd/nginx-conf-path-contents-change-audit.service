@@ -1,0 +1,10 @@
+[Unit]
+Description=Let's check nginx conf path changes once
+
+[Service]
+Type=simple
+ExecStart={{ path_contents_change_audit_root_path }}/path_contents_change_audit.sh /etc/nginx
+User=root
+
+[Install]
+WantedBy=multi-user.target

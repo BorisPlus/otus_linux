@@ -1,0 +1,12 @@
+[Unit]
+Description=Check nginx conf path changes
+Wants=nginx-conf-path-contents-change-audit.timer
+
+[Service]
+EnvironmentFile={{ path_contents_change_audit_root_path }}/nginx-conf-path-contents-change-audit-timed.env
+Type=simple
+ExecStart={{ path_contents_change_audit_root_path }}/path_contents_change_audit.sh ${AUDIT_PATH}
+User=root
+
+[Install]
+WantedBy=multi-user.target

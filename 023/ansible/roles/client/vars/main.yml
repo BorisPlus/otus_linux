@@ -1,0 +1,5 @@
+nginx_listen_port: 8080
+path_contents_change_audit_root_path: /opt/scripts/pcca
+path_contents_change_audit_logfile_path: /var/log/pcca
+path_contents_change_audit_logfile_name: change.log
+rsyslog_server: 192.168.23.90:514

@@ -6,7 +6,7 @@ echo "Sorry, there is no first parameter FILE. "
 echo $USAGE
 exit 1
 fi
-
+LOGFILE="/var/log/file_change_audit.log"
 hash() {
     local FILE="${1}"
     echo `md5sum ${1}` | awk '{print $1}'
@@ -14,7 +14,7 @@ hash() {
 logging() {
     local FILE="${1}"
     local HASH="${2}"
-    echo $(date +"[%Y-%m-%d %H:%M:%S]") ${HASH} ${FILE} >> '/var/log/file_change_audit.log'
+    echo $(date +"[%Y-%m-%d %H:%M:%S]") ${HASH} ${FILE} >> ${LOGFILE}
 }
 control_hash=''
 while true

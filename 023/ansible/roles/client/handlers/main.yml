@@ -1,9 +1,9 @@
 ---
-- name: restart nginx
+- name: start nginx
   systemd:
     name: nginx
-    state: restarted
     enabled: yes
+    state: started
 
 - name: reload nginx
   systemd:
@@ -14,3 +14,6 @@
   systemd:
     name: rsyslog
     state: restarted
+
+- name: systemctl daemon reload
+  command: systemctl daemon-reload

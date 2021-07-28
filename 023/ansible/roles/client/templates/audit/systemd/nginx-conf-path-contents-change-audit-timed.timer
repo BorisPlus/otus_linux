@@ -1,0 +1,10 @@
+[Unit]
+Description=Sheduler fo check nginx conf path
+Requires=nginx-conf-path-contents-change-audit-timed.service
+
+[Timer]
+OnCalendar=*-*-* *:*:00
+Unit=nginx-conf-path-contents-change-audit-timed.service
+
+[Install]
+WantedBy=timers.target

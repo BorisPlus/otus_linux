@@ -1,6 +1,6 @@
 ---
 
-- name: Configure rsyslog | ModLoad imtcp
+- name: Rsyslog | Configure TCP | Enable ModLoad imtcp
   replace:
     path: '/etc/rsyslog.conf'
     regexp: '#\$ModLoad\ imtcp'
@@ -9,9 +9,10 @@
   notify:
     - restart rsyslog
   tags:
-    - enable-rsyslog-tcp
+    - rsyslog-enable-tcp
+    - rsyslog-configure
 
-- name: Configure rsyslog | InputTCPServerRun 514
+- name: Rsyslog | Configure TCP | Enable InputTCPServerRun 514
   replace:
     path: '/etc/rsyslog.conf'
     regexp: '#\$InputTCPServerRun\ 514'
@@ -19,9 +20,10 @@
   notify:
     - restart rsyslog
   tags:
-    - enable-rsyslog-tcp
+    - rsyslog-enable-tcp
+    - rsyslog-configure
 
-- name: Configure rsyslog | log formatting
+- name: Rsyslog | Configure log template formatting
   replace:
     path: '/etc/rsyslog.conf'
     regexp: '\$ActionFileDefaultTemplate\ RSYSLOG_TraditionalFileFormat'
@@ -29,28 +31,34 @@
   notify:
     - restart rsyslog
   tags:
-    - enable-rsyslog-formatting
+    - rsyslog-change-log-formatting
+    - rsyslog-configure
 
-- name: Get rsyslog contents
+- name: Rsyslog | Config content
   ansible.builtin.shell: cat /etc/rsyslog.conf
   register: rsyslog_contents
   tags:
-    - configure-rsyslog-logs-accept
+    - rsyslog-rules-configure
+    - rsyslog-configure
 
-- name: Configure rsyslog | Logs accept
+# EOF
+- name: Rsyslog | Configure rules
   lineinfile:
-    insertafter: EOF
+    insertafter: '#### RULES ####'
     path: '/etc/rsyslog.conf'
     line: |
 
+      # It must be before any standard rules, because '*.info' is ignored
       # Remote logging
       $template logging,"/var/log/rsyslog/%HOSTNAME% - %FROMHOST-IP%/%PROGRAMNAME%.log"
-      if $programname contains 'nginx_access' then ?logging
-      if $programname contains 'file_change_audit' then ?logging
+      #if $programname contains 'nginx' then ?logging
+      #if $programname contains 'path_contents_change_audit' then ?logging
       # & ~
-      *.=crit ?logging
+      #*.=crit ?logging
+      *.* ?logging
   when: rsyslog_contents.stdout.find('# Remote logging') == -1
   notify:
     - restart rsyslog
   tags:
-    - configure-rsyslog-logs-accept
+    - rsyslog-rules-configure
+    - rsyslog-configure

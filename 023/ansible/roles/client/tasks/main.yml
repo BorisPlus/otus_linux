@@ -1,0 +1,174 @@
+---
+
+- name: Rsyslog basic | Configure send critical severity only
+  template:
+    src: ../templates/etc_rsyslog.d/all_critical_only_log.conf
+    dest: /etc/rsyslog.d/all_critical_only_log.conf
+  notify:
+    - restart rsyslog
+  tags:
+    - configure-rsyslog-for-critical-severity-only
+
+- name: Rsyslog basic | Configure send all
+  template:
+    src: ../templates/etc_rsyslog.d/all_log.conf
+    dest: /etc/rsyslog.d/all_log.conf
+  notify:
+    - restart rsyslog
+  tags:
+    - configure-rsyslog-for-all
+
+- name: Install EPEL Repo package
+  yum:
+    name: epel-release
+    state: present
+  tags:
+    - deploy-nginx
+    - add-epel-repository
+
+- name: Nginx | Install Nginx package from EPEL Repo
+  yum:
+    name: nginx
+    state: latest
+  notify:
+    - start nginx
+  tags:
+    - deploy-nginx
+    - install-nginx
+
+- name: Nginx | Configure Nginx with remote access logging
+  template:
+    src: ../templates/etc_nginx/nginx.conf
+    dest: /etc/nginx/nginx.conf
+  notify:
+    - reload nginx
+  tags:
+    - deploy-nginx
+    - configure-nginx
+
+# Because CentOS has git version 1.8.3.1 as default
+- name: Rsyslog self-written monitoring | Install Git repository
+  yum:
+    name: http://opensource.wandisco.com/centos/7/git/x86_64/wandisco-git-release-7-2.noarch.rpm
+  tags:
+    - deploy-audit
+    - deploy-git
+    - install-git-repository
+
+- name: Rsyslog self-written monitoring | Install Git
+  yum:
+    name: git
+    state: latest
+  tags:
+    - deploy-audit
+    - deploy-git
+    - install-git
+
+- name: Rsyslog self-written monitoring | Configure Git user
+  ansible.builtin.shell: |
+    git config --global user.name "audit"
+    git config --global user.email "audit@audit.local"
+    exit 0
+  tags:
+    - deploy-audit
+    - deploy-git
+    - configure-git-account
+
+- name: Rsyslog self-written monitoring | Init Git on Nginx config
+  ansible.builtin.shell: |
+    if [ ! -d "/etc/nginx/.git" ]; then
+      cd /etc/nginx
+      git init
+      git add .
+      git commit -m 'initial'
+    fi
+    exit 0
+  tags:
+    - deploy-audit
+    - deploy-git
+    - init-git-on-nginx-config
+
+- name: Rsyslog self-written monitoring | Path contents change audit | Create work paths
+  ansible.builtin.shell: |
+    if [ ! -d "{{ path_contents_change_audit_logfile_path }}" ]; then
+      mkdir -p "{{ path_contents_change_audit_logfile_path }}"
+      touch "{{ path_contents_change_audit_logfile_path }}/{{ path_contents_change_audit_logfile_name }}"
+    fi
+    if [ ! -d "{{ path_contents_change_audit_root_path }}" ]; then
+      mkdir -p "{{ path_contents_change_audit_root_path }}"
+    fi
+    exit 0
+  tags:
+    - deploy-audit
+    - configure-path-contents-change-audit-workpaths
+
+- name: Rsyslog self-written monitoring | Path contents change audit | Script
+  template:
+    src: ../templates/audit/script/path_contents_change_audit.sh
+    dest: '{{ path_contents_change_audit_root_path }}/path_contents_change_audit.sh'
+    owner: root
+    group: root
+    mode: u=rx,g=-rwx,o-rwx
+  tags:
+    - deploy-audit
+    - configure-path-contents-change-audit-script
+
+- name: Rsyslog self-written monitoring | Path contents change audit | Environment
+  ansible.builtin.copy:
+    src: ../templates/audit/systemd/nginx-conf-path-contents-change-audit-timed.env
+    dest: '{{ path_contents_change_audit_root_path }}/nginx-conf-path-contents-change-audit-timed.env'
+    owner: root
+    group: root
+    mode: u=r,g=-rwx,o-rwx
+  tags:
+    - deploy-audit
+    - configure-path-contents-change-audit-environment
+
+- name: Rsyslog self-written monitoring | Path contents change audit | Service
+  template:
+    src: ../templates/audit/systemd/nginx-conf-path-contents-change-audit.service
+    dest: /usr/lib/systemd/system/nginx-conf-path-contents-change-audit.service
+  notify:
+    - systemctl daemon reload
+  tags:
+    - deploy-audit
+    - configure-path-contents-change-audit-service
+
+- name: Rsyslog self-written monitoring | Path contents change audit | Service timed
+  template:
+    src: ../templates/audit/systemd/nginx-conf-path-contents-change-audit-timed.service
+    dest: /usr/lib/systemd/system/nginx-conf-path-contents-change-audit-timed.service
+  notify:
+    - systemctl daemon reload
+  tags:
+    - deploy-audit
+    - configure-path-contents-change-audit-timed-service
+
+- name: Rsyslog self-written monitoring | Path contents change audit | Configure rsyslog
+  template:
+    src: ../templates/audit/etc_rsyslog.d/path_contents_change_audit_log.conf
+    dest: /etc/rsyslog.d/path_contents_change_audit_log.conf
+  notify:
+    - restart rsyslog
+  tags:
+    - deploy-audit
+    - configure-nginx-path-contents-change-audit-rsyslog
+
+- name: Rsyslog self-written monitoring | Path contents change audit | Timer
+  template:
+    src: ../templates/audit/systemd/nginx-conf-path-contents-change-audit-timed.timer
+    dest: /usr/lib/systemd/system/nginx-conf-path-contents-change-audit-timed.timer
+  tags:
+    - deploy-audit
+    - configure-path-contents-change-audit-timer
+
+- name: Rsyslog self-written monitoring | Path contents change audit | Turn on timer
+  service:
+    name: nginx-conf-path-contents-change-audit-timed.timer
+    enabled: yes
+    state: started
+  notify:
+    - systemctl daemon reload
+  tags:
+    - deploy-audit
+    - nginx-conf-path-contents-change-audit-timed-timer
