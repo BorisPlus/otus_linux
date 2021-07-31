@@ -1,0 +1,10 @@
+rsyslog_logfile_base_path: /var/log/rsyslog/
+rsyslog_port: 514
+hosts:
+  web:
+    ip: 192.168.23.80
+    name: hw23web
+    port: 8080
+  log:
+    ip: 127.0.0.1
+    name: hw23log

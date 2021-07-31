@@ -18,8 +18,7 @@ add() {
   local AUDIT_PATH="${1}"
   local COMMAND="git -C ${AUDIT_PATH} add ."
   if [ $DEBUG = true ]; then
-    # echo ADD_COMMAND: ${COMMAND}
-    logging "${AUDIT_PATH}" "${COMMAND}"
+    echo ADD_COMMAND: ${COMMAND}
   fi
   `$COMMAND`
 }
@@ -32,16 +31,15 @@ diff() {
   local AUDIT_PATH=${1}
   local COMMAND="git -C ${AUDIT_PATH} diff HEAD"
   if [ $DEBUG = true ]; then
-    # echo DIFF_COMMAND: ${COMMAND}
-    logging "${AUDIT_PATH}" "${COMMAND}"
+     echo DIFF_COMMAND: ${COMMAND}
   fi
   DIFF_MSG=`$COMMAND`
   if [ $DEBUG = true ]; then
-    logging "${AUDIT_PATH}" "${DIFF_MSG}"
+     echo DIFF_MSG: ${DIFF_MSG}
   fi
   DIFF_CODE=$?
   if [ $DEBUG = true ]; then
-    logging "${AUDIT_PATH}" "${DIFF_CODE}"
+     echo DIFF_CODE: ${DIFF_CODE}
   fi
 }
 
@@ -54,16 +52,15 @@ commit() {
   local COMMIT_NOTE="$DT"
   local COMMAND="git -C ${AUDIT_PATH} commit -m \"${COMMIT_NOTE}\""
   if [ $DEBUG = true ]; then
-    # echo COMMIT_COMMAND: ${COMMAND}
-    logging "${AUDIT_PATH}" "${COMMAND}"
+    echo COMMIT_COMMAND: ${COMMAND}
   fi
   COMMIT_MSG=$($COMMAND)
   if [ $DEBUG = true ]; then
-    logging "${AUDIT_PATH}" "${COMMIT_MSG}"
+    echo COMMIT_MSG: ${COMMIT_MSG}
   fi
   COMMIT_CODE=$?
   if [ $DEBUG = true ]; then
-    logging "${AUDIT_PATH}" "${COMMIT_CODE}"
+    echo COMMIT_CODE: ${COMMIT_CODE}
   fi
 }
 
@@ -95,7 +92,7 @@ if [ $DEBUG = true ]; then
   echo COMMIT_CODE: ${COMMIT_CODE}
 fi
 # 4. логгируем
-if [ ${COMMIT_CODE} -eq 0 ];
+if [ ${COMMIT_CODE} -eq 0 ] && [ ! -z "${DIFF_MSG}" ];
 then
   logging "${AUDIT_PATH}" "${DIFF_MSG}"
 fi

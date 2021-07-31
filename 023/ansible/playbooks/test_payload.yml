@@ -1,0 +1,6 @@
+---
+
+- name: Playbook of test payload
+  hosts: hw023log
+  roles:
+    - role: '../roles/test_payload'

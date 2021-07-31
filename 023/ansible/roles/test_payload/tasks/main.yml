@@ -1,0 +1,9 @@
+---
+# It is not ready
+- name: Rsyslog | check web critical
+  ansible.builtin.shell:
+    cat '{{ rsyslog_logfile_base_path }}{{ hosts['web']['name'] }}-{{ hosts['web']['ip'] }}/critical.log'
+  register: web_critical
+
+- name: debug
+  debug: msg="{{ web_critical.stdout }}"

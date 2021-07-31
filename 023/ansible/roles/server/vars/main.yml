@@ -1,0 +1,12 @@
+rsyslog:
+  logs_base_path: /var/log/rsyslog
+  hostlog_dir_name_template: '%HOSTNAME%-%FROMHOST-IP%'
+  hostlog_program_name_template: '%PROGRAMNAME%'
+  port: 514
+programs:
+  nginx:
+    name: nginx_access
+    file_name: nginx_access
+  audit:
+    name: path_contents_change_audit
+    file_name: audit

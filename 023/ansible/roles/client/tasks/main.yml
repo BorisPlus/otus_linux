@@ -1,4 +1,20 @@
 ---
+- name: Synchronize datetime | Install chrony
+  yum:
+    name: chrony
+    state: latest
+  tags:
+    - configure-datetime
+
+- name: Synchronize datetime | Turn on chronyd
+  service:
+    name: chronyd
+    enabled: yes
+    state: started
+  notify:
+    - systemctl daemon reload
+  tags:
+    - configure-datetime
 
 - name: Rsyslog basic | Configure send critical severity only
   template:
@@ -18,7 +34,7 @@
   tags:
     - configure-rsyslog-for-all
 
-- name: Install EPEL Repo package
+- name: Install EPEL-repository
   yum:
     name: epel-release
     state: present
@@ -26,12 +42,13 @@
     - deploy-nginx
     - add-epel-repository
 
-- name: Nginx | Install Nginx package from EPEL Repo
+- name: Nginx | Install Nginx package from EPEL-repository
   yum:
     name: nginx
     state: latest
   notify:
-    - start nginx
+    - enable nginx
+    - restart nginx
   tags:
     - deploy-nginx
     - install-nginx
@@ -41,13 +58,14 @@
     src: ../templates/etc_nginx/nginx.conf
     dest: /etc/nginx/nginx.conf
   notify:
-    - reload nginx
+    - enable nginx
+    - restart nginx
+    - restart rsyslog
   tags:
     - deploy-nginx
     - configure-nginx
 
-# Because CentOS has git version 1.8.3.1 as default
-- name: Rsyslog self-written monitoring | Install Git repository
+- name: Rsyslog self-written monitoring | Install repository for new Git
   yum:
     name: http://opensource.wandisco.com/centos/7/git/x86_64/wandisco-git-release-7-2.noarch.rpm
   tags:
@@ -64,7 +82,7 @@
     - deploy-git
     - install-git
 
-- name: Rsyslog self-written monitoring | Configure Git user
+- name: Rsyslog self-written monitoring | Configure Git global user
   ansible.builtin.shell: |
     git config --global user.name "audit"
     git config --global user.email "audit@audit.local"
@@ -74,7 +92,7 @@
     - deploy-git
     - configure-git-account
 
-- name: Rsyslog self-written monitoring | Init Git on Nginx config
+- name: Rsyslog self-written monitoring | Init Git-repository on Nginx config directory
   ansible.builtin.shell: |
     if [ ! -d "/etc/nginx/.git" ]; then
       cd /etc/nginx
@@ -108,7 +126,7 @@
     dest: '{{ path_contents_change_audit_root_path }}/path_contents_change_audit.sh'
     owner: root
     group: root
-    mode: u=rx,g=-rwx,o-rwx
+    mode: u=rx,g=-rwx,o=-rwx
   tags:
     - deploy-audit
     - configure-path-contents-change-audit-script
@@ -171,4 +189,4 @@
     - systemctl daemon reload
   tags:
     - deploy-audit
-    - nginx-conf-path-contents-change-audit-timed-timer
+    - configure-path-contents-change-audit-timer-turn-on

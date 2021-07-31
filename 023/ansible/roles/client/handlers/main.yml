@@ -1,4 +1,9 @@
 ---
+- name: enable nginx
+  systemd:
+    name: nginx
+    enabled: yes
+
 - name: start nginx
   systemd:
     name: nginx
@@ -7,8 +12,13 @@
 
 - name: reload nginx
   systemd:
-    name: nginx
     state: reloaded
+    name: nginx
+
+- name: restart nginx
+  systemd:
+    state: restarted
+    name: httpd
 
 - name: restart rsyslog
   systemd:
@@ -16,4 +26,5 @@
     state: restarted
 
 - name: systemctl daemon reload
-  command: systemctl daemon-reload
+  systemd:
+    daemon_reload: yes
