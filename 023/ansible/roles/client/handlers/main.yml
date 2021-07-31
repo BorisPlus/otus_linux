@@ -18,7 +18,7 @@
 - name: restart nginx
   systemd:
     state: restarted
-    name: httpd
+    name: nginx
 
 - name: restart rsyslog
   systemd:
