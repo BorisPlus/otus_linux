@@ -21,7 +21,6 @@
     path: '/etc/rsyslog.conf'
     regexp: '#\$ModLoad\ imudp'
     replace: '$ModLoad imudp'
-    backup: yes # TODO: что это значит
   notify:
     - restart rsyslog
   tags:
@@ -56,7 +55,6 @@
     path: '/etc/rsyslog.conf'
     regexp: '#\$ModLoad\ imtcp'
     replace: '$ModLoad imtcp'
-    backup: yes # TODO: что это значит
   notify:
     - restart rsyslog
   tags:
@@ -97,7 +95,6 @@
     - rsyslog-configure
     - rsyslog-change-log-formatting
 
-# TODO: put at standalone Yml
 - name: Rsyslog | clear /etc/rsyslog.d/ and /var/log/rsyslog/
   ansible.builtin.shell: |
     rm -rf /etc/rsyslog.d/*

@@ -16,6 +16,25 @@
   tags:
     - configure-datetime
 
+#    rm -f /etc/rsyslog.d/listen.conf
+#- name: Rsyslog | clear all at rsyslog.d
+#  ansible.builtin.shell: |
+#    rm -f /etc/rsyslog.d/*
+#    exit 0
+#  tags:
+#    - rsyslog-feature
+
+- name: Rsyslog | Disable *.info core rule
+  replace:
+    path: '/etc/rsyslog.conf'
+    regexp: '\*\.info;mail.none;authpriv\.none;cron\.none'
+    replace: '#*.info;mail.none;authpriv.none;cron.none'
+    # backup: yes # поддерживает backup
+  notify:
+    - restart rsyslog
+  tags:
+    - rsyslog-disable-info-rule
+
 - name: Rsyslog basic | Configure send critical severity only
   template:
     src: ../templates/etc_rsyslog.d/all_critical_only_log.conf
@@ -25,14 +44,14 @@
   tags:
     - configure-rsyslog-for-critical-severity-only
 
-- name: Rsyslog basic | Configure send all
-  template:
-    src: ../templates/etc_rsyslog.d/all_log.conf
-    dest: /etc/rsyslog.d/all_log.conf
-  notify:
-    - restart rsyslog
-  tags:
-    - configure-rsyslog-for-all
+#- name: Rsyslog basic | Configure send all
+#  template:
+#    src: ../templates/etc_rsyslog.d/all_log.conf
+#    dest: /etc/rsyslog.d/all_log.conf
+#  notify:
+#    - restart rsyslog
+#  tags:
+#    - configure-rsyslog-for-all
 
 - name: Install EPEL-repository
   yum:
