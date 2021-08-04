@@ -1,0 +1,6 @@
+---
+- name: Playbook of client (node exporter) initialization
+  hosts: server
+  become: true
+  roles:
+    - role: '../roles/client'

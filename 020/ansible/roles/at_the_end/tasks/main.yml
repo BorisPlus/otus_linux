@@ -1,0 +1,13 @@
+---
+- name: Print to screen google authenticator details
+  command: /bin/cat /etc/prometheus/prometheus.yml
+  register: content
+
+- name: Update prometheus.yml
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/prometheus/prometheus.yml
+    line: "  - job_name: 'node_exporter' \n    static_configs:\n    - targets: [ 'localhost:9100' ]"
+  when: not content is search("'node_exporter'")
+  notify:
+    - restart prometheus service

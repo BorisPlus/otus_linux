@@ -1,0 +1,6 @@
+---
+- name: Playbook of server configure after clent initialization
+  hosts: server
+  become: true
+  roles:
+    - role: '../roles/at_the_end'

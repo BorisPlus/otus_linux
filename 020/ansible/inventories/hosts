@@ -1,0 +1,4 @@
+[server]
+vagrant ansible_host=127.0.0.1 ansible_port=2200 ansible_private_key_file=../vm/.vagrant/machines/server/virtualbox/private_key
+[client]
+vagrant ansible_host=127.0.0.1 ansible_port=2200 ansible_private_key_file=../vm/.vagrant/machines/server/virtualbox/private_key
