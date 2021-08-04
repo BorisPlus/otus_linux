@@ -1,4 +1,9 @@
 ---
-- name: restart prometheus service
+- name: restart daemon reload
   systemd:
     daemon_reload: yes
+
+- name: service restart prometheus
+  systemd:
+    state: restarted
+    name: prometheus

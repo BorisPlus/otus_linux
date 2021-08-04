@@ -1,0 +1,95 @@
+---
+- name: Synchronize datetime | Install chrony
+  yum:
+    name: chrony
+    state: latest
+  tags:
+    - prometeus-client-configure
+    - configure-datetime
+
+- name: Synchronize datetime | Turn on chronyd
+  service:
+    name: chronyd
+    enabled: yes
+    state: started
+  notify:
+    - systemctl daemon reload
+  tags:
+    - prometeus-client-configure
+    - configure-datetime
+
+- name: Create node exporter user
+  user:
+    name: node_exporter
+    shell: /bin/false
+    createhome: no
+  tags:
+    - prometeus-client-configure
+    - create-user
+
+- name: Create work paths
+  shell: | # TODO: vars
+    mkdir -p /etc/prometheus
+    mkdir -p /var/lib/prometheus
+    chown prometheus:prometheus /var/lib/prometheus
+    exit 0
+  tags:
+    - prometeus-server-configure
+    - create-work-paths
+
+- name: Copy ./node_exporter to /usr/local/bin
+  copy:
+    src: ../files/node_exporter-0.18.1.linux-amd64/node_exporter
+    dest: /usr/local/bin
+    owner: node_exporter # TODO: vars
+    group: node_exporter # TODO: vars
+    mode: u=rx,g=-rwx,o=-rwx
+  tags:
+    - prometeus-client-configure
+    - copy-node-exporter-to-bin
+
+- name: Configure node exporter service
+  ansible.builtin.copy:
+    src: ../files/etc/systemd/system/node_exporter.service # TODO: with vars
+    dest: /etc/systemd/system/node_exporter.service
+    mode: u=r,g=-rwx,o=-rwx
+  notify:
+    - systemctl daemon reload
+  tags:
+    - prometeus-client-configure
+    - node-exporter-service-configure
+
+- name: Turn on node_exporter service
+  service:
+    name: node_exporter.service
+    enabled: yes
+    state: started
+  notify:
+    - systemctl daemon reload
+  tags:
+    - prometeus-client-configure
+    - node-exporter-service-turn-on
+
+- name: Check data on client
+  uri:
+    url: "http://localhost:9100"  # TODO: vars
+    return_content: no
+  register: http_response
+  tags:
+    - prometeus-client-configure
+    - test-get-client-data
+
+- name: Check data on client
+  fail:
+    msg: 'Client data is fail: {{http_response}}'
+  when: http_response.status != 200
+  tags:
+    - prometeus-client-configure
+    - test-check-client-data
+
+- name: Show data on client
+  debug:
+    msg: '{{http_response}}'
+  tags:
+    - prometeus-client-configure
+    - test-show-client-data

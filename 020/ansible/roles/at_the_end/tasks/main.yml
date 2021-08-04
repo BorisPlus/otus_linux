@@ -10,4 +10,4 @@
     line: "  - job_name: 'node_exporter' \n    static_configs:\n    - targets: [ 'localhost:9100' ]"
   when: not content is search("'node_exporter'")
   notify:
-    - restart prometheus service
+    -  service restart prometheus

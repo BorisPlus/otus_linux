@@ -76,7 +76,7 @@
     dest: /etc/systemd/system/prometheus.service
     mode: u=r,g=-rwx,o-rwx
   notify:
-    - restart prometheus service
+    - service restart prometheus
     - systemctl daemon reload
   tags:
     - prometeus-server-configure
