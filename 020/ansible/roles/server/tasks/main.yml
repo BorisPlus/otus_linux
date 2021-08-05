@@ -1,4 +1,12 @@
 ---
+- name: Set time zone # \cp /usr/share/zoneinfo/Europe/Moscow /etc/localtime
+  copy:
+    src: /usr/share/zoneinfo/Europe/Moscow
+    dest: /etc/localtime
+  tags:
+    - prometeus-server-configure
+    - set-tz
+
 - name: Synchronize datetime | Install chrony
   yum:
     name: chrony
@@ -81,7 +89,7 @@
     - prometeus-server-configure
     - prometeus-app-configure
     - prometeus-app-configure-consoles
-    -
+
 - name: Configure prometeus application | console libraries
   ansible.builtin.copy:
     src: ../files/prometheus-2.14.0.linux-amd64/console_libraries
@@ -93,6 +101,19 @@
     - prometeus-server-configure
     - prometeus-app-configure
     - prometeus-app-configure-console-libraries
+
+- name: Configure prometeus application | consoles
+  ansible.builtin.copy:
+    src: ../files/dashboard/overview.html
+    dest: /etc/prometheus/consoles/overview.html
+    owner: prometheus
+    group: prometheus
+    mode: u=rx,g=rx,o=r
+  tags:
+    - prometeus-server-configure
+    - prometeus-app-configure
+    - prometeus-app-configure-consoles
+    - prometeus-app-configure-consoles-mine
 
 - name: Configure prometeus service
   ansible.builtin.copy:

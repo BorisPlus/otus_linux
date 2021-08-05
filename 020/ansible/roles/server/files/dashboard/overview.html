@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta http-equiv="Refresh" content="5" />
+<link type="text/css" rel="stylesheet" href="/static/vendor/rickshaw/rickshaw.min.css">
+<link type="text/css" rel="stylesheet" href="/static/vendor/bootstrap-4.3.1/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="/static/css/prom_console.css">
+<link type="text/css" rel="stylesheet" href="/static/vendor/bootstrap4-glyphicons/css/bootstrap-glyphicons.min.css">
+<script src="/static/vendor/rickshaw/vendor/d3.v3.js"></script>
+<script src="/static/vendor/rickshaw/vendor/d3.layout.min.js"></script>
+<script src="/static/vendor/rickshaw/rickshaw.min.js"></script>
+<script src="/static/vendor/js/jquery-3.3.1.min.js"></script>
+<script src="/static/vendor/js/popper.min.js"></script>
+<script src="/static/vendor/bootstrap-4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+var PATH_PREFIX = "";
+</script>
+<script src="/static/js/prom_console.js"></script>
+
+</head>
+<body>
+<h3>Memory Usage</h3>
+  <div id="memoryGraph" class="brd"></div>
+  <script>
+    var graph = new PromConsole.Graph({
+      node: document.querySelector("#memoryGraph"),
+      renderer: 'area',
+      expr: [
+        "node_memory_Cached_bytes{job='node_exporter',instance='localhost:9100'}",
+        "node_memory_Buffers_bytes{job='node_exporter',instance='localhost:9100'}",
+        "node_memory_MemTotal_bytes{job='node_exporter',instance='localhost:9100'} - node_memory_MemFree_bytes{job='node_exporter',instance='localhost:9100'} - node_memory_Buffers_bytes{job='node_exporter',instance='localhost:9100'} - node_memory_Cached_bytes{job='node_exporter',instance='localhost:9100'}",
+        "node_memory_MemFree{job='node_exporter',instance='localhost:9100'}",
+      ],
+      name: ["Cached", "Buffers", "Used", "Free"],
+      min: 0,
+      yUnits: "B",
+      yAxisFormatter: PromConsole.NumberFormatter.humanize1024,
+      yHoverFormatter: PromConsole.NumberFormatter.humanize1024,
+      yTitle: 'Memory',
+      auto_refresh_time: 2
+    });
+  </script>
+
+  <h3>CPU Usage</h3>
+  <div id="cpuGraph"></div>
+  <script>
+    new PromConsole.Graph({
+      node: document.querySelector("#cpuGraph"),
+      expr: "sum by (mode)(irate(node_cpu_seconds_total{job='node_exporter',instance='localhost:9100',mode!='idle'}[5m]))",
+      renderer: 'area',
+      max: {{ with printf "count(count by (cpu)(node_cpu_seconds_total{job='node_exporter',instance='%s'}))" .Params.instance | query }}{{ . | first | value }}{{ else}}undefined{{end}},
+      yAxisFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+      yHoverFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+      yTitle: 'Cores'
+    })
+  </script>
+
+  <h3>Network Usage</h3>
+  <div id="nwGraph"></div>
+  <script>
+  new PromConsole.Graph({
+    node: document.querySelector("#nwGraph"),
+    expr: "sum by (mode)(irate(node_network_receive_bytes_total{job='node_exporter',instance='localhost:9100',device!='lo'}[5m]))",
+    min: 0,
+    max: 100,
+    name: '[[ device ]]',
+    yUnits: "%",
+    renderer: 'area',
+    yAxisFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+    yHoverFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+    yTitle: 'Network Fullness'
+  })
+  </script>
+
+  <h3>Disk Usage</h3>
+  <div id="diskioGraph"></div>
+  <script>
+  new PromConsole.Graph({
+    node: document.querySelector("#diskioGraph"),
+    expr: [
+      "irate(node_disk_io_time_seconds_total{job='node_exporter',instance='localhost:9100',device!~'^(md\\\\d+$|dm-)'}[5m]) * 100",
+    ],
+    min: 0,
+    name: '[[ device ]]',
+    yUnits: "%",
+    yAxisFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+    yHoverFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+    yTitle: 'Disk I/O Utilization'
+  })
+  </script>
+
+  <h3>Filesystem Usage</h3>
+  <div id="fsGraph"></div>
+  <script>
+  new PromConsole.Graph({
+    node: document.querySelector("#fsGraph"),
+    expr: "100 - node_filesystem_avail_bytes{job='node_exporter',instance='localhost:9100'} / node_filesystem_size_bytes{job='node_exporter'} * 100",
+    min: 0,
+    max: 100,
+    name: '[[ mountpoint ]]',
+    yUnits: "%",
+    yAxisFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+    yHoverFormatter: PromConsole.NumberFormatter.humanizeNoSmallPrefix,
+    yTitle: 'Filesystem Fullness'
+  })
+  </script>
+
+
+</body>
+</html>
