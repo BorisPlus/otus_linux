@@ -1,12 +1,136 @@
-<table>
-{{ range printf "node_network_receive_bytes{job='node',instance='%s',device!='lo'}" .Params.instance | query | sortByLabel "device"}}
-  <tr><th colspan=2>{{ .Labels.device }}</th></tr>
-  <tr>
-    <td>Received</td>
-    <td>{{ with printf "rate(node_network_receive_bytes{job='node',instance='%s',device='%s'}[5m])" .Labels.instance .Labels.device | query }}{{ . | first | value | humanize }}B/s{{end}}</td>
-  </tr>
-  <tr>
-    <td>Transmitted</td>
-    <td>{{ with printf "rate(node_network_transmit_bytes{job='node',instance='%s',device='%s'}[5m])" .Labels.instance .Labels.device | query }}{{ . | first | value | humanize }}B/s{{end}}</td>
-  </tr>{{ end }}
-</table>
+---
+- name: Synchronize datetime | Install chrony
+  yum:
+    name: chrony
+    state: latest
+  tags:
+    - prometeus-server-configure
+    - configure-datetime
+
+- name: Synchronize datetime | Turn on chronyd
+  service:
+    name: chronyd
+    enabled: yes
+    state: started
+  notify:
+    - systemctl daemon reload
+  tags:
+    - prometeus-server-configure
+    - configure-datetime
+
+- name: Create prometheus user
+  ansible.builtin.user:
+    name: prometheus
+    shell: /bin/false
+    createhome: no
+  tags:
+    - prometeus-server-configure
+    - create-user
+
+- name: Create work paths
+  ansible.builtin.shell: |
+    mkdir -p /etc/prometheus
+    mkdir -p /var/lib/prometheus
+    chown prometheus:prometheus /var/lib/prometheus
+    exit 0
+  tags:
+    - prometeus-server-configure
+    - create-work-paths
+
+- name: Copy ./prometheus to /usr/local/bin
+  copy:
+    src: ../files/prometheus-2.14.0.linux-amd64/prometheus
+    dest: /usr/local/bin
+    owner: prometheus
+    group: prometheus
+    mode: u=rx,g=-rwx,o=-rwx
+  tags:
+    - prometeus-server-configure
+    - copy-to-bin
+
+- name: Copy ./promtool to /usr/local/bin
+  copy:
+    src: ../files/prometheus-2.14.0.linux-amd64/promtool
+    dest: /usr/local/bin
+    owner: prometheus
+    group: prometheus
+    mode: u=rx,g=-rwx,o=-rwx
+  tags:
+    - prometeus-server-configure
+    - copy-to-bin
+
+- name: Configure prometeus application | prometheus.yml
+  ansible.builtin.copy:
+    src: ../files/etc/prometheus/prometheus.yml
+    dest: /etc/prometheus/prometheus.yml
+    owner: prometheus
+    group: prometheus
+    mode: u=r,g=r,o=r
+  tags:
+    - prometeus-server-configure
+    - prometeus-app-configure
+
+- name: Configure prometeus application | consoles
+  ansible.builtin.copy:
+    src: ../files/prometheus-2.14.0.linux-amd64/consoles
+    dest: /etc/prometheus/
+    owner: prometheus
+    group: prometheus
+    mode: u=rx,g=rx,o=r
+  tags:
+    - prometeus-server-configure
+    - prometeus-app-configure
+    - prometeus-app-configure-consoles
+    -
+- name: Configure prometeus application | console libraries
+  ansible.builtin.copy:
+    src: ../files/prometheus-2.14.0.linux-amd64/console_libraries
+    dest: /etc/prometheus/
+    owner: prometheus
+    group: prometheus
+    mode: u=rx,g=rx,o=r
+  tags:
+    - prometeus-server-configure
+    - prometeus-app-configure
+    - prometeus-app-configure-console-libraries
+
+- name: Configure prometeus service
+  ansible.builtin.copy:
+    src: ../files/etc/systemd/system/prometheus.service
+    dest: /etc/systemd/system/prometheus.service
+    mode: u=r,g=-rwx,o-rwx
+  notify:
+    - service restart prometheus
+    - systemctl daemon reload
+  tags:
+    - prometeus-server-configure
+    - prometeus-app-configure
+    - prometeus-service-configure
+
+- name: Turn on prometeus service
+  service:
+    name: prometheus.service
+    enabled: yes
+    state: started
+  notify:
+    - systemctl daemon reload
+  tags:
+    - prometeus-server-configure
+    - prometeus-service-turn-on
+
+- name: Check http
+  uri:
+    url: "http://localhost:9090"  # refactoring: в переменные
+    return_content: no
+  register: http_response
+  tags:
+    - prometeus-server-configure
+    - test-prometeus-http
+
+- name: Check http
+  fail:
+    msg: 'Http response detected as fail: {{http_response}}'
+  when: http_response.status != 200
+  tags:
+    - prometeus-server-configure
+    - test-prometeus-http
