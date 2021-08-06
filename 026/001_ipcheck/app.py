@@ -18,13 +18,24 @@ if __name__ == '__main__':
             '192.168.0.64/26': 'wifi'
         }
     }
-    nw = dict()
+    ipaddress.ip_network('192.168.0.32/28').address_exclude(ipaddress.ip_network('192.168.0.64/26'))
+    networks = dict()
     for network_segment_name, network_segment_part in architecture.items():
-        nw[network_segment_name] = dict(reserved=set())
+        networks[network_segment_name] = None
+        networks[network_segment_name] = dict()
         for ipaddress_of_network_segment_part, network_segment_part_name in network_segment_part.items():
             network = ipaddress.ip_network(ipaddress_of_network_segment_part)
-            nw[network_segment_name]['subnet'] = network
-            nw[network_segment_name] = (nw[network_segment_name]['reserved']).union(set( network.hosts()))
+            wall_network_parent = '.'.join([x for x in ipaddress_of_network_segment_part.split('.')[:3]])
+            networks[network_segment_name]['network'] = ipaddress.ip_network(wall_network_parent+'.0/24')
+            networks[network_segment_name]['network_hosts'] = [x for x in networks[network_segment_name]['network'].hosts()]
 
-    for nw_name, nw_ip_addresses in nw.items():
-        print(f'{nw_name} belongs to {nw_ip_addresses}')
+        for ipaddress_of_network_segment_part, network_segment_part_name in network_segment_part.items():
+            network = ipaddress.ip_network(ipaddress_of_network_segment_part)
+            for host in network.hosts():
+                if not host in networks[network_segment_name]['network_hosts']:
+                    continue
+                networks[network_segment_name]['network_hosts'].remove(host)
+        for h in networks[network_segment_name]
+
+    import pprint
+    pprint.pprint(networks)
