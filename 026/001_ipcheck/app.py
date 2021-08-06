@@ -26,6 +26,7 @@ if __name__ == '__main__':
         for ipaddress_of_network_segment_part, network_segment_part_name in network_segment_part.items():
             network = ipaddress.ip_network(ipaddress_of_network_segment_part)
             wall_network_parent = '.'.join([x for x in ipaddress_of_network_segment_part.split('.')[:3]])
+            networks[network_segment_name]['network_prefix'] = ipaddress.ip_network(wall_network_parent)
             networks[network_segment_name]['network'] = ipaddress.ip_network(wall_network_parent+'.0/24')
             networks[network_segment_name]['network_hosts'] = [x for x in networks[network_segment_name]['network'].hosts()]
 
@@ -35,7 +36,17 @@ if __name__ == '__main__':
                 if not host in networks[network_segment_name]['network_hosts']:
                     continue
                 networks[network_segment_name]['network_hosts'].remove(host)
-        for h in networks[network_segment_name]
+
+        start = None
+        for o in range(0,256):
+            ipaddress = ipaddress.ip_address(networks[network_segment_name]['network_prefix'] + '.' + o)
+            if start is None:
+                start = ipaddress
+            if ipaddress
+            prev_o = o
+            if start is None:
+            end =
+
 
     import pprint
     pprint.pprint(networks)
