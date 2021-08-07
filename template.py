@@ -22,16 +22,21 @@ if __name__ == '__main__':
                         name = kv[0].strip(' [')
                         with open(file_in_tmp) as f_in_tmp:
                             rows_count = len(f_in_tmp.readlines())
-                            if rows_count > rows_count_detail_limit:
-                                f_out.write(f'<details><summary>см. {name}</summary>\n')
-                                f_out.write('\n')
+                            if not file_in_tmp.endswith('.md'):
+                                if rows_count > rows_count_detail_limit:
+                                    f_out.write(f'<details><summary>см. {name}</summary>\n')
+                                    f_out.write('\n')
 
-                        f_out.write('```')
                         if file_in_tmp.endswith('.sh'):
+                            f_out.write('```')
                             f_out.write('shell')
                         elif file_in_tmp.endswith('.py'):
+                            f_out.write('```')
                             f_out.write('python3')
+                        elif file_in_tmp.endswith('.md'):
+                            ...
                         else:
+                            f_out.write('```')
                             f_out.write('properties')
                         f_out.write('\n')
                         with open(file_in_tmp) as f_in_tmp_2:
@@ -39,8 +44,12 @@ if __name__ == '__main__':
                                 # if row_in_tmp.strip().startswith('#') and file_in_tmp.endswith(('.sh', '.py')):
                                 #     continue
                                 f_out.write(row_in_tmp)
-                        f_out.write('\n```\n')
+                        if file_in_tmp.endswith('.md'):
+                            ...
+                        else:
+                            f_out.write('\n```\n')
                         f_out.write('\n')
-                        if rows_count > rows_count_detail_limit:
-                            f_out.write('</details>\n')
-                            f_out.write('\n')
+                        if not file_in_tmp.endswith('.md'):
+                            if rows_count > rows_count_detail_limit:
+                                f_out.write('</details>\n')
+                                f_out.write('\n')
