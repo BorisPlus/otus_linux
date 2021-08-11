@@ -1,0 +1,9 @@
+---
+- name: test | demostration
+  debug:
+    msg: "I am {{ inventory_hostname }}"
+
+- name: test | ping foreign host
+  shell: ping -c 1 -w 2 {{ item }}
+  loop: "{{ ping_to }}"
+  ignore_errors: false

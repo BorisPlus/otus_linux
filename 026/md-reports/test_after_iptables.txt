@@ -1,0 +1,67 @@
+
+PLAY [Playbook of tests] *******************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [centralRouter]
+ok: [centralServer]
+ok: [inetRouter]
+ok: [office1Server]
+ok: [office1Router]
+ok: [office2Router]
+ok: [office2Server]
+
+TASK [../roles/test_001_check_internet_available : test | demostration] ********
+ok: [inetRouter] => {
+    "msg": "I am inetRouter"
+}
+ok: [centralRouter] => {
+    "msg": "I am centralRouter"
+}
+ok: [centralServer] => {
+    "msg": "I am centralServer"
+}
+ok: [office1Router] => {
+    "msg": "I am office1Router"
+}
+ok: [office1Server] => {
+    "msg": "I am office1Server"
+}
+ok: [office2Router] => {
+    "msg": "I am office2Router"
+}
+ok: [office2Server] => {
+    "msg": "I am office2Server"
+}
+
+TASK [../roles/test_001_check_internet_available : test | ping foreign host] ***
+changed: [centralServer] => (item=8.8.8.8)
+changed: [office1Server] => (item=8.8.8.8)
+changed: [office1Router] => (item=8.8.8.8)
+changed: [inetRouter] => (item=8.8.8.8)
+changed: [centralRouter] => (item=8.8.8.8)
+changed: [centralRouter] => (item=otus.ru)
+changed: [centralServer] => (item=otus.ru)
+changed: [office1Server] => (item=otus.ru)
+changed: [inetRouter] => (item=otus.ru)
+changed: [office1Router] => (item=otus.ru)
+failed: [centralRouter] (item=otus.kz) => {"ansible_loop_var": "item", "changed": true, "cmd": "ping -c 1 -w 2 otus.kz", "delta": "0:00:10.040806", "end": "2021-08-11 21:14:27.374089", "item": "otus.kz", "msg": "non-zero return code", "rc": 2, "start": "2021-08-11 21:14:17.333283", "stderr": "ping: otus.kz: Name or service not known", "stderr_lines": ["ping: otus.kz: Name or service not known"], "stdout": "", "stdout_lines": []}
+failed: [centralServer] (item=otus.kz) => {"ansible_loop_var": "item", "changed": true, "cmd": "ping -c 1 -w 2 otus.kz", "delta": "0:00:10.046336", "end": "2021-08-11 21:14:27.768211", "item": "otus.kz", "msg": "non-zero return code", "rc": 2, "start": "2021-08-11 21:14:17.721875", "stderr": "ping: otus.kz: Name or service not known", "stderr_lines": ["ping: otus.kz: Name or service not known"], "stdout": "", "stdout_lines": []}
+failed: [office1Server] (item=otus.kz) => {"ansible_loop_var": "item", "changed": true, "cmd": "ping -c 1 -w 2 otus.kz", "delta": "0:00:10.030482", "end": "2021-08-11 21:14:27.904421", "item": "otus.kz", "msg": "non-zero return code", "rc": 2, "start": "2021-08-11 21:14:17.873939", "stderr": "ping: otus.kz: Name or service not known", "stderr_lines": ["ping: otus.kz: Name or service not known"], "stdout": "", "stdout_lines": []}
+failed: [office1Router] (item=otus.kz) => {"ansible_loop_var": "item", "changed": true, "cmd": "ping -c 1 -w 2 otus.kz", "delta": "0:00:10.029051", "end": "2021-08-11 21:14:28.007006", "item": "otus.kz", "msg": "non-zero return code", "rc": 2, "start": "2021-08-11 21:14:17.977955", "stderr": "ping: otus.kz: Name or service not known", "stderr_lines": ["ping: otus.kz: Name or service not known"], "stdout": "", "stdout_lines": []}
+failed: [inetRouter] (item=otus.kz) => {"ansible_loop_var": "item", "changed": true, "cmd": "ping -c 1 -w 2 otus.kz", "delta": "0:00:10.025940", "end": "2021-08-11 21:14:28.089343", "item": "otus.kz", "msg": "non-zero return code", "rc": 2, "start": "2021-08-11 21:14:18.063403", "stderr": "ping: otus.kz: Name or service not known", "stderr_lines": ["ping: otus.kz: Name or service not known"], "stdout": "", "stdout_lines": []}
+changed: [office2Router] => (item=8.8.8.8)
+changed: [office2Server] => (item=8.8.8.8)
+changed: [office2Router] => (item=otus.ru)
+changed: [office2Server] => (item=otus.ru)
+failed: [office2Router] (item=otus.kz) => {"ansible_loop_var": "item", "changed": true, "cmd": "ping -c 1 -w 2 otus.kz", "delta": "0:00:10.034930", "end": "2021-08-11 21:14:41.574162", "item": "otus.kz", "msg": "non-zero return code", "rc": 2, "start": "2021-08-11 21:14:31.539232", "stderr": "ping: otus.kz: Name or service not known", "stderr_lines": ["ping: otus.kz: Name or service not known"], "stdout": "", "stdout_lines": []}
+failed: [office2Server] (item=otus.kz) => {"ansible_loop_var": "item", "changed": true, "cmd": "ping -c 1 -w 2 otus.kz", "delta": "0:00:10.032192", "end": "2021-08-11 21:14:42.041718", "item": "otus.kz", "msg": "non-zero return code", "rc": 2, "start": "2021-08-11 21:14:32.009526", "stderr": "ping: otus.kz: Name or service not known", "stderr_lines": ["ping: otus.kz: Name or service not known"], "stdout": "", "stdout_lines": []}
+
+PLAY RECAP *********************************************************************
+centralRouter              : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+centralServer              : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+inetRouter                 : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+office1Router              : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+office1Server              : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+office2Router              : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+office2Server              : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+

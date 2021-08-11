@@ -1,0 +1,28 @@
+---
+- name: /etc/sysctl.conf | content
+  command: /bin/cat /etc/sysctl.conf
+  register: sysctl_conf_content
+
+- name: /etc/sysctl.conf | forwarding = 1 | if does not exist
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysctl.conf
+    line: "net.ipv4.conf.all.forwarding = 1"
+  when: not sysctl_conf_content is search("net.ipv4.conf.all.forwarding")
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deploy
+    - forwarding-on
+
+- name: /etc/sysctl.conf | forwarding = 1 | if forwarding = 0
+  replace:
+    path: /etc/sysctl.conf
+    regexp: 'net.ipv4.conf.all.forwarding = 0'
+    replace: 'net.ipv4.conf.all.forwarding = 1'
+  when: not sysctl_conf_content is search("net.ipv4.conf.all.forwarding = 0")
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deploy
+    - forwarding-on

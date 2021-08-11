@@ -1,0 +1,12 @@
+---
+- name: set gateway for interface /etc/sysconfig/network-scripts/route-*
+  shell: |
+    echo "{{ gateway['src'] }} via {{ gateway['via'] }}" > /etc/sysconfig/network-scripts/route-{{ gateway['name'] }}
+    exit 0
+  vars:
+    gateway: "{{ networks_hosts[inventory_hostname]['gateway'] }}"
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deploy
+    - route-on

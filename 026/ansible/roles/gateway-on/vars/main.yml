@@ -1,0 +1,36 @@
+networks_hosts:
+  inetRouter:
+    gateway:
+      name: eth1
+      src: 192.168.0.0/16
+      via: 192.168.255.2
+  centralRouter:
+    gateway:
+      name: eth1
+      src: default
+      via: 192.168.255.1
+  centralServer:
+    gateway:
+      name: eth1
+      src: default
+      via: 192.168.0.1
+  office1Router:
+    gateway:
+      name: eth1
+      src: default
+      via: 192.168.0.33
+  office1Server:
+    gateway:
+      name: eth1
+      src: default
+      via: 192.168.2.192
+  office2Router:
+    gateway:
+      name: eth1
+      src: default
+      via: 192.168.0.33
+  office2Server:
+    gateway:
+      name: eth1
+      src: default
+      via: 192.168.1.192

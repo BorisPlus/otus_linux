@@ -1,0 +1,9 @@
+---
+- name: iptables masquerading
+  ansible.builtin.shell: |
+    iptables -t nat -A POSTROUTING ! -d 192.168.0.0/16 -o eth0 -j MASQUERADE
+    service iptables save
+    exit 0
+  tags:
+    - deploy
+    - iptables-masquerading

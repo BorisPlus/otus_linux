@@ -1,0 +1,5 @@
+---
+- name: systemctl-restart-network
+  systemd:
+    state: restarted
+    name: network

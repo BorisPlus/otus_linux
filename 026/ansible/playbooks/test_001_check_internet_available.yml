@@ -1,0 +1,12 @@
+---
+- name: Playbook of tests
+  hosts:
+    - inetRouter
+    - centralRouter
+    - centralServer
+    - office1Router
+    - office1Server
+    - office2Router
+    - office2Server
+  roles:
+    - role: '../roles/test_001_check_internet_available'

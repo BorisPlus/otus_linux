@@ -1,0 +1,58 @@
+---
+- name: /etc/sysconfig/network-scripts/ifcfg-eth0 | content
+  command: /bin/cat /etc/sysconfig/network-scripts/ifcfg-eth0
+  register: ifcfg_eth0_content
+  tags:
+    - deploy
+
+- name: /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if did not set
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysconfig/network-scripts/ifcfg-eth0
+    line: "DEFROUTE=no"
+  when: not ifcfg_eth0_content is search("DEFROUTE=")
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deploy
+    - ifcfg-eth0-default-route-off
+
+- name: /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if "yes"
+  replace:
+    path: /etc/sysconfig/network-scripts/ifcfg-eth0
+    regexp: 'DEFROUTE=yes'
+    replace: 'DEFROUTE=no'
+  when: ifcfg_eth0_content is search("DEFROUTE=yes")
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deploy
+    - ifcfg-eth0-default-route-off
+
+- name: /etc/sysconfig/network-scripts/ifcfg-eth1 | content
+  command: /bin/cat /etc/sysconfig/network-scripts/ifcfg-eth1
+  register: ifcfg_eth1_content
+
+- name: /etc/sysconfig/network-scripts/ifcfg-eth1 | DEFROUTE=yes  | if did not set
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysconfig/network-scripts/ifcfg-eth1
+    line: "DEFROUTE=yes"
+  when: not ifcfg_eth1_content is search("DEFROUTE=")
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deprecated
+    - ifcfg-eth1-default-route-on
+
+- name: /etc/sysconfig/network-scripts/ifcfg-eth1 | DEFROUTE=yes | if "no"
+  replace:
+    path: /etc/sysconfig/network-scripts/ifcfg-eth1
+    regexp: 'DEFROUTE=yes'
+    replace: 'DEFROUTE=no'
+  when: ifcfg_eth1_content is search("DEFROUTE=yes")
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deprecated
+    - ifcfg-eth1-default-route-on
