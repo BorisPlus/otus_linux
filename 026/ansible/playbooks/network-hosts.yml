@@ -1,7 +1,7 @@
 ---
 - name: Playbook of client initialization
   hosts:
-#    - inetRouter
+    - inetRouter
     - centralRouter
     - centralServer
 #    - office1Router

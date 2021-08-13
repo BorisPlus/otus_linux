@@ -3,7 +3,12 @@
   debug:
     msg: "I am {{ inventory_hostname }}"
 
-- name: test | ping foreign host
-  shell: ping -c 1 -w 2 {{ item }}
-  loop: "{{ ping_to }}"
+- name: test | traceroute foreign host
+  shell: traceroute {{ item }}
+  loop: "{{ to }}"
   ignore_errors: false
+  register: traceroute_content
+
+- name: test | demostration result
+  debug:
+    msg: "{{ traceroute_content['stdout_lines'] }}"

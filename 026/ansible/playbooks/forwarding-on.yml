@@ -3,11 +3,12 @@
   hosts:
     - inetRouter
     - centralRouter
-    - centralServer
-    - office1Router
-    - office1Server
-    - office2Router
-    - office2Server
+#    - office1Router
+#    - office2Router
   become: yes
   roles:
     - role: '../roles/forwarding-on'
+#
+#    - centralServer
+#    - office1Server
+#    - office2Server

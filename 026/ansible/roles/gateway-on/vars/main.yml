@@ -18,19 +18,19 @@ networks_hosts:
     gateway:
       name: eth1
       src: default
-      via: 192.168.0.33
+      via: 192.168.0.34
   office1Server:
     gateway:
       name: eth1
       src: default
-      via: 192.168.2.192
+      via: 192.168.2.193
   office2Router:
     gateway:
       name: eth1
       src: default
-      via: 192.168.0.33
+      via: 192.168.0.34
   office2Server:
     gateway:
       name: eth1
       src: default
-      via: 192.168.1.192
+      via: 192.168.1.193
