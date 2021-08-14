@@ -1,0 +1,61 @@
+---
+- name: /etc/sysconfig/network-scripts/route-* | delete route files
+  shell: |
+    rm -f /etc/sysconfig/network-scripts/route-*
+    exit 0
+  ignore_errors: false
+
+- name: /etc/sysconfig/network-scripts/route-* | create needed route files
+  shell: |
+    touch /etc/sysconfig/network-scripts/route-{{ item['interface'] }}
+    exit 0
+  loop: "{{ networks_hosts[inventory_hostname]['routes'] }}"
+  ignore_errors: false
+
+- name: /etc/sysconfig/network-scripts/route-* | set route
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysconfig/network-scripts/route-{{ item.interface }}
+    line: "{{ item.nw }} via {{ item.via }}"
+  loop: "{{ networks_hosts[inventory_hostname]['routes'] }}"
+  notify:
+    - systemctl-restart-network
+
+- name: /etc/sysconfig/network-scripts/ifcfg-ethX | content
+  command: /bin/cat /etc/sysconfig/network-scripts/ifcfg-{{ gateway['interface'] }}
+  vars:
+    gateway: "{{ networks_hosts[inventory_hostname]['gateway'] }}"
+  register: ifcfg_ethX_content
+  tags:
+    - deploy
+    - ifcfg-ethX-default-gw
+
+- name: /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | setup if did not set
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysconfig/network-scripts/ifcfg-{{ gateway['interface'] }}
+    line: "GATEWAY={{ gateway['gw'] }}"
+  when: not ( ifcfg_ethX_content is search("GATEWAY=") )
+  vars:
+    gateway: "{{ networks_hosts[inventory_hostname]['gateway'] }}"
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deploy
+    - ifcfg-ethX-default-gw
+
+## sed -i 's/0.1/222.22/g'  /etc/sysconfig/network-scripts/ifcfg-eth1
+## sed -i 's/asd//g'  /etc/sysconfig/network-scripts/ifcfg-eth1
+- name: /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | replace
+  replace:
+    path:  /etc/sysconfig/network-scripts/ifcfg-{{ gateway['interface'] }}
+    regexp: 'GATEWAY=[\w\.]*'
+    replace: "GATEWAY={{ gateway['gw'] }}"
+  when: ifcfg_ethX_content is search("GATEWAY=")
+  vars:
+    gateway: "{{ networks_hosts[inventory_hostname]['gateway'] }}"
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deploy
+    - ifcfg-ethX-default-gw

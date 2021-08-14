@@ -1,5 +1,5 @@
 ---
-- name: Playbook of network hosts initialization
+- name: Playbook of ethX gateway config
   hosts:
     - inetRouter
     - centralRouter
@@ -10,6 +10,4 @@
     - office2Server
   become: yes
   roles:
-    - role: '../roles/network-hosts'
-      tags:
-      - deploy
+    - role: '../roles/routing'

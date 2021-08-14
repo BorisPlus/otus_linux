@@ -1,11 +1,4 @@
 ---
-- name: Install traceroute
-  yum:
-    name: traceroute
-    state: latest
-  tags:
-    - test
-
 - name: /etc/sysconfig/network-scripts/ifcfg-eth0 | content
   command: /bin/cat /etc/sysconfig/network-scripts/ifcfg-eth0
   register: ifcfg_eth0_content

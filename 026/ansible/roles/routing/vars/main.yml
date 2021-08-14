@@ -1,0 +1,46 @@
+networks_hosts:
+  inetRouter:
+    gateway:
+      interface: eth1
+      gw: 192.168.255.2 # just for demonstration
+    routes:
+      - { interface: eth1, nw: 192.168.0.0/16,    via: 192.168.255.2 }
+      - { interface: eth1, nw: 192.168.0.0/16,    via: 192.168.255.2 }
+  centralRouter:
+    gateway:
+      interface: eth1
+      gw: 192.168.255.1
+    routes:
+      - { interface: eth1, nw: default ,          via: 192.168.255.1 }
+      - { interface: eth1, nw: 192.168.2.0/24 ,   via: 192.168.0.34 }
+      - { interface: eth1, nw: 192.168.1.0/24 ,   via: 192.168.0.35 }
+  centralServer:
+    gateway:
+      interface: eth1
+      gw: 192.168.0.1
+    routes:
+      - { interface: eth1, nw: default ,          via: 192.168.0.1 }
+  office1Router:
+    gateway:
+      interface: eth1
+      gw: 192.168.0.33
+    routes:
+      - { interface: eth1, nw: default ,          via: 192.168.0.33 }
+  office1Server:
+    gateway:
+      interface: eth1
+      gw: 192.168.2.193
+    routes:
+      - { interface: eth1, nw: default ,          via:  192.168.2.193 }
+  office2Router:
+    gateway:
+      interface: eth1
+      gw: 192.168.0.33
+    routes:
+      - { interface: eth1, nw: default ,          via: 192.168.0.33 }
+  office2Server:
+    gateway:
+      interface: eth1
+      gw: 192.168.0.193
+    routes:
+      - { interface: eth1, nw: default ,          via: 192.168.1.193 }
