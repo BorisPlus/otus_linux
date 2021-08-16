@@ -1,0 +1,84 @@
+
+PLAY [Playbook of network hosts initialization] ********************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [centralRouter]
+ok: [centralServer]
+ok: [office1Router]
+ok: [inetRouter]
+ok: [office1Server]
+ok: [office2Server]
+ok: [office2Router]
+
+TASK [../roles/network-hosts : /etc/sysconfig/network-scripts/ifcfg-eth0 | content] ***
+changed: [office1Router]
+changed: [inetRouter]
+changed: [office1Server]
+changed: [centralServer]
+changed: [centralRouter]
+changed: [office2Router]
+changed: [office2Server]
+
+TASK [../roles/network-hosts : /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if did not set] ***
+changed: [inetRouter]
+changed: [office1Router]
+changed: [office1Server]
+changed: [centralServer]
+changed: [centralRouter]
+changed: [office2Router]
+changed: [office2Server]
+
+TASK [../roles/network-hosts : /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if "yes"] ***
+skipping: [inetRouter]
+skipping: [centralRouter]
+skipping: [centralServer]
+skipping: [office1Router]
+skipping: [office1Server]
+skipping: [office2Router]
+skipping: [office2Server]
+
+TASK [../roles/network-hosts : /etc/sysconfig/network-scripts/ifcfg-eth1 | content] ***
+changed: [inetRouter]
+changed: [office1Router]
+changed: [centralServer]
+changed: [centralRouter]
+changed: [office1Server]
+changed: [office2Server]
+changed: [office2Router]
+
+TASK [../roles/network-hosts : /etc/sysconfig/network-scripts/ifcfg-eth1 | DEFROUTE=yes  | if did not set] ***
+changed: [inetRouter]
+changed: [office1Router]
+changed: [office1Server]
+changed: [centralRouter]
+changed: [centralServer]
+changed: [office2Router]
+changed: [office2Server]
+
+TASK [../roles/network-hosts : /etc/sysconfig/network-scripts/ifcfg-eth1 | DEFROUTE=yes | if "no"] ***
+skipping: [inetRouter]
+skipping: [centralRouter]
+skipping: [centralServer]
+skipping: [office1Router]
+skipping: [office1Server]
+skipping: [office2Router]
+skipping: [office2Server]
+
+RUNNING HANDLER [../roles/network-hosts : systemctl-restart-network] ***********
+changed: [office1Server]
+changed: [inetRouter]
+changed: [centralServer]
+changed: [centralRouter]
+changed: [office2Server]
+changed: [office1Router]
+changed: [office2Router]
+
+PLAY RECAP *********************************************************************
+centralRouter              : ok=6    changed=5    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+centralServer              : ok=6    changed=5    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+inetRouter                 : ok=6    changed=5    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+office1Router              : ok=6    changed=5    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+office1Server              : ok=6    changed=5    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+office2Router              : ok=6    changed=5    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+office2Server              : ok=6    changed=5    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
+

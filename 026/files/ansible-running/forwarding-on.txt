@@ -1,0 +1,39 @@
+
+PLAY [Playbook of "net.ipv4.conf.all.forwarding = 1"] **************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [inetRouter]
+ok: [office1Router]
+ok: [centralRouter]
+ok: [office2Router]
+
+TASK [../roles/forwarding-on : /etc/sysctl.conf | content] *********************
+changed: [inetRouter]
+changed: [office1Router]
+changed: [centralRouter]
+changed: [office2Router]
+
+TASK [../roles/forwarding-on : /etc/sysctl.conf | forwarding = 1 | if does not exist] ***
+changed: [centralRouter]
+changed: [office1Router]
+changed: [inetRouter]
+changed: [office2Router]
+
+TASK [../roles/forwarding-on : /etc/sysctl.conf | forwarding = 1 | if forwarding = 0] ***
+ok: [inetRouter]
+ok: [office2Router]
+ok: [centralRouter]
+ok: [office1Router]
+
+RUNNING HANDLER [../roles/forwarding-on : systemctl-restart-network] ***********
+changed: [inetRouter]
+changed: [office2Router]
+changed: [centralRouter]
+changed: [office1Router]
+
+PLAY RECAP *********************************************************************
+centralRouter              : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+inetRouter                 : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+office1Router              : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+office2Router              : ok=5    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

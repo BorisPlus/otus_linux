@@ -1,0 +1,78 @@
+
+PLAY [Playbook of ethX gateway config] *****************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [inetRouter]
+ok: [centralServer]
+ok: [centralRouter]
+ok: [office1Server]
+ok: [office1Router]
+ok: [office2Server]
+ok: [office2Router]
+
+TASK [../roles/routing : /etc/sysconfig/network | "NOZEROCONF=yes" | I don't want 169.254.0.0/16 network at default] ***
+changed: [office1Server]
+changed: [centralServer]
+changed: [centralRouter]
+changed: [office1Router]
+changed: [inetRouter]
+changed: [office2Server]
+changed: [office2Router]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/route-* | delete route files] ***
+changed: [centralRouter]
+changed: [office1Server]
+changed: [inetRouter]
+changed: [office1Router]
+changed: [centralServer]
+changed: [office2Router]
+changed: [office2Server]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/route-* | create needed route files] ***
+changed: [inetRouter] => (item={'interface': 'eth1', 'nw': '192.168.0.0/16', 'via': '192.168.255.2'})
+changed: [centralRouter] => (item={'interface': 'eth3', 'nw': '192.168.2.0/24', 'via': '192.168.0.34'})
+changed: [centralRouter] => (item={'interface': 'eth3', 'nw': '192.168.1.0/24', 'via': '192.168.0.35'})
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/route-* | set route] ***
+changed: [inetRouter] => (item={'interface': 'eth1', 'nw': '192.168.0.0/16', 'via': '192.168.255.2'})
+changed: [centralRouter] => (item={'interface': 'eth3', 'nw': '192.168.2.0/24', 'via': '192.168.0.34'})
+changed: [centralRouter] => (item={'interface': 'eth3', 'nw': '192.168.1.0/24', 'via': '192.168.0.35'})
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | content] ***
+fatal: [inetRouter]: FAILED! => {"msg": "The conditional check '(default_gateway['interface'] is defined and default_gateway['interface'] != '') and not (default_gateway['interface'] == None)' failed. The error was: error while evaluating conditional ((default_gateway['interface'] is defined and default_gateway['interface'] != '') and not (default_gateway['interface'] == None)): {{ networks_hosts[inventory_hostname]['default_gateway'] }}: 'dict object' has no attribute 'default_gateway'\n\nThe error appears to be in '/home/b/pycharm_projects_2021_2/otus_linux/026/ansible/roles/routing/tasks/main.yml': line 31, column 3, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n\n- name: /etc/sysconfig/network-scripts/ifcfg-ethX | content\n  ^ here\n"}
+changed: [centralRouter]
+changed: [office2Router]
+changed: [office1Router]
+changed: [centralServer]
+changed: [office1Server]
+changed: [office2Server]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | setup if did not set] ***
+skipping: [centralRouter]
+skipping: [centralServer]
+skipping: [office1Router]
+skipping: [office1Server]
+skipping: [office2Router]
+skipping: [office2Server]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | replace] ***
+ok: [office1Server]
+ok: [office2Router]
+ok: [centralRouter]
+ok: [office1Router]
+ok: [centralServer]
+changed: [office2Server]
+
+RUNNING HANDLER [../roles/routing : systemctl-restart-network] *****************
+changed: [office2Server]
+changed: [centralRouter]
+
+PLAY RECAP *********************************************************************
+centralRouter              : ok=8    changed=6    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+centralServer              : ok=5    changed=3    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   
+inetRouter                 : ok=5    changed=4    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+office1Router              : ok=5    changed=3    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   
+office1Server              : ok=5    changed=3    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   
+office2Router              : ok=5    changed=3    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   
+office2Server              : ok=6    changed=5    unreachable=0    failed=0    skipped=3    rescued=0    ignored=0   
+

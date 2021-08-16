@@ -1,0 +1,2 @@
+traceroute to 192.168.2.194 (192.168.2.194), 30 hops max, 60 byte packets
+ 1  office1Server (192.168.2.194)  0.033 ms  0.013 ms  0.011 ms
