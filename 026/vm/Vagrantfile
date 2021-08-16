@@ -69,8 +69,10 @@ Vagrant.configure("2") do |config|
         config.vm.define boxname do |box|
             box.vm.provision "shell", run: "always", inline: <<-SHELL
 
-                # systemctl stop NetworkManager
-                # systemctl disable NetworkManager
+                systemctl stop NetworkManager
+                systemctl disable NetworkManager
+                systemctl enable network.service
+                systemctl start network.service
 
                 yum install -y traceroute
                 # yum install -y nano

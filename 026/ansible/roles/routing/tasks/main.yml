@@ -1,4 +1,11 @@
 ---
+- name: /etc/sysconfig/network | "NOZEROCONF=yes" | I don't want 169.254.0.0/16 network at default
+  shell: |
+    echo "NOZEROCONF=yes" > /etc/sysconfig/network
+    exit 0
+  ignore_errors: false
+
+# /etc/sysconfig/static-routes - Legacy static-route support not available: /sbin/route not found
 - name: /etc/sysconfig/network-scripts/route-* | delete route files
   shell: |
     rm -f /etc/sysconfig/network-scripts/route-*
@@ -22,9 +29,10 @@
     - systemctl-restart-network
 
 - name: /etc/sysconfig/network-scripts/ifcfg-ethX | content
-  command: /bin/cat /etc/sysconfig/network-scripts/ifcfg-{{ gateway['interface'] }}
+  command: /bin/cat /etc/sysconfig/network-scripts/ifcfg-{{ default_gateway['interface'] }}
+  when: (default_gateway['interface'] is defined and default_gateway['interface'] != '') and not (default_gateway['interface'] == None)
   vars:
-    gateway: "{{ networks_hosts[inventory_hostname]['gateway'] }}"
+    default_gateway: "{{ networks_hosts[inventory_hostname]['default_gateway'] }}"
   register: ifcfg_ethX_content
   tags:
     - deploy
@@ -33,27 +41,25 @@
 - name: /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | setup if did not set
   lineinfile:
     insertafter: EOF
-    dest: /etc/sysconfig/network-scripts/ifcfg-{{ gateway['interface'] }}
-    line: "GATEWAY={{ gateway['gw'] }}"
-  when: not ( ifcfg_ethX_content is search("GATEWAY=") )
+    dest: /etc/sysconfig/network-scripts/ifcfg-{{ default_gateway['interface'] }}
+    line: "GATEWAY={{ default_gateway['gw'] }}"
+  when: (default_gateway['interface'] is defined and default_gateway['interface'] != '') and not (default_gateway['interface'] == None) and not ( ifcfg_ethX_content is search("GATEWAY=") )
   vars:
-    gateway: "{{ networks_hosts[inventory_hostname]['gateway'] }}"
+    default_gateway: "{{ networks_hosts[inventory_hostname]['default_gateway'] }}"
   notify:
     - systemctl-restart-network
   tags:
     - deploy
     - ifcfg-ethX-default-gw
 
-## sed -i 's/0.1/222.22/g'  /etc/sysconfig/network-scripts/ifcfg-eth1
-## sed -i 's/asd//g'  /etc/sysconfig/network-scripts/ifcfg-eth1
 - name: /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | replace
   replace:
-    path:  /etc/sysconfig/network-scripts/ifcfg-{{ gateway['interface'] }}
+    path:  /etc/sysconfig/network-scripts/ifcfg-{{ default_gateway['interface'] }}
     regexp: 'GATEWAY=[\w\.]*'
-    replace: "GATEWAY={{ gateway['gw'] }}"
-  when: ifcfg_ethX_content is search("GATEWAY=")
+    replace: "GATEWAY={{ default_gateway['gw'] }}"
+  when: (default_gateway['interface'] is defined and default_gateway['interface'] != '') and not (default_gateway['interface'] == None) and ( ifcfg_ethX_content is search("GATEWAY=") )
   vars:
-    gateway: "{{ networks_hosts[inventory_hostname]['gateway'] }}"
+    default_gateway: "{{ networks_hosts[inventory_hostname]['default_gateway'] }}"
   notify:
     - systemctl-restart-network
   tags:

@@ -1,46 +1,39 @@
 networks_hosts:
   inetRouter:
-    gateway:
-      interface: eth1
-      gw: 192.168.255.2 # just for demonstration
+    default_default_gateway:
+      interface: ''
+      gw: ''
     routes:
-      - { interface: eth1, nw: 192.168.0.0/16,    via: 192.168.255.2 }
-      - { interface: eth1, nw: 192.168.0.0/16,    via: 192.168.255.2 }
+      - { interface: eth1, nw: 192.168.0.0/16, via: 192.168.255.2 }
   centralRouter:
-    gateway:
+    default_gateway:
       interface: eth1
       gw: 192.168.255.1
     routes:
-      - { interface: eth1, nw: default ,          via: 192.168.255.1 }
-      - { interface: eth1, nw: 192.168.2.0/24 ,   via: 192.168.0.34 }
-      - { interface: eth1, nw: 192.168.1.0/24 ,   via: 192.168.0.35 }
+      - { interface: eth3, nw: 192.168.2.0/24, via: 192.168.0.34 }
+      - { interface: eth3, nw: 192.168.1.0/24, via: 192.168.0.35 }
   centralServer:
-    gateway:
+    default_gateway:
       interface: eth1
       gw: 192.168.0.1
-    routes:
-      - { interface: eth1, nw: default ,          via: 192.168.0.1 }
+    routes: []
   office1Router:
-    gateway:
+    default_gateway:
       interface: eth1
       gw: 192.168.0.33
-    routes:
-      - { interface: eth1, nw: default ,          via: 192.168.0.33 }
+    routes: []
   office1Server:
-    gateway:
+    default_gateway:
       interface: eth1
       gw: 192.168.2.193
-    routes:
-      - { interface: eth1, nw: default ,          via:  192.168.2.193 }
+    routes: []
   office2Router:
-    gateway:
+    default_gateway:
       interface: eth1
       gw: 192.168.0.33
-    routes:
-      - { interface: eth1, nw: default ,          via: 192.168.0.33 }
+    routes: []
   office2Server:
-    gateway:
+    default_gateway:
       interface: eth1
-      gw: 192.168.0.193
-    routes:
-      - { interface: eth1, nw: default ,          via: 192.168.1.193 }
+      gw: 192.168.1.193
+    routes: []

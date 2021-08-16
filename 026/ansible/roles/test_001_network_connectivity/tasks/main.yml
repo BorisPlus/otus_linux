@@ -1,0 +1,23 @@
+---
+- name: test | demostration
+  debug:
+    msg: "I am {{ inventory_hostname }}"
+
+- name: test | traceroute foreign host
+  shell: traceroute {{ item }}
+  loop: "{{ to }}"
+  ignore_errors: false
+  register: traceroute_content
+
+#- name: test | traceroute foreign host
+#  debug:
+#    msg: "{{ traceroute_content['results']}}"
+
+- name: test | traceroute foreign host
+  local_action:
+    module: lineinfile
+    dest: "../../files/tests-reports/{{ inventory_hostname }} - {{ item['cmd'] }}.txt"
+    line: "{{ item['stdout'] }}"
+    create: yes
+  loop: "{{ traceroute_content['results'] }}"
+  changed_when: true

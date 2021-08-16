@@ -9,4 +9,4 @@
     - office2Router
     - office2Server
   roles:
-    - role: '../roles/test_001_check_internet_available'
+    - role: '../roles/test_001_network_connectivity'
