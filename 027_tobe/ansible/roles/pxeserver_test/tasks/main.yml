@@ -1,0 +1,35 @@
+---
+- name: check files available at local
+  shell:
+    ls {{ item }}
+  loop: "{{ files }}"
+  tags:
+    - check-files
+
+- name: check pages available on http://127.0.0.1/
+  uri:
+    url: http://127.0.0.1/{{ item }}
+  loop: "{{ pages }}"
+  tags:
+    - check-http-127.0.0.1
+
+- name: check pages available on http://10.0.0.20/
+  uri:
+    url: http://10.0.0.20/{{ item }}
+  loop: "{{ pages }}"
+  tags:
+    - check-http-10.0.0.20
+
+- name: check files content
+  command: /bin/cat {{ item }}
+  loop: "{{ files_content }}"
+  register: details
+  tags:
+    - check-files-content
+
+- name: check files content
+  debug:
+    msg: "{{ item.stdout_lines }}"
+  loop: "{{ details.results }}"
+  tags:
+    - check-files-content

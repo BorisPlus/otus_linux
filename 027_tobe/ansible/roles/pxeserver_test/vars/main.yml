@@ -1,0 +1,42 @@
+pages: 
+  - pxelinux.0
+  - libutil.c32
+  - menu.c32
+  - libmenu.c32
+  - ldlinux.c32
+  - vesamenu.c32
+  - exports
+  - pxelinux.cfg/default
+  - centos8-install/LICENSE
+  - cfg/ks.cfg
+  - images/CentOS-8/initrd.img
+  - images/CentOS-8/vmlinuz
+files:
+  - /usr/share/nginx/html/pxelinux.0
+  - /usr/share/nginx/html/libutil.c32
+  - /usr/share/nginx/html/menu.c32
+  - /usr/share/nginx/html/libmenu.c32
+  - /usr/share/nginx/html/ldlinux.c32
+  - /usr/share/nginx/html/vesamenu.c32
+  - /usr/share/nginx/html/exports
+  - /usr/share/nginx/html/pxelinux.cfg/default
+  - /usr/share/nginx/html/centos8-install/LICENSE
+  - /usr/share/nginx/html/cfg/ks.cfg
+  - /usr/share/nginx/html/images/CentOS-8/initrd.img
+  - /usr/share/nginx/html/images/CentOS-8/vmlinuz
+files_content:
+  - /usr/share/nginx/html/exports
+  - /usr/share/nginx/html/pxelinux.cfg/default
+  - /usr/share/nginx/html/cfg/ks.cfg
+#mnt_dir: /mnt
+mnt_dir: /usr/share/nginx/html/
+public_mnt_dir: http://127.0.0.1/
+pxelinux_dir: /usr/share/nginx/html
+pxelinux_cfg_dir: /usr/share/nginx/html/pxelinux.cfg
+pxelinux_images_dir: /usr/share/nginx/html/images/CentOS-8
+#exports_dir: /etc
+exports_dir: /usr/share/nginx/html/
+public_exports_dir: http://127.0.0.1/
+#ks_cfg_dir: /home/vagrant/cfg
+ks_cfg_dir: /usr/share/nginx/html/cfg
+public_ks_cfg_dir: http://127.0.0.1/
