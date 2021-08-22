@@ -1,0 +1,132 @@
+---
+- name: Install EPEL Repo package from standart repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install DHCP-server
+  yum:
+    name: dhcp-server
+    state: present
+
+- name: Install tftp-server
+  yum:
+    name: tftp-server
+    state: present
+
+- name: Install nfs-utils
+  yum:
+    name: nfs-utils
+    state: present
+
+- name: Install nginx
+  yum:
+    name: nginx
+    state: present
+
+- name: Configure nginx
+  template:
+    src: ../files/etc/nginx/nginx.conf
+    dest: /etc/nginx/nginx.conf
+  notify:
+    - start nginx
+
+- name: Firewall and SELinix configure
+  shell: |
+    firewall-cmd --add-service=tftp
+    setenforce 0
+    exit 0
+  ignore_errors: false
+
+- name: Burn /etc/dhcp/dhcpd.conf
+  copy:
+    src: ../files/etc/dhcp/dhcpd.conf
+    dest: /etc/dhcp/dhcpd.conf
+  notify:
+    - systemctl-restart-dhcpd
+
+- name: Burn /etc/exports
+  copy:
+    src: ../files/etc/exports
+    dest: /etc/exports
+  notify:
+    - systemctl-restart-dhcpd
+
+- name: Install syslinux-tftpboot.noarch
+  yum:
+    name: syslinux-tftpboot.noarch
+    state: present
+
+- name: Create /var/lib/tftpboot/pxelinux
+  shell: |
+    mkdir -p /usr/share/nginx/html/pxelinux.cfg
+    mkdir -p /home/vagrant/cfg
+    exit 0
+# /usr/share/nginx/html/
+# /var/lib/tftpboot/pxelinux_/
+- name: Burn /usr/share/nginx/html/pxelinux.0
+  copy:
+    src: ../files/var/lib/tftpboot/pxelinux/pxelinux.0
+    dest: /usr/share/nginx/html/pxelinux.0
+
+- name: Burn /usr/share/nginx/html/libutil.c32
+  copy:
+    src: ../files/var/lib/tftpboot/pxelinux/libutil.c32
+    dest: /usr/share/nginx/html/libutil.c32
+
+- name: Burn /usr/share/nginx/html/menu.c32
+  copy:
+    src: ../files/var/lib/tftpboot/pxelinux/menu.c32
+    dest: /usr/share/nginx/html/menu.c32
+
+- name: Burn /usr/share/nginx/html/libmenu.c32
+  copy:
+    src: ../files/var/lib/tftpboot/pxelinux/libmenu.c32
+    dest: /usr/share/nginx/html/libmenu.c32
+
+- name: Burn /usr/share/nginx/html/ldlinux.c32
+  copy:
+    src: ../files/var/lib/tftpboot/pxelinux/ldlinux.c32
+    dest: /usr/share/nginx/html/ldlinux.c32
+
+- name: Burn /usr/share/nginx/html/vesamenu.c32
+  copy:
+    src: ../files/var/lib/tftpboot/pxelinux/vesamenu.c32
+    dest: /usr/share/nginx/html/vesamenu.c32
+
+- name: Burn pxelinux.cfg/default
+  copy:
+    src: ../files/var/lib/tftpboot/pxelinux/pxelinux.cfg/default
+    dest: /usr/share/nginx/html/pxelinux.cfg/default
+
+- name: Burn vmlinuz and initrd.img
+  shell: |
+    mkdir -p /usr/share/nginx/html/images/CentOS-8/
+    curl -O http://ftp.mgts.by/pub/CentOS/${centos_version}/BaseOS/x86_64/os/images/pxeboot/initrd.img
+    curl -O http://ftp.mgts.by/pub/CentOS/${centos_version}/BaseOS/x86_64/os/images/pxeboot/vmlinuz
+    mv {vmlinuz,initrd.img} /usr/share/nginx/html/images/CentOS-8/
+    exit 0
+  ignore_errors: false
+
+- name: Mount `dvd.iso` image
+  shell: |
+    curl -O http://ftp.mgts.by/pub/CentOS/${centos_version}/isos/x86_64/CentOS-$centos_version-x86_64-dvd1.iso
+    mkdir /mnt/centos8-install
+    mount -t iso9660 CentOS-${centos_version}-x86_64-dvd1.iso /mnt/centos8-install
+    echo '/mnt/centos8-install *(ro)' > /etc/exports
+    exit 0
+  ignore_errors: false
+  notify:
+    - systemctl-restart-nfs-server
+
+- name: Burn /home/vagrant/cfg/ks.cfg
+  copy:
+    src: ../files/home/vagrant/cfg/ks.cfg
+    dest: /home/vagrant/cfg/ks.cfg
+
+- name: Bump
+  shell: |
+    echo 'Done'
+    exit 0
+  notify:
+    - systemctl-restart-nfs-server

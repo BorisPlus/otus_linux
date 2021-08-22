@@ -1,0 +1,7 @@
+---
+- name: Playbook of "PXE server"
+  hosts:
+    - pxeserver
+  become: yes
+  roles:
+    - role: '../roles/pxeserver'

@@ -1,0 +1,2 @@
+/mnt/centos8-install *(ro)
+/home/vagrant/cfg *(ro)
