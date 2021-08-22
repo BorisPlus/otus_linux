@@ -1,1 +1,1 @@
-pxeserver ansible_ssh_host=127.0.0.1 ansible_ssh_user=vagrant ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_ssh_private_key_file=/home/b/pycharm_projects_2021_2/otus_linux/027_tobe/vm/.vagrant/machines/pxeserver/virtualbox/private_key ansible_ssh_port=2222
+pxeserver ansible_ssh_host=127.0.0.1 ansible_ssh_user=vagrant ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_ssh_private_key_file=/home/b/pycharm_projects_2021_2/otus_linux/027_tobe/vm/.vagrant/machines/pxeserver/virtualbox/private_key ansible_ssh_port=2222 ansible_ssh_transfer_method=scp
