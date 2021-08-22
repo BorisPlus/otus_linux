@@ -1,1 +1,17 @@
-networks_hosts: 8.3.2011
+centos_version: 8.3.2011
+# mnt_dir: /mnt
+mnt_dir: /usr/share/nginx/html/
+#public_mnt_dir: http://127.0.0.1/
+public_mnt_dir: http://10.0.0.20/
+#
+pxelinux_dir: /usr/share/nginx/html
+pxelinux_cfg_dir: /usr/share/nginx/html/pxelinux.cfg
+pxelinux_images_dir: /usr/share/nginx/html/images/CentOS-8
+# exports_dir: /etc
+exports_dir: /usr/share/nginx/html/
+#public_exports_dir: http://127.0.0.1/
+public_exports_dir: http://10.0.0.20/
+# ks_cfg_dir: /home/vagrant/cfg
+ks_cfg_dir: /usr/share/nginx/html/cfg
+#public_ks_cfg_dir: http://127.0.0.1/
+public_ks_cfg_dir: http://10.0.0.20/

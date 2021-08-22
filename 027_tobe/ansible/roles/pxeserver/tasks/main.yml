@@ -44,89 +44,146 @@
     dest: /etc/dhcp/dhcpd.conf
   notify:
     - systemctl-restart-dhcpd
+  tags:
+    - dhcpd.conf
 
-- name: Burn /etc/exports
-  copy:
-    src: ../files/etc/exports
-    dest: /etc/exports
-  notify:
-    - systemctl-restart-dhcpd
+#- name: Burn /etc/exports
+#  copy:
+#    src: ../files/etc/exports
+#    dest: ${ exports_file }
+#  notify:
+#    - systemctl-restart-dhcpd
 
 - name: Install syslinux-tftpboot.noarch
   yum:
     name: syslinux-tftpboot.noarch
     state: present
 
-- name: Create /var/lib/tftpboot/pxelinux
+- name: Create pxelinux cfg dir
   shell: |
-    mkdir -p /usr/share/nginx/html/pxelinux.cfg
-    mkdir -p /home/vagrant/cfg
+    mkdir -p {{ pxelinux_images_dir }}
+    mkdir -p {{ pxelinux_cfg_dir }}
+    mkdir -p {{ ks_cfg_dir }}
     exit 0
+
 # /usr/share/nginx/html/
 # /var/lib/tftpboot/pxelinux_/
-- name: Burn /usr/share/nginx/html/pxelinux.0
+- 
+- name: Burn pxelinux.0
   copy:
     src: ../files/var/lib/tftpboot/pxelinux/pxelinux.0
-    dest: /usr/share/nginx/html/pxelinux.0
+    dest: "{{ pxelinux_dir }}/pxelinux.0"
 
-- name: Burn /usr/share/nginx/html/libutil.c32
+- name: Burn libutil.c32
   copy:
     src: ../files/var/lib/tftpboot/pxelinux/libutil.c32
-    dest: /usr/share/nginx/html/libutil.c32
+    dest: "{{ pxelinux_dir }}/libutil.c32"
 
-- name: Burn /usr/share/nginx/html/menu.c32
+- name: Burn menu.c32
   copy:
     src: ../files/var/lib/tftpboot/pxelinux/menu.c32
-    dest: /usr/share/nginx/html/menu.c32
+    dest: "{{ pxelinux_dir }}/menu.c32"
 
-- name: Burn /usr/share/nginx/html/libmenu.c32
+- name: Burn libmenu.c32
   copy:
     src: ../files/var/lib/tftpboot/pxelinux/libmenu.c32
-    dest: /usr/share/nginx/html/libmenu.c32
+    dest: "{{ pxelinux_dir }}/libmenu.c32"
 
-- name: Burn /usr/share/nginx/html/ldlinux.c32
+- name: Burn ldlinux.c32
   copy:
     src: ../files/var/lib/tftpboot/pxelinux/ldlinux.c32
-    dest: /usr/share/nginx/html/ldlinux.c32
+    dest: "{{ pxelinux_dir }}/ldlinux.c32"
 
-- name: Burn /usr/share/nginx/html/vesamenu.c32
+- name: Burn vesamenu.c32
   copy:
     src: ../files/var/lib/tftpboot/pxelinux/vesamenu.c32
-    dest: /usr/share/nginx/html/vesamenu.c32
+    dest: "{{ pxelinux_dir }}/vesamenu.c32"
 
 - name: Burn pxelinux.cfg/default
   copy:
     src: ../files/var/lib/tftpboot/pxelinux/pxelinux.cfg/default
-    dest: /usr/share/nginx/html/pxelinux.cfg/default
+    dest: "{{ pxelinux_cfg_dir }}/default"
+  tags:
+    - pxelinux.cfg-default
 
-- name: Burn vmlinuz and initrd.img
+
+#- name: Burn vmlinuz and initrd.img
+#  shell: |
+#    mkdir -p /usr/share/nginx/html/images/CentOS-8/
+#    curl -O http://ftp.mgts.by/pub/CentOS/{{ centos_version }}/BaseOS/x86_64/os/images/pxeboot/initrd.img
+#    curl -O http://ftp.mgts.by/pub/CentOS/{{ centos_version }}/BaseOS/x86_64/os/images/pxeboot/vmlinuz
+#    mv {vmlinuz,initrd.img} {{ pxelinux_dir }}/images/CentOS-8/
+#    exit 0
+
+- name: Burn initrd.img
+  copy:
+    src: ../files/iso/initrd.img
+    dest: "{{ pxelinux_images_dir }}/initrd.img"
+
+- name: Burn vmlinuz
+  copy:
+    src: ../files/iso/vmlinuz
+    dest: "{{ pxelinux_images_dir }}/vmlinuz"
+
+#- name: Mount `dvd.iso` image
+#  shell: |
+#    curl -O http://ftp.mgts.by/pub/CentOS/{{ centos_version }}/isos/x86_64/CentOS-{{ centos_version }}-x86_64-dvd1.iso
+#    mkdir {{ mnt_dir }}/centos8-install
+#    mount -t iso9660 CentOS-{{ centos_version }}-x86_64-dvd1.iso {{ mnt_dir }}/centos8-install
+#    echo '{{ public_mnt_dir }}/centos8-install *(ro)' > {{ exports_file }}
+#    exit 0
+#  ignore_errors: false
+#  notify:
+#    - systemctl-restart-nfs-server
+
+# sftp transfer mechanism failed on [127.0.0.1]. Use ANSIBLE_DEBUG=1 to see detailed information
+- name: Burn image.iso
+  copy:
+    src: ../files/iso/image.iso
+    dest: "{{ pxelinux_images_dir }}/image.iso"
+
+- name: Mount `image.iso`
   shell: |
-    mkdir -p /usr/share/nginx/html/images/CentOS-8/
-    curl -O http://ftp.mgts.by/pub/CentOS/${centos_version}/BaseOS/x86_64/os/images/pxeboot/initrd.img
-    curl -O http://ftp.mgts.by/pub/CentOS/${centos_version}/BaseOS/x86_64/os/images/pxeboot/vmlinuz
-    mv {vmlinuz,initrd.img} /usr/share/nginx/html/images/CentOS-8/
+    mkdir -p {{ mnt_dir }}/centos8-install
+    mount -t iso9660 {{ pxelinux_images_dir }}/image.iso {{ mnt_dir }}/centos8-install
+    echo '{{ public_exports_dir }}/centos8-install *(ro)' > {{ exports_dir }}/exports
     exit 0
   ignore_errors: false
+  notify:
+    - restart nginx
+
+#autoinstall(){
+#  # to speedup replace URL with closest mirror
+#  curl -O http://ftp.mgts.by/pub/CentOS/$centos_version/BaseOS/x86_64/os/images/boot.iso
+#  mkdir /mnt/centos8-autoinstall
+#  mount -t iso9660 boot.iso /mnt/centos8-autoinstall
+#  echo '/mnt/centos8-autoinstall *(ro)' >> /etc/exports
+#  mkdir /home/vagrant/cfg
+
+- name: Burn boot.iso
+  copy:
+    src: ../files/iso/boot.iso
+    dest: "{{ pxelinux_images_dir }}/boot.iso"
+
+- name: Mount `boot.iso` image
+  shell: |
+    mkdir -p {{ mnt_dir }}/centos8-autoinstall
+    mount -t iso9660 {{ pxelinux_images_dir }}/boot.iso {{ mnt_dir }}/centos8-autoinstall
+    echo '{{ public_exports_dir }}/centos8-autoinstall *(ro)' >> {{ exports_dir }}/exports
+    exit 0
+  ignore_errors: false
+  notify:
+    - restart nginx
+
+- name: Burn ks.cfg
+  copy:
+    src: ../files/home/vagrant/cfg/ks.cfg
+    dest: "{{ ks_cfg_dir }}/ks.cfg"
 
 - name: Mount `dvd.iso` image
   shell: |
-    curl -O http://ftp.mgts.by/pub/CentOS/${centos_version}/isos/x86_64/CentOS-$centos_version-x86_64-dvd1.iso
-    mkdir /mnt/centos8-install
-    mount -t iso9660 CentOS-${centos_version}-x86_64-dvd1.iso /mnt/centos8-install
-    echo '/mnt/centos8-install *(ro)' > /etc/exports
+    echo '{{ public_ks_cfg_dir }} *(ro)' >> {{ exports_dir }}/exports
     exit 0
   ignore_errors: false
   notify:
-    - systemctl-restart-nfs-server
-
-- name: Burn /home/vagrant/cfg/ks.cfg
-  copy:
-    src: ../files/home/vagrant/cfg/ks.cfg
-    dest: /home/vagrant/cfg/ks.cfg
-
-- name: Bump
-  shell: |
-    echo 'Done'
-    exit 0
-  notify:
-    - systemctl-restart-nfs-server
+    - restart nginx
