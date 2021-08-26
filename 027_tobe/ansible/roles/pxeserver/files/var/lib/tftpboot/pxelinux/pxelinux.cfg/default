@@ -13,7 +13,7 @@ LABEL linux
 LABEL linux-auto
   menu label ^Auto install system
   kernel images/CentOS-8/vmlinuz
-  append initrd=images/CentOS-8/initrd.img ip=enp0s3:dhcp inst.ks=http://10.0.0.20/cfg/ks.cfg inst.repo=http://10.0.0.20/centos8-autoinstall
+  append initrd=images/CentOS-8/initrd.img ip=enp0s3:dhcp inst.ks=http://10.0.0.20/cfg/ks.cfg inst.repo=http://10.0.0.20/centos8-install
 LABEL vesa
   menu label Install system with ^basic video driver
   kernel images/CentOS-8/vmlinuz

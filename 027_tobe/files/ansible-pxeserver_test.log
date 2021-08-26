@@ -1,0 +1,137 @@
+
+PLAY [Playbook of "PXE server"] ************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [pxeserver]
+
+TASK [../roles/pxeserver_test : check files available at local] ****************
+changed: [pxeserver] => (item=/usr/share/nginx/html/pxelinux.0)
+changed: [pxeserver] => (item=/usr/share/nginx/html/libutil.c32)
+changed: [pxeserver] => (item=/usr/share/nginx/html/menu.c32)
+changed: [pxeserver] => (item=/usr/share/nginx/html/libmenu.c32)
+changed: [pxeserver] => (item=/usr/share/nginx/html/ldlinux.c32)
+changed: [pxeserver] => (item=/usr/share/nginx/html/vesamenu.c32)
+changed: [pxeserver] => (item=/usr/share/nginx/html/exports)
+changed: [pxeserver] => (item=/usr/share/nginx/html/pxelinux.cfg/default)
+changed: [pxeserver] => (item=/usr/share/nginx/html/centos8-install/LICENSE)
+changed: [pxeserver] => (item=/usr/share/nginx/html/cfg/ks.cfg)
+changed: [pxeserver] => (item=/usr/share/nginx/html/images/CentOS-8/initrd.img)
+changed: [pxeserver] => (item=/usr/share/nginx/html/images/CentOS-8/vmlinuz)
+
+TASK [../roles/pxeserver_test : check pages available on http://127.0.0.1/] ****
+ok: [pxeserver] => (item=pxelinux.0)
+ok: [pxeserver] => (item=libutil.c32)
+ok: [pxeserver] => (item=menu.c32)
+ok: [pxeserver] => (item=libmenu.c32)
+ok: [pxeserver] => (item=ldlinux.c32)
+ok: [pxeserver] => (item=vesamenu.c32)
+ok: [pxeserver] => (item=exports)
+ok: [pxeserver] => (item=pxelinux.cfg/default)
+ok: [pxeserver] => (item=centos8-install/LICENSE)
+ok: [pxeserver] => (item=cfg/ks.cfg)
+ok: [pxeserver] => (item=images/CentOS-8/initrd.img)
+ok: [pxeserver] => (item=images/CentOS-8/vmlinuz)
+
+TASK [../roles/pxeserver_test : check pages available on http://10.0.0.20/] ****
+ok: [pxeserver] => (item=pxelinux.0)
+ok: [pxeserver] => (item=libutil.c32)
+ok: [pxeserver] => (item=menu.c32)
+ok: [pxeserver] => (item=libmenu.c32)
+ok: [pxeserver] => (item=ldlinux.c32)
+ok: [pxeserver] => (item=vesamenu.c32)
+ok: [pxeserver] => (item=exports)
+ok: [pxeserver] => (item=pxelinux.cfg/default)
+ok: [pxeserver] => (item=centos8-install/LICENSE)
+ok: [pxeserver] => (item=cfg/ks.cfg)
+ok: [pxeserver] => (item=images/CentOS-8/initrd.img)
+ok: [pxeserver] => (item=images/CentOS-8/vmlinuz)
+
+TASK [../roles/pxeserver_test : check files content] ***************************
+changed: [pxeserver] => (item=/usr/share/nginx/html/exports)
+changed: [pxeserver] => (item=/usr/share/nginx/html/pxelinux.cfg/default)
+changed: [pxeserver] => (item=/usr/share/nginx/html/cfg/ks.cfg)
+
+TASK [../roles/pxeserver_test : check files content] ***************************
+ok: [pxeserver] => (item={'cmd': ['/bin/cat', '/usr/share/nginx/html/exports'], 'stdout': 'http://10.0.0.20//centos8-install *(ro)', 'stderr': '', 'rc': 0, 'start': '2021-08-26 21:20:23.062824', 'end': '2021-08-26 21:20:23.074046', 'delta': '0:00:00.011222', 'changed': True, 'invocation': {'module_args': {'_raw_params': '/bin/cat /usr/share/nginx/html/exports', '_uses_shell': False, 'warn': False, 'stdin_add_newline': True, 'strip_empty_ends': True, 'argv': None, 'chdir': None, 'executable': None, 'creates': None, 'removes': None, 'stdin': None}}, 'stdout_lines': ['http://10.0.0.20//centos8-install *(ro)'], 'stderr_lines': [], 'failed': False, 'item': '/usr/share/nginx/html/exports', 'ansible_loop_var': 'item'}) => {
+    "msg": [
+        "http://10.0.0.20//centos8-install *(ro)"
+    ]
+}
+ok: [pxeserver] => (item={'cmd': ['/bin/cat', '/usr/share/nginx/html/pxelinux.cfg/default'], 'stdout': '\ndefault menu\nprompt 0\ntimeout 600\n\nMENU TITLE PXE setup over HTTP\n\nLABEL linux\n  menu label ^Install system\n  menu default\n  kernel images/CentOS-8/vmlinuz\n  append initrd=images/CentOS-8/initrd.img ip=enp0s3:dhcp inst.repo=http://10.0.0.20/centos8-install\nLABEL linux-auto\n  menu label ^Auto install system\n  kernel images/CentOS-8/vmlinuz\n  append initrd=images/CentOS-8/initrd.img ip=enp0s3:dhcp inst.ks=http://10.0.0.20/cfg/ks.cfg inst.repo=http://10.0.0.20/centos8-install\nLABEL vesa\n  menu label Install system with ^basic video driver\n  kernel images/CentOS-8/vmlinuz\n  append initrd=images/CentOS-8/initrd.img ip=dhcp inst.xdriver=vesa nomodeset\nLABEL rescue\n  menu label ^Rescue installed system\n  kernel images/CentOS-8/vmlinuz\n  append initrd=images/CentOS-8/initrd.img rescue\nLABEL local\n  menu label Boot from ^local drive\n  localboot 0xffff', 'stderr': '', 'rc': 0, 'start': '2021-08-26 21:20:23.781266', 'end': '2021-08-26 21:20:23.788257', 'delta': '0:00:00.006991', 'changed': True, 'invocation': {'module_args': {'_raw_params': '/bin/cat /usr/share/nginx/html/pxelinux.cfg/default', '_uses_shell': False, 'warn': False, 'stdin_add_newline': True, 'strip_empty_ends': True, 'argv': None, 'chdir': None, 'executable': None, 'creates': None, 'removes': None, 'stdin': None}}, 'stdout_lines': ['', 'default menu', 'prompt 0', 'timeout 600', '', 'MENU TITLE PXE setup over HTTP', '', 'LABEL linux', '  menu label ^Install system', '  menu default', '  kernel images/CentOS-8/vmlinuz', '  append initrd=images/CentOS-8/initrd.img ip=enp0s3:dhcp inst.repo=http://10.0.0.20/centos8-install', 'LABEL linux-auto', '  menu label ^Auto install system', '  kernel images/CentOS-8/vmlinuz', '  append initrd=images/CentOS-8/initrd.img ip=enp0s3:dhcp inst.ks=http://10.0.0.20/cfg/ks.cfg inst.repo=http://10.0.0.20/centos8-install', 'LABEL vesa', '  menu label Install system with ^basic video driver', '  kernel images/CentOS-8/vmlinuz', '  append initrd=images/CentOS-8/initrd.img ip=dhcp inst.xdriver=vesa nomodeset', 'LABEL rescue', '  menu label ^Rescue installed system', '  kernel images/CentOS-8/vmlinuz', '  append initrd=images/CentOS-8/initrd.img rescue', 'LABEL local', '  menu label Boot from ^local drive', '  localboot 0xffff'], 'stderr_lines': [], 'failed': False, 'item': '/usr/share/nginx/html/pxelinux.cfg/default', 'ansible_loop_var': 'item'}) => {
+    "msg": [
+        "",
+        "default menu",
+        "prompt 0",
+        "timeout 600",
+        "",
+        "MENU TITLE PXE setup over HTTP",
+        "",
+        "LABEL linux",
+        "  menu label ^Install system",
+        "  menu default",
+        "  kernel images/CentOS-8/vmlinuz",
+        "  append initrd=images/CentOS-8/initrd.img ip=enp0s3:dhcp inst.repo=http://10.0.0.20/centos8-install",
+        "LABEL linux-auto",
+        "  menu label ^Auto install system",
+        "  kernel images/CentOS-8/vmlinuz",
+        "  append initrd=images/CentOS-8/initrd.img ip=enp0s3:dhcp inst.ks=http://10.0.0.20/cfg/ks.cfg inst.repo=http://10.0.0.20/centos8-install",
+        "LABEL vesa",
+        "  menu label Install system with ^basic video driver",
+        "  kernel images/CentOS-8/vmlinuz",
+        "  append initrd=images/CentOS-8/initrd.img ip=dhcp inst.xdriver=vesa nomodeset",
+        "LABEL rescue",
+        "  menu label ^Rescue installed system",
+        "  kernel images/CentOS-8/vmlinuz",
+        "  append initrd=images/CentOS-8/initrd.img rescue",
+        "LABEL local",
+        "  menu label Boot from ^local drive",
+        "  localboot 0xffff"
+    ]
+}
+ok: [pxeserver] => (item={'cmd': ['/bin/cat', '/usr/share/nginx/html/cfg/ks.cfg'], 'stdout': '#version=RHEL8\nignoredisk --only-use=sda\nautopart --type=lvm\n# Partition clearing information\nclearpart --all --initlabel --drives=sda\n# Use graphical install\ngraphical\n# Keyboard layouts\nkeyboard --vckeymap=us --xlayouts=\'us\'\n# System language\nlang en_US.UTF-8\n#repo\n#url --url=http://ftp.mgts.by/pub/CentOS/${centos_version}/BaseOS/x86_64/os/\n# Network information\nnetwork  --bootproto=dhcp --device=enp0s3 --ipv6=auto --activate\nnetwork  --bootproto=dhcp --device=enp0s8 --onboot=off --ipv6=auto --activate\nnetwork  --hostname=localhost.localdomain\n# Root password\nrootpw --iscrypted $6$g4WYvaAf1mNKnqjY$w2MtZxP/Yj6MYQOhPXS2rJlYT200DcBQC5KGWQ8gG32zASYYLUzoONIYVdRAr4tu/GbtB48.dkif.1f25pqeh.\n# Run the Setup Agent on first boot\nfirstboot --enable\n# Do not configure the X Window System\nskipx\n# System services\nservices --enabled="chronyd"\n# System timezone\ntimezone America/New_York --isUtc\nuser --groups=wheel --name=val --password=$6$ihX1bMEoO3TxaCiL$OBDSCuY.EpqPmkFmMPVvI3JZlCVRfC4Nw6oUoPG0RGuq2g5BjQBKNboPjM44.0lJGBc7OdWlL17B3qzgHX2v// --iscrypted --gecos="val"\n%packages\n@^minimal-environment\nkexec-tools\n%end\n%addon com_redhat_kdump --enable --reserve-mb=\'auto\'\n%end\n%anaconda\npwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty\npwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok\npwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty\n%end', 'stderr': '', 'rc': 0, 'start': '2021-08-26 21:20:24.487692', 'end': '2021-08-26 21:20:24.494443', 'delta': '0:00:00.006751', 'changed': True, 'invocation': {'module_args': {'_raw_params': '/bin/cat /usr/share/nginx/html/cfg/ks.cfg', '_uses_shell': False, 'warn': False, 'stdin_add_newline': True, 'strip_empty_ends': True, 'argv': None, 'chdir': None, 'executable': None, 'creates': None, 'removes': None, 'stdin': None}}, 'stdout_lines': ['#version=RHEL8', 'ignoredisk --only-use=sda', 'autopart --type=lvm', '# Partition clearing information', 'clearpart --all --initlabel --drives=sda', '# Use graphical install', 'graphical', '# Keyboard layouts', "keyboard --vckeymap=us --xlayouts='us'", '# System language', 'lang en_US.UTF-8', '#repo', '#url --url=http://ftp.mgts.by/pub/CentOS/${centos_version}/BaseOS/x86_64/os/', '# Network information', 'network  --bootproto=dhcp --device=enp0s3 --ipv6=auto --activate', 'network  --bootproto=dhcp --device=enp0s8 --onboot=off --ipv6=auto --activate', 'network  --hostname=localhost.localdomain', '# Root password', 'rootpw --iscrypted $6$g4WYvaAf1mNKnqjY$w2MtZxP/Yj6MYQOhPXS2rJlYT200DcBQC5KGWQ8gG32zASYYLUzoONIYVdRAr4tu/GbtB48.dkif.1f25pqeh.', '# Run the Setup Agent on first boot', 'firstboot --enable', '# Do not configure the X Window System', 'skipx', '# System services', 'services --enabled="chronyd"', '# System timezone', 'timezone America/New_York --isUtc', 'user --groups=wheel --name=val --password=$6$ihX1bMEoO3TxaCiL$OBDSCuY.EpqPmkFmMPVvI3JZlCVRfC4Nw6oUoPG0RGuq2g5BjQBKNboPjM44.0lJGBc7OdWlL17B3qzgHX2v// --iscrypted --gecos="val"', '%packages', '@^minimal-environment', 'kexec-tools', '%end', "%addon com_redhat_kdump --enable --reserve-mb='auto'", '%end', '%anaconda', 'pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty', 'pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok', 'pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty', '%end'], 'stderr_lines': [], 'failed': False, 'item': '/usr/share/nginx/html/cfg/ks.cfg', 'ansible_loop_var': 'item'}) => {
+    "msg": [
+        "#version=RHEL8",
+        "ignoredisk --only-use=sda",
+        "autopart --type=lvm",
+        "# Partition clearing information",
+        "clearpart --all --initlabel --drives=sda",
+        "# Use graphical install",
+        "graphical",
+        "# Keyboard layouts",
+        "keyboard --vckeymap=us --xlayouts='us'",
+        "# System language",
+        "lang en_US.UTF-8",
+        "#repo",
+        "#url --url=http://ftp.mgts.by/pub/CentOS/${centos_version}/BaseOS/x86_64/os/",
+        "# Network information",
+        "network  --bootproto=dhcp --device=enp0s3 --ipv6=auto --activate",
+        "network  --bootproto=dhcp --device=enp0s8 --onboot=off --ipv6=auto --activate",
+        "network  --hostname=localhost.localdomain",
+        "# Root password",
+        "rootpw --iscrypted $6$g4WYvaAf1mNKnqjY$w2MtZxP/Yj6MYQOhPXS2rJlYT200DcBQC5KGWQ8gG32zASYYLUzoONIYVdRAr4tu/GbtB48.dkif.1f25pqeh.",
+        "# Run the Setup Agent on first boot",
+        "firstboot --enable",
+        "# Do not configure the X Window System",
+        "skipx",
+        "# System services",
+        "services --enabled=\"chronyd\"",
+        "# System timezone",
+        "timezone America/New_York --isUtc",
+        "user --groups=wheel --name=val --password=$6$ihX1bMEoO3TxaCiL$OBDSCuY.EpqPmkFmMPVvI3JZlCVRfC4Nw6oUoPG0RGuq2g5BjQBKNboPjM44.0lJGBc7OdWlL17B3qzgHX2v// --iscrypted --gecos=\"val\"",
+        "%packages",
+        "@^minimal-environment",
+        "kexec-tools",
+        "%end",
+        "%addon com_redhat_kdump --enable --reserve-mb='auto'",
+        "%end",
+        "%anaconda",
+        "pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty",
+        "pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok",
+        "pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty",
+        "%end"
+    ]
+}
+
+PLAY RECAP *********************************************************************
+pxeserver                  : ok=6    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

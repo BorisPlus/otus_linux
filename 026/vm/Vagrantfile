@@ -103,3 +103,11 @@ Vagrant.configure("2") do |config|
     end
 end
 
+case boxname.to_s
+            when "hw027server"
+                box.vm.provision "shell", run: "always", inline: <<-SHELL
+                    box.vm.box = "centos/7"
+                    box.vm.synced_folder "vm.files/etc/dhcp", "/etc/dhcp"
+                    box.vm.synced_folder "vm.files/iso", "/media/iso"
+                SHELL
+            end

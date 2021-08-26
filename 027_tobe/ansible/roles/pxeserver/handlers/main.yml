@@ -3,11 +3,11 @@
   systemd:
     state: restarted
     name: dhcpd
-
-- name: systemctl-restart-nfs-server
-  systemd:
-    state: restarted
-    name: nfs-server
+#
+#- name: systemctl-restart-nfs-server
+#  systemd:
+#    state: restarted
+#    name: nfs-server
 
 - name: enable nginx
   systemd:

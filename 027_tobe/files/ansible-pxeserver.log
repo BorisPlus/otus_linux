@@ -1,0 +1,67 @@
+
+PLAY [Playbook of "PXE server"] ************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [pxeserver]
+
+TASK [../roles/pxeserver : Install EPEL Repo package from standart repo] *******
+changed: [pxeserver]
+
+TASK [../roles/pxeserver : Install DHCP-server] ********************************
+changed: [pxeserver]
+
+TASK [../roles/pxeserver : Install tftp-server] ********************************
+changed: [pxeserver]
+
+TASK [../roles/pxeserver : Install nginx] **************************************
+changed: [pxeserver]
+
+TASK [../roles/pxeserver : Configure nginx] ************************************
+changed: [pxeserver]
+
+TASK [../roles/pxeserver : Firewall and SELinix configure] *********************
+changed: [pxeserver]
+
+TASK [../roles/pxeserver : Burn /etc/dhcp/dhcpd.conf] **************************
+changed: [pxeserver]
+
+TASK [../roles/pxeserver : Create directories] *********************************
+changed: [pxeserver] => (item=/usr/share/nginx/html/images/CentOS-8)
+changed: [pxeserver] => (item=/usr/share/nginx/html/pxelinux.cfg)
+changed: [pxeserver] => (item=/usr/share/nginx/html/cfg)
+
+TASK [../roles/pxeserver : Burn files from syslinux-tftpboot-6.04-4.el8.noarch.rpm] ***
+changed: [pxeserver] => (item=ldlinux.c32)
+changed: [pxeserver] => (item=libcom32.c32)
+changed: [pxeserver] => (item=libmenu.c32)
+changed: [pxeserver] => (item=libutil.c32)
+changed: [pxeserver] => (item=menu.c32)
+changed: [pxeserver] => (item=pxelinux.0)
+changed: [pxeserver] => (item=vesamenu.c32)
+
+TASK [../roles/pxeserver : Burn pxelinux.cfg/default] **************************
+changed: [pxeserver]
+
+TASK [../roles/pxeserver : Burn initrd.img and vmlinuz] ************************
+changed: [pxeserver] => (item=initrd.img)
+changed: [pxeserver] => (item=vmlinuz)
+changed: [pxeserver] => (item=minimal.iso)
+
+TASK [../roles/pxeserver : Mount `minimal.iso`] ********************************
+changed: [pxeserver]
+
+TASK [../roles/pxeserver : Burn ks.cfg] ****************************************
+changed: [pxeserver]
+
+RUNNING HANDLER [../roles/pxeserver : systemctl-restart-dhcpd] *****************
+changed: [pxeserver]
+
+RUNNING HANDLER [../roles/pxeserver : start nginx] *****************************
+changed: [pxeserver]
+
+RUNNING HANDLER [../roles/pxeserver : restart nginx] ***************************
+changed: [pxeserver]
+
+PLAY RECAP *********************************************************************
+pxeserver                  : ok=17   changed=16   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
