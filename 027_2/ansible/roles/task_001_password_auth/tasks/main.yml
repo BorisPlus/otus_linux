@@ -1,0 +1,28 @@
+---
+- name: /etc/ssh/sshd_config | content
+  command: /bin/cat /etc/ssh/sshd_config
+  register: sshd_config_content
+
+- name: /etc/ssh/sshd_config | PasswordAuthentication yes | if it does not set up
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysctl.conf
+    line: "PasswordAuthentication yes"
+  when: not sshd_config_content is search("PasswordAuthentication")
+  notify:
+    - systemctl-restart-sshd
+  tags:
+    - pwd-auth-yes
+
+- name: /etc/ssh/sshd_config | PasswordAuthentication yes | if it was set up early
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: 'PasswordAuthentication \w*'
+    replace: 'PasswordAuthentication yes'
+  when: sshd_config_content is search("PasswordAuthentication")
+  notify:
+    - systemctl-restart-sshd
+  tags:
+    - sshd-pwd-auth-yes
+#iptables -A INPUT -p tcp --dport 22 --source 192.168.255.2/32 -j ACCEPT
+#iptables -A INPUT -p tcp --dport 22 -j DROP

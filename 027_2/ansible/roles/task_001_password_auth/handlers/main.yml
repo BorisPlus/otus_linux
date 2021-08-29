@@ -1,0 +1,5 @@
+---
+- name: systemctl-restart-sshd
+  systemd:
+    state: restarted
+    name: sshd

@@ -2,6 +2,7 @@
 - name: Playbook of ethX gateway config
   hosts:
     - inetRouter
+    - inetRouterSecond
     - centralRouter
     - centralServer
   become: yes

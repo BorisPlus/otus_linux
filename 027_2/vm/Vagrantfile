@@ -6,22 +6,20 @@ MACHINES = {
         :box_name => "centos/7",
         # :public => {:ip => '10.10.10.1', :adapter => 1, :bridge => "enp4s0"},
         :net => [
-            {ip: '192.168.255.1',   adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "inet-router-net"},
+            {ip: '192.168.255.1',   adapter: 2, netmask: "255.255.255.240", virtualbox__intnet: "inet-router-net"},
         ]
     },
-    #:inetRouter2 => {
-    #    :box_name => "centos/7",
-    #    #:public => {:ip => '10.10.10.2', :adapter => 1},
-    ##    :net => [
-    #        {ip: '192.168.100.1',   adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "central-router2-net"},
-    #    ]
-    #},
+    :inetRouterSecond => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.255.3',   adapter: 2, netmask: "255.255.255.240", virtualbox__intnet: "inet-router-net"},
+        ]
+    },
     :centralRouter => {
         :box_name => "centos/7",
         :net => [
             {ip: '192.168.255.2',   adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "inet-router-net"},
             {ip: '192.168.0.1',     adapter: 3, netmask: "255.255.255.252", virtualbox__intnet: "central-router-net"},
-            # {ip: '192.168.100.2',   adapter: 4, netmask: "255.255.255.252", virtualbox__intnet: "inet-router2-net"},
         ]
     },
     :centralServer => {

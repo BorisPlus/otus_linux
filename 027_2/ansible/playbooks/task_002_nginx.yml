@@ -1,0 +1,7 @@
+---
+- name: Deploy nginx
+  hosts:
+    - centralServer
+  become: true
+  roles:
+    - role: '../roles/task_002_nginx'

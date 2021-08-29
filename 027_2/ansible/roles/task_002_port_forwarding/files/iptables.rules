@@ -1,0 +1,4 @@
+*nat
+-A PREROUTING  -j DNAT -p tcp -m tcp --dport 8080 --to-destination  192.168.0.2:80
+-A POSTROUTING -j SNAT -p tcp -m tcp --dport 80   --to-source       192.168.255.3
+COMMIT

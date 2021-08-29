@@ -1,0 +1,7 @@
+---
+- name: Configure port-knocking target
+  hosts:
+    - inetRouter
+  become: true
+  roles:
+    - role: '../roles/task_001_port_knocking_target'

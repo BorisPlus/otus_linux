@@ -1,0 +1,7 @@
+---
+- name: Set up port-knocking client program
+  hosts:
+    - centralRouter
+  become: true
+  roles:
+    - role: '../roles/task_001_port_knocking_client'

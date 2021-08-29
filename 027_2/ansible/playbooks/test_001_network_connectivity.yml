@@ -2,6 +2,7 @@
 - name: Playbook of tests
   hosts:
     - inetRouter
+    - inetRouterSecond
     - centralRouter
     - centralServer
   roles:
