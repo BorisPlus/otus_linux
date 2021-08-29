@@ -1,0 +1,75 @@
+# -*- mode: ruby -*-
+# vim: set ft=ruby :
+
+MACHINES = {
+    :inetRouter => {
+        :box_name => "centos/7",
+        # :public => {:ip => '10.10.10.1', :adapter => 1, :bridge => "enp4s0"},
+        :net => [
+            {ip: '192.168.255.1',   adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "inet-router-net"},
+        ]
+    },
+    #:inetRouter2 => {
+    #    :box_name => "centos/7",
+    #    #:public => {:ip => '10.10.10.2', :adapter => 1},
+    ##    :net => [
+    #        {ip: '192.168.100.1',   adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "central-router2-net"},
+    #    ]
+    #},
+    :centralRouter => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.255.2',   adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "inet-router-net"},
+            {ip: '192.168.0.1',     adapter: 3, netmask: "255.255.255.252", virtualbox__intnet: "central-router-net"},
+            # {ip: '192.168.100.2',   adapter: 4, netmask: "255.255.255.252", virtualbox__intnet: "inet-router2-net"},
+        ]
+    },
+    :centralServer => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.0.2',     adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "central-router-net"},
+        ]
+    },
+}
+
+Vagrant.configure("2") do |config|
+
+    MACHINES.each do |boxname, boxconfig|
+        config.gatling.rsync_on_startup = false
+        config.vm.define boxname do |box|
+            box.vm.provision "shell", run: "always", inline: <<-SHELL
+
+                systemctl stop NetworkManager
+                systemctl disable NetworkManager
+                systemctl enable network.service
+                systemctl start network.service
+
+                yum install -y traceroute
+                yum install -y nano
+            SHELL
+
+            config.vm.provider "virtualbox" do |v|
+                v.memory = 256
+                v.cpus = 1
+            end
+
+            box.vm.box = boxconfig[:box_name]
+            box.vm.host_name = boxname.to_s
+
+            boxconfig[:net].each do |ipconf|
+                box.vm.network "private_network", ipconf
+            end
+
+            if boxconfig.key?(:public)
+                box.vm.network "public_network", boxconfig[:public]
+
+            end
+
+            box.vm.provision "shell", inline: <<-SHELL
+                mkdir -p ~root/.ssh
+                cp ~vagrant/.ssh/auth* ~root/.ssh
+            SHELL
+
+        end
+    end
+end
