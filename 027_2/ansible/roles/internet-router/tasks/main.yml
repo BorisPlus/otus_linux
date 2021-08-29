@@ -1,0 +1,11 @@
+---
+- name: iptables masquerading
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    destination: "!192.168.0.0/16"
+    out_interface: eth0
+    jump: MASQUERADE
+  tags:
+    - deploy
+    - iptables-masquerading

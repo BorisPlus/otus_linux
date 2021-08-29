@@ -1,0 +1,8 @@
+---
+- name: Playbook of tests
+  hosts:
+    - inetRouter
+    - centralRouter
+    - centralServer
+  roles:
+    - role: '../roles/test_001_network_connectivity'
