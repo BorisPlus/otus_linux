@@ -1,0 +1,14 @@
+---
+- name: Copy port-knocking rules file
+  copy:
+    src: ../files/iptables.rules
+    dest: /home/vagrant/iptables.rules
+    owner: vagrant
+    group: vagrant
+    mode: u=rx,g=-rwx,o-rwx
+
+- name: Apply and save port-knocking rules
+  shell: |
+    iptables-restore < /home/vagrant/iptables.rules
+    service iptables save
+    exit 0

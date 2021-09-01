@@ -1,14 +1,23 @@
 ---
-- name: Copy port-forwarding rules file
-  copy:
-    src: ../files/iptables.rules
-    dest: /home/vagrant/iptables.rules
-    owner: vagrant
-    group: vagrant
-    mode: u=rx,g=-rwx,o-rwx
+- name: iptables dnat
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    destination_port: 8080
+    to_destination: "192.168.0.2:80"
+    jump: DNAT
+  tags:
+    - deploy
+    - iptables-dnat
 
-- name: Apply and save port-forwarding rules
-  shell: |
-    iptables-restore < /home/vagrant/iptables.rules
-    service iptables save
-    exit 0
+- name: iptables dnat
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    protocol: tcp
+    destination_port: 80
+    to_source: "192.168.255.3"
+    jump: SNAT
+  tags:
+    - iptables-snat

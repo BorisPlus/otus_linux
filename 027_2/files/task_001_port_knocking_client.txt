@@ -1,0 +1,15 @@
+
+PLAY [Set up port-knocking client program] *************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [centralRouter]
+
+TASK [../roles/task_001_port_knocking_client : Install Nmap] *******************
+changed: [centralRouter]
+
+TASK [../roles/task_001_port_knocking_client : Copy port knocking file for clients] ***
+changed: [centralRouter]
+
+PLAY RECAP *********************************************************************
+centralRouter              : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

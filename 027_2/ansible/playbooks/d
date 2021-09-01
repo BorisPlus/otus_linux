@@ -1,0 +1,34 @@
+
+PLAY [Playbook of http tests] *****************************************************************************************************
+
+TASK [Gathering Facts] ************************************************************************************************************
+ok: [centralRouter]
+ok: [inetRouterSecond]
+ok: [inetRouter]
+ok: [centralServer]
+
+TASK [../roles/test_003_http_connectivity : test | http | curl] *******************************************************************
+changed: [centralServer]
+changed: [centralRouter]
+changed: [inetRouterSecond]
+changed: [inetRouter]
+
+TASK [../roles/test_003_http_connectivity : test | http | index page content] *****************************************************
+ok: [inetRouter] => {
+    "msg": "Hello from centralServer"
+}
+ok: [inetRouterSecond] => {
+    "msg": "Hello from centralServer"
+}
+ok: [centralRouter] => {
+    "msg": "Hello from centralServer"
+}
+ok: [centralServer] => {
+    "msg": "Hello from centralServer"
+}
+
+PLAY RECAP ************************************************************************************************************************
+centralRouter              : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+centralServer              : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+inetRouter                 : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+inetRouterSecond           : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0

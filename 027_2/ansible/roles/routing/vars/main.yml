@@ -15,6 +15,7 @@ networks_hosts:
       - { interface: eth1, nw: 192.168.0.0/24, via: 192.168.255.2 }
   centralRouter:
     forwarding: 1
+    #ip_forward: 1
     default_gateway:
       interface: eth1
       gw: 192.168.255.1

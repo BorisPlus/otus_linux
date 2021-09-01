@@ -1,0 +1,15 @@
+
+PLAY [Configure port forwarding] ***********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [inetRouterSecond]
+
+TASK [../roles/task_002_port_forwarding : iptables dnat] ***********************
+changed: [inetRouterSecond]
+
+TASK [../roles/task_002_port_forwarding : iptables dnat] ***********************
+changed: [inetRouterSecond]
+
+PLAY RECAP *********************************************************************
+inetRouterSecond           : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

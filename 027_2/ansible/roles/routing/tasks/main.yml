@@ -159,3 +159,29 @@
     - systemctl-restart-network
   tags:
     - forwarding-set-up
+
+#- name: /etc/sysctl.conf | ip_forward set up | if does not yet
+#  lineinfile:
+#    insertafter: EOF
+#    dest: /etc/sysctl.conf
+#    line: "net.ipv4.ip_forward = {{ lets.ip_forward }}"
+#  when: (lets.ip_forward is defined and (lets.ip_forward == 0 or lets.ip_forward == 1)) and not sysctl_conf_content is search("net.ipv4.ip_forward")
+#  vars:
+#    lets: "{{ networks_hosts[inventory_hostname] }}"
+#  notify:
+#    - systemctl-restart-network
+#  tags:
+#    - ip_forward-set-up
+#
+#- name: /etc/sysctl.conf | ip_forward set up | if it was early
+#  replace:
+#    path: /etc/sysctl.conf
+#    regexp: 'net\.ipv4\.ip_forward.*'
+#    replace: 'net.ipv4.ip_forward = {{ lets.ip_forward }}'
+#  when: (lets.ip_forward is defined and (lets.ip_forward == 0 or lets.ip_forward == 1)) and sysctl_conf_content is search("net.ipv4.ip_forward")
+#  vars:
+#    lets: "{{ networks_hosts[inventory_hostname] }}"
+#  notify:
+#    - systemctl-restart-network
+#  tags:
+#    - ip_forward-set-up

@@ -1,0 +1,15 @@
+---
+- name: Install Nmap
+  yum:
+    name: nmap
+
+- name: Copy port knocking file for clients
+  copy:
+    src: ../files/port_knocking.sh
+    dest: /home/vagrant/port_knocking.sh
+    owner: vagrant
+    group: vagrant
+    mode: u=rx,g-rwx,o-rwx
+  tags:
+    - copy-port-knocking-file
+

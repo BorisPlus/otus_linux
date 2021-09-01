@@ -1,0 +1,27 @@
+
+PLAY [Deploy nginx] ************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [centralServer]
+
+TASK [../roles/task_002_nginx : Install EPEL Repo package from standart repo] ***
+changed: [centralServer]
+
+TASK [../roles/task_002_nginx : Install nginx] *********************************
+changed: [centralServer]
+
+TASK [../roles/task_002_nginx : Configure nginx] *******************************
+changed: [centralServer]
+
+TASK [../roles/task_002_nginx : index.html] ************************************
+changed: [centralServer]
+
+RUNNING HANDLER [../roles/task_002_nginx : start nginx] ************************
+changed: [centralServer]
+
+RUNNING HANDLER [../roles/task_002_nginx : restart nginx] **********************
+changed: [centralServer]
+
+PLAY RECAP *********************************************************************
+centralServer              : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

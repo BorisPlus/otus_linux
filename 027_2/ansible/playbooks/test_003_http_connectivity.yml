@@ -1,0 +1,9 @@
+---
+- name: Playbook of internal http connectivity tests
+  hosts:
+    - inetRouter
+    - inetRouterSecond
+    - centralRouter
+    - centralServer
+  roles:
+    - role: '../roles/test_003_http_connectivity'
