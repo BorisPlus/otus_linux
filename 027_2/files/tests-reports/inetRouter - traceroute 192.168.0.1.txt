@@ -18,3 +18,5 @@ traceroute to 192.168.0.1 (192.168.0.1), 30 hops max, 60 byte packets
  1  192.168.0.1 (192.168.0.1)  0.438 ms  0.409 ms  0.250 ms
 traceroute to 192.168.0.1 (192.168.0.1), 30 hops max, 60 byte packets
  1  192.168.0.1 (192.168.0.1)  0.494 ms  0.461 ms  0.153 ms
+traceroute to 192.168.0.1 (192.168.0.1), 30 hops max, 60 byte packets
+ 1  192.168.0.1 (192.168.0.1)  0.565 ms  0.289 ms  0.463 ms

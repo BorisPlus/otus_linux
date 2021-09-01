@@ -16,3 +16,5 @@ traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
  1  inetRouter (192.168.255.1)  0.063 ms  0.023 ms  0.021 ms
 traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
  1  inetRouter (192.168.255.1)  0.061 ms  0.022 ms  0.021 ms
+traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
+ 1  inetRouter (192.168.255.1)  0.073 ms  0.033 ms  0.034 ms
