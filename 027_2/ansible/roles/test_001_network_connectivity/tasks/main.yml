@@ -1,7 +1,7 @@
 ---
 - name: test | demostration
   debug:
-    msg: "I am {{ inventory_hostname }}"
+    msg: "Run from inventory: {{ inventory_hostname }}"
 
 - name: test | traceroute foreign host
   shell: traceroute {{ item }}
@@ -14,5 +14,4 @@
     module: copy
     content: "{{ item['stdout'] }}"
     dest:  "../../files/tests-reports/{{ inventory_hostname }} - {{ item['cmd'] }}.txt"
-  run_once: true
   loop: "{{ traceroute_content['results'] }}"

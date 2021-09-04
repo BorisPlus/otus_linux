@@ -1,24 +1,31 @@
 traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  0.356 ms  0.233 ms  0.228 ms
-traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  1.525 ms  1.180 ms  0.990 ms
-traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  0.381 ms  0.349 ms  0.215 ms
-traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  0.448 ms  0.387 ms  0.243 ms
-traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  0.490 ms  0.304 ms  0.385 ms
-traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  0.354 ms  0.324 ms  0.330 ms
-traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  0.367 ms  0.252 ms  0.170 ms
-traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  0.372 ms  0.303 ms  0.222 ms
-traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  0.373 ms  0.275 ms  0.166 ms
-traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  0.420 ms  0.310 ms  0.243 ms
-traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  0.311 ms  0.260 ms  0.244 ms
-traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  0.455 ms  0.624 ms  0.429 ms
+ 1  * * *
+ 2  * * *
+ 3  * * *
+ 4  * * *
+ 5  * * *
+ 6  * * *
+ 7  * * *
+ 8  * * *
+ 9  * * *
+10  * * *
+11  * * *
+12  * * *
+13  * * *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  * * *
+19  * * *
+20  * * *
+21  * * *
+22  * * *
+23  * * *
+24  * * *
+25  * * *
+26  * * *
+27  * * *
+28  * * *
+29  * * *
+30  * * *
