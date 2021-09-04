@@ -14,7 +14,7 @@ if __name__ == '__main__':
         print(f"python3 ./details.py  x.details.md {DO_NOT_TO_DETAIL}")
         exit(0)
     import re
-    DETAILS_TEMPLATE = r"(\[details([ (\-\w)*]*)\]\:(\[([\w|\-|\.|\s|_|\\|/]*)\]\(([\w|\-|\.|\s|_|\\|/]*)\)))"
+    DETAILS_TEMPLATE = r"(\[details([ (\-\w)*]*)\]\:(\[([\w|`|:|\-|\.|\s|_|\\|/]*)\]\(([\w|\-|\.|\s|_|\\|/]*)\)))"
 
     file_in = sys.argv[1]
     rows_count_detail_limit = int(current_not_details) if current_not_details.isnumeric() else int(DO_NOT_TO_DETAIL)
@@ -88,7 +88,7 @@ if __name__ == '__main__':
                     if not file_in_tmp.endswith('.md'):
                         if rows_count > rows_count_detail_limit:
                             rows_to_write.append('</details>')
-                            # rows_to_write.append('\n')
+                            rows_to_write.append('\n')
 
                 if not was_find or (was_find and source_row.strip('\n\r\t ') != f'`{screen_name}`'):
                     rows_to_write.insert(0, source_row)
