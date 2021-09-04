@@ -9,15 +9,10 @@
   ignore_errors: false
   register: traceroute_content
 
-#- name: test | traceroute foreign host
-#  debug:
-#    msg: "{{ traceroute_content['results']}}"
-
-- name: test | traceroute foreign host
+- name: test | result file output
   local_action:
-    module: lineinfile
-    dest: "../../files/tests-reports/{{ inventory_hostname }} - {{ item['cmd'] }}.txt"
-    line: "{{ item['stdout'] }}"
-    create: yes
+    module: copy
+    content: "{{ item['stdout'] }}"
+    dest:  "../../files/tests-reports/{{ inventory_hostname }} - {{ item['cmd'] }}.txt"
+  run_once: true
   loop: "{{ traceroute_content['results'] }}"
-  changed_when: true

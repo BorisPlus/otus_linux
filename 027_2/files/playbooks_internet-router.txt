@@ -2,8 +2,8 @@
 PLAY [Playbook of internet-node server initialization] *************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [inetRouter]
 ok: [inetRouterSecond]
+ok: [inetRouter]
 
 TASK [../roles/internet-router : iptables masquerading] ************************
 changed: [inetRouterSecond]

@@ -3,41 +3,41 @@ PLAY [Playbook of ethX gateway config] *****************************************
 
 TASK [Gathering Facts] *********************************************************
 ok: [centralServer]
-ok: [inetRouterSecond]
-ok: [centralRouter]
 ok: [inetRouter]
+ok: [centralRouter]
+ok: [inetRouterSecond]
 
 TASK [../roles/routing : /etc/sysconfig/network | "NOZEROCONF=yes" | I don't want 169.254.0.0/16 network at default] ***
 changed: [centralRouter]
+changed: [centralServer]
 changed: [inetRouter]
 changed: [inetRouterSecond]
-changed: [centralServer]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/route-* | delete route files] ***
 changed: [inetRouterSecond]
 changed: [centralRouter]
-changed: [centralServer]
 changed: [inetRouter]
+changed: [centralServer]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/route-* | create needed route files] ***
-changed: [inetRouter] => (item={'interface': 'eth1', 'nw': '192.168.0.0/24', 'via': '192.168.255.2'})
 changed: [inetRouterSecond] => (item={'interface': 'eth1', 'nw': '192.168.0.0/24', 'via': '192.168.255.2'})
+changed: [inetRouter] => (item={'interface': 'eth1', 'nw': '192.168.0.0/24', 'via': '192.168.255.2'})
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/route-* | set route] ***
-changed: [inetRouter] => (item={'interface': 'eth1', 'nw': '192.168.0.0/24', 'via': '192.168.255.2'})
 changed: [inetRouterSecond] => (item={'interface': 'eth1', 'nw': '192.168.0.0/24', 'via': '192.168.255.2'})
+changed: [inetRouter] => (item={'interface': 'eth1', 'nw': '192.168.0.0/24', 'via': '192.168.255.2'})
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | content] ***
+changed: [centralServer]
+changed: [inetRouterSecond]
 changed: [inetRouter]
 changed: [centralRouter]
-changed: [inetRouterSecond]
-changed: [centralServer]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | set up if did not set] ***
 skipping: [inetRouter]
 changed: [centralRouter]
-changed: [inetRouterSecond]
 changed: [centralServer]
+changed: [inetRouterSecond]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | replace] ***
 skipping: [inetRouter]
@@ -46,28 +46,28 @@ skipping: [centralRouter]
 skipping: [centralServer]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-eth0 | content] ***
-changed: [centralServer]
 changed: [inetRouter]
-changed: [inetRouterSecond]
 changed: [centralRouter]
+changed: [centralServer]
+changed: [inetRouterSecond]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if did not set] ***
 changed: [inetRouterSecond]
 changed: [inetRouter]
-changed: [centralServer]
 changed: [centralRouter]
+changed: [centralServer]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if "yes"] ***
-ok: [centralRouter]
-ok: [inetRouter]
-ok: [inetRouterSecond]
 ok: [centralServer]
+ok: [centralRouter]
+ok: [inetRouterSecond]
+ok: [inetRouter]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | content] ***
 changed: [inetRouter]
-changed: [centralServer]
-changed: [centralRouter]
 changed: [inetRouterSecond]
+changed: [centralRouter]
+changed: [centralServer]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | DEFROUTE=yes  | if did not set] ***
 skipping: [inetRouter]
@@ -83,15 +83,15 @@ changed: [inetRouter]
 
 TASK [../roles/routing : /etc/sysctl.conf | content] ***************************
 changed: [inetRouter]
-changed: [inetRouterSecond]
-changed: [centralRouter]
 changed: [centralServer]
+changed: [centralRouter]
+changed: [inetRouterSecond]
 
 TASK [../roles/routing : /etc/sysctl.conf | forwarding set up | if does not yet] ***
 skipping: [centralServer]
-changed: [centralRouter]
 changed: [inetRouter]
 changed: [inetRouterSecond]
+changed: [centralRouter]
 
 TASK [../roles/routing : /etc/sysctl.conf | forwarding set up | if it was early] ***
 skipping: [inetRouter]
@@ -101,8 +101,8 @@ skipping: [centralServer]
 
 RUNNING HANDLER [../roles/routing : systemctl-restart-network] *****************
 changed: [centralServer]
-changed: [inetRouterSecond]
 changed: [inetRouter]
+changed: [inetRouterSecond]
 changed: [centralRouter]
 
 PLAY RECAP *********************************************************************

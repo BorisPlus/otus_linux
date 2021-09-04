@@ -2,8 +2,8 @@
 PLAY [Playbook of internal http connectivity tests] ****************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [centralServer]
 ok: [inetRouterSecond]
+ok: [centralServer]
 ok: [centralRouter]
 fatal: [inetRouter]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host 127.0.0.1 port 2222: Connection timed out", "unreachable": true}
 
