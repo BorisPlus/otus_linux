@@ -1,2 +1,2 @@
 traceroute to 192.168.255.1 (192.168.255.1), 30 hops max, 60 byte packets
- 1  gateway (192.168.255.1)  1.028 ms  3.561 ms  2.751 ms
+ 1  gateway (192.168.255.1)  0.533 ms  0.379 ms  0.276 ms

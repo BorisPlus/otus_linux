@@ -1,2 +1,2 @@
 traceroute to 192.168.0.1 (192.168.0.1), 30 hops max, 60 byte packets
- 1  centralRouter (192.168.0.1)  0.053 ms  0.020 ms  0.025 ms
+ 1  centralRouter (192.168.0.1)  0.042 ms  0.020 ms  0.026 ms
