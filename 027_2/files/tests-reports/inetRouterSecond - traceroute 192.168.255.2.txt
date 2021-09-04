@@ -1,20 +1,2 @@
 traceroute to 192.168.255.2 (192.168.255.2), 30 hops max, 60 byte packets
- 1  inetRouterSecond (192.168.255.3)  3003.623 ms !H  3003.382 ms !H  3003.322 ms !H
-traceroute to 192.168.255.2 (192.168.255.2), 30 hops max, 60 byte packets
- 1  inetRouterSecond (192.168.255.3)  3004.007 ms !H  3003.707 ms !H  3003.649 ms !H
-traceroute to 192.168.255.2 (192.168.255.2), 30 hops max, 60 byte packets
- 1  inetRouterSecond (192.168.255.3)  3010.892 ms !H  3008.804 ms !H  3008.687 ms !H
-traceroute to 192.168.255.2 (192.168.255.2), 30 hops max, 60 byte packets
- 1  192.168.255.2 (192.168.255.2)  0.471 ms * *
-traceroute to 192.168.255.2 (192.168.255.2), 30 hops max, 60 byte packets
- 1  192.168.255.2 (192.168.255.2)  0.528 ms * *
-traceroute to 192.168.255.2 (192.168.255.2), 30 hops max, 60 byte packets
- 1  192.168.255.2 (192.168.255.2)  0.428 ms * *
-traceroute to 192.168.255.2 (192.168.255.2), 30 hops max, 60 byte packets
- 1  192.168.255.2 (192.168.255.2)  0.347 ms * *
-traceroute to 192.168.255.2 (192.168.255.2), 30 hops max, 60 byte packets
- 1  192.168.255.2 (192.168.255.2)  0.338 ms * *
-traceroute to 192.168.255.2 (192.168.255.2), 30 hops max, 60 byte packets
- 1  192.168.255.2 (192.168.255.2)  0.490 ms * *
-traceroute to 192.168.255.2 (192.168.255.2), 30 hops max, 60 byte packets
- 1  192.168.255.2 (192.168.255.2)  0.427 ms * *
+ 1  192.168.255.2 (192.168.255.2)  0.514 ms * *
