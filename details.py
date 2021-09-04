@@ -90,7 +90,7 @@ if __name__ == '__main__':
                             rows_to_write.append('</details>\n')
                             rows_to_write.append('\n')
 
-                if not was_find or (was_find and source_row != f'`{screen_name}`\n'):
+                if not was_find or (was_find and source_row.strip('\n\r\t ') != f'`{screen_name}`'):
                     rows_to_write.insert(0, source_row)
                 if was_find:
                     a = 1
