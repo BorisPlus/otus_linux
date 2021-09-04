@@ -4,20 +4,20 @@ PLAY [Playbook of ethX gateway config] *****************************************
 TASK [Gathering Facts] *********************************************************
 ok: [centralServer]
 ok: [inetRouter]
-ok: [centralRouter]
 ok: [inetRouterSecond]
+ok: [centralRouter]
 
 TASK [../roles/routing : /etc/sysconfig/network | "NOZEROCONF=yes" | I don't want 169.254.0.0/16 network at default] ***
-changed: [centralRouter]
-changed: [centralServer]
 changed: [inetRouter]
+changed: [centralRouter]
 changed: [inetRouterSecond]
+changed: [centralServer]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/route-* | delete route files] ***
-changed: [inetRouterSecond]
 changed: [centralRouter]
 changed: [inetRouter]
 changed: [centralServer]
+changed: [inetRouterSecond]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/route-* | create needed route files] ***
 changed: [inetRouterSecond] => (item={'interface': 'eth1', 'nw': '192.168.0.0/24', 'via': '192.168.255.2'})
@@ -28,52 +28,52 @@ changed: [inetRouterSecond] => (item={'interface': 'eth1', 'nw': '192.168.0.0/24
 changed: [inetRouter] => (item={'interface': 'eth1', 'nw': '192.168.0.0/24', 'via': '192.168.255.2'})
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | content] ***
-changed: [centralServer]
 changed: [inetRouterSecond]
+changed: [centralServer]
 changed: [inetRouter]
 changed: [centralRouter]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | set up if did not set] ***
 skipping: [inetRouter]
+changed: [inetRouterSecond]
 changed: [centralRouter]
 changed: [centralServer]
-changed: [inetRouterSecond]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | replace] ***
 skipping: [inetRouter]
 skipping: [inetRouterSecond]
-skipping: [centralRouter]
 skipping: [centralServer]
+skipping: [centralRouter]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-eth0 | content] ***
-changed: [inetRouter]
 changed: [centralRouter]
-changed: [centralServer]
 changed: [inetRouterSecond]
+changed: [inetRouter]
+changed: [centralServer]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if did not set] ***
-changed: [inetRouterSecond]
 changed: [inetRouter]
-changed: [centralRouter]
+changed: [inetRouterSecond]
 changed: [centralServer]
+changed: [centralRouter]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if "yes"] ***
-ok: [centralServer]
-ok: [centralRouter]
 ok: [inetRouterSecond]
+ok: [centralServer]
 ok: [inetRouter]
+ok: [centralRouter]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | content] ***
-changed: [inetRouter]
-changed: [inetRouterSecond]
 changed: [centralRouter]
+changed: [inetRouter]
 changed: [centralServer]
+changed: [inetRouterSecond]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | DEFROUTE=yes  | if did not set] ***
 skipping: [inetRouter]
 changed: [inetRouterSecond]
-changed: [centralRouter]
 changed: [centralServer]
+changed: [centralRouter]
 
 TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | DEFROUTE=yes | if "no"] ***
 skipping: [inetRouterSecond]
@@ -82,10 +82,10 @@ skipping: [centralServer]
 changed: [inetRouter]
 
 TASK [../roles/routing : /etc/sysctl.conf | content] ***************************
-changed: [inetRouter]
-changed: [centralServer]
-changed: [centralRouter]
 changed: [inetRouterSecond]
+changed: [centralRouter]
+changed: [centralServer]
+changed: [inetRouter]
 
 TASK [../roles/routing : /etc/sysctl.conf | forwarding set up | if does not yet] ***
 skipping: [centralServer]
@@ -100,10 +100,10 @@ skipping: [centralRouter]
 skipping: [centralServer]
 
 RUNNING HANDLER [../roles/routing : systemctl-restart-network] *****************
-changed: [centralServer]
 changed: [inetRouter]
 changed: [inetRouterSecond]
 changed: [centralRouter]
+changed: [centralServer]
 
 PLAY RECAP *********************************************************************
 centralRouter              : ok=13   changed=11   unreachable=0    failed=0    skipped=5    rescued=0    ignored=0   
