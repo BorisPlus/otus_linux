@@ -11,7 +11,7 @@
     - deploy
     - iptables-dnat
 
-- name: iptables dnat
+- name: iptables snat
   iptables:
     table: nat
     chain: POSTROUTING

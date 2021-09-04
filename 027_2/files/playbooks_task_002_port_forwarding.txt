@@ -7,7 +7,7 @@ ok: [inetRouterSecond]
 TASK [../roles/task_002_port_forwarding : iptables dnat] ***********************
 changed: [inetRouterSecond]
 
-TASK [../roles/task_002_port_forwarding : iptables dnat] ***********************
+TASK [../roles/task_002_port_forwarding : iptables snat] ***********************
 changed: [inetRouterSecond]
 
 PLAY RECAP *********************************************************************

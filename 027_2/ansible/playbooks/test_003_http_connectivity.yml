@@ -1,7 +1,6 @@
 ---
 - name: Playbook of internal http connectivity tests
   hosts:
-    - inetRouter
     - inetRouterSecond
     - centralRouter
     - centralServer

@@ -6,12 +6,3 @@
 - name: test | http | index page content
   debug:
     msg: "{{ curl_content['stdout'] }}"
-
-#- name: test | traceroute foreign host
-#  local_action:
-#    module: lineinfile
-#    dest: "../../files/tests-reports/{{ inventory_hostname }} - {{ item['cmd'] }}.txt"
-#    line: "{{ item['stdout'] }}"
-#    create: yes
-#  loop: "{{ traceroute_content['results'] }}"
-#  changed_when: true
