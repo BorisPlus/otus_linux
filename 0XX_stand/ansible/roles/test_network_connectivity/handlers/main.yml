@@ -1,0 +1,6 @@
+---
+- name: test | uninstall traceroute
+  yum:
+    name: traceroute
+    state: absent
+  become: yes

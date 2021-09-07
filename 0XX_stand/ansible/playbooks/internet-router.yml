@@ -1,0 +1,7 @@
+---
+- name: Playbook of internet-node server initialization
+  hosts:
+    - inetRouter
+  become: true
+  roles:
+    - role: '../roles/internet-router'

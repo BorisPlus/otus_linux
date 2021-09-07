@@ -1,0 +1,260 @@
+
+PLAY [Playbook of ethX gateway config] *****************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [inetRouter]
+ok: [centralServer]
+ok: [centralRouter]
+ok: [office1Server]
+ok: [office1Router]
+ok: [testClient1]
+ok: [office2Server]
+ok: [office2Router]
+ok: [testServer2]
+ok: [testServer1]
+ok: [testClient2]
+
+TASK [../roles/routing : /etc/sysconfig/network | "NOZEROCONF=yes" | I don't want 169.254.0.0/16 network at default] ***
+changed: [inetRouter]
+changed: [centralServer]
+changed: [office1Router]
+changed: [office1Server]
+changed: [centralRouter]
+changed: [office2Router]
+changed: [office2Server]
+changed: [testServer2]
+changed: [testClient1]
+changed: [testServer1]
+changed: [testClient2]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/route-* | delete route files] ***
+changed: [inetRouter]
+changed: [centralRouter]
+changed: [centralServer]
+changed: [office1Router]
+changed: [office1Server]
+changed: [office2Router]
+changed: [testServer1]
+changed: [office2Server]
+changed: [testServer2]
+changed: [testClient1]
+changed: [testClient2]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/route-* | create needed route files] ***
+changed: [inetRouter] => (item={'interface': 'eth1', 'nw': '192.168.0.0/16', 'via': '192.168.255.2'})
+changed: [centralRouter] => (item={'interface': 'eth3', 'nw': '192.168.2.0/24', 'via': '192.168.0.34'})
+changed: [centralRouter] => (item={'interface': 'eth3', 'nw': '192.168.1.0/24', 'via': '192.168.0.35'})
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/route-* | set route] ***
+changed: [centralRouter] => (item={'interface': 'eth3', 'nw': '192.168.2.0/24', 'via': '192.168.0.34'})
+changed: [inetRouter] => (item={'interface': 'eth1', 'nw': '192.168.0.0/16', 'via': '192.168.255.2'})
+changed: [centralRouter] => (item={'interface': 'eth3', 'nw': '192.168.1.0/24', 'via': '192.168.0.35'})
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | content] ***
+changed: [inetRouter]
+changed: [office1Router]
+changed: [office1Server]
+changed: [centralServer]
+changed: [centralRouter]
+changed: [office2Router]
+changed: [office2Server]
+changed: [testServer2]
+changed: [testServer1]
+changed: [testClient1]
+changed: [testClient2]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | set up if did not set] ***
+skipping: [inetRouter]
+changed: [centralServer]
+changed: [office1Router]
+changed: [office1Server]
+changed: [office2Router]
+changed: [centralRouter]
+changed: [testClient1]
+changed: [office2Server]
+changed: [testClient2]
+changed: [testServer2]
+changed: [testServer1]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | replace] ***
+skipping: [inetRouter]
+skipping: [centralRouter]
+skipping: [centralServer]
+skipping: [office1Router]
+skipping: [office1Server]
+skipping: [office2Router]
+skipping: [office2Server]
+skipping: [testServer1]
+skipping: [testServer2]
+skipping: [testClient1]
+skipping: [testClient2]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-eth0 | content] ***
+changed: [office1Router]
+changed: [inetRouter]
+changed: [centralRouter]
+changed: [office1Server]
+changed: [centralServer]
+changed: [testServer2]
+changed: [office2Server]
+changed: [office2Router]
+changed: [testClient1]
+changed: [testServer1]
+changed: [testClient2]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if did not set] ***
+changed: [inetRouter]
+changed: [centralRouter]
+changed: [centralServer]
+changed: [office1Server]
+changed: [office1Router]
+changed: [office2Router]
+changed: [testServer1]
+changed: [office2Server]
+changed: [testServer2]
+changed: [testClient1]
+changed: [testClient2]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if "yes"] ***
+ok: [centralRouter]
+ok: [office1Server]
+ok: [inetRouter]
+ok: [centralServer]
+ok: [office1Router]
+ok: [office2Router]
+ok: [office2Server]
+ok: [testServer1]
+ok: [testServer2]
+ok: [testClient1]
+ok: [testClient2]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | content] ***
+changed: [centralServer]
+changed: [office1Router]
+changed: [inetRouter]
+changed: [centralRouter]
+changed: [office1Server]
+changed: [office2Router]
+changed: [testServer1]
+changed: [office2Server]
+changed: [testServer2]
+changed: [testClient1]
+changed: [testClient2]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | DEFROUTE=yes  | if did not set] ***
+skipping: [inetRouter]
+changed: [office1Router]
+changed: [centralServer]
+changed: [office2Router]
+changed: [centralRouter]
+changed: [office1Server]
+changed: [testClient1]
+changed: [testServer1]
+changed: [office2Server]
+changed: [testClient2]
+changed: [testServer2]
+
+TASK [../roles/routing : /etc/sysconfig/network-scripts/ifcfg-ethX | DEFROUTE=yes | if "no"] ***
+skipping: [centralRouter]
+skipping: [centralServer]
+skipping: [office1Router]
+skipping: [office1Server]
+skipping: [office2Router]
+skipping: [office2Server]
+skipping: [testServer1]
+skipping: [testServer2]
+skipping: [testClient1]
+skipping: [testClient2]
+changed: [inetRouter]
+
+TASK [../roles/routing : /etc/sysctl.conf | content] ***************************
+changed: [inetRouter]
+changed: [centralRouter]
+changed: [centralServer]
+changed: [office1Router]
+changed: [office1Server]
+changed: [office2Router]
+changed: [office2Server]
+changed: [testServer1]
+changed: [testServer2]
+changed: [testClient1]
+changed: [testClient2]
+
+TASK [../roles/routing : /etc/sysctl.conf | forwarding set up | if does not yet] ***
+skipping: [centralServer]
+changed: [office2Router]
+changed: [centralRouter]
+changed: [office1Router]
+changed: [inetRouter]
+skipping: [office2Server]
+skipping: [testServer1]
+skipping: [testClient1]
+skipping: [testServer2]
+skipping: [testClient2]
+changed: [office1Server]
+
+TASK [../roles/routing : /etc/sysctl.conf | forwarding set up | if it was early] ***
+skipping: [inetRouter]
+skipping: [centralRouter]
+skipping: [centralServer]
+skipping: [office1Router]
+skipping: [office1Server]
+skipping: [office2Router]
+skipping: [office2Server]
+skipping: [testServer1]
+skipping: [testServer2]
+skipping: [testClient1]
+skipping: [testClient2]
+
+TASK [../roles/routing : /etc/sysctl.conf | ip_forward set up | if does not yet] ***
+skipping: [inetRouter]
+skipping: [centralRouter]
+skipping: [centralServer]
+skipping: [office1Router]
+skipping: [office1Server]
+skipping: [office2Router]
+skipping: [office2Server]
+skipping: [testServer1]
+skipping: [testServer2]
+skipping: [testClient1]
+skipping: [testClient2]
+
+TASK [../roles/routing : /etc/sysctl.conf | ip_forward set up | if it was early] ***
+skipping: [inetRouter]
+skipping: [centralRouter]
+skipping: [centralServer]
+skipping: [office2Router]
+skipping: [office1Router]
+skipping: [office1Server]
+skipping: [testServer1]
+skipping: [office2Server]
+skipping: [testServer2]
+skipping: [testClient1]
+skipping: [testClient2]
+
+RUNNING HANDLER [../roles/routing : systemctl-restart-network] *****************
+changed: [office1Server]
+changed: [inetRouter]
+changed: [centralServer]
+changed: [centralRouter]
+changed: [testClient1]
+changed: [office2Server]
+changed: [office2Router]
+changed: [office1Router]
+changed: [testServer2]
+changed: [testClient2]
+changed: [testServer1]
+
+PLAY RECAP *********************************************************************
+centralRouter              : ok=15   changed=13   unreachable=0    failed=0    skipped=5    rescued=0    ignored=0   
+centralServer              : ok=12   changed=10   unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
+inetRouter                 : ok=14   changed=12   unreachable=0    failed=0    skipped=6    rescued=0    ignored=0   
+office1Router              : ok=13   changed=11   unreachable=0    failed=0    skipped=7    rescued=0    ignored=0   
+office1Server              : ok=13   changed=11   unreachable=0    failed=0    skipped=7    rescued=0    ignored=0   
+office2Router              : ok=13   changed=11   unreachable=0    failed=0    skipped=7    rescued=0    ignored=0   
+office2Server              : ok=12   changed=10   unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
+testClient1                : ok=12   changed=10   unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
+testClient2                : ok=12   changed=10   unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
+testServer1                : ok=12   changed=10   unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
+testServer2                : ok=12   changed=10   unreachable=0    failed=0    skipped=8    rescued=0    ignored=0   
+
