@@ -9,16 +9,12 @@
 
 ```shell
 pwd
-./0XX_stand/vm
-
+# ./0XX_stand/vm
 vagrant destroy -f && vagrant up
-
 python3 v2a.py -o ../ansible/inventories/hosts
-
 cd ../ansible/
-
 ansible-playbook playbooks/routing.yml > ../files/playbooks_routing.txt
-ansible-playbook playbooks/internet-router.yml  > ../files/internet-router.txt
+ansible-playbook playbooks/internet-router.yml  > ../files/internet-router.txt # тут маскарадинг !192.168.0.0/16
 ansible-playbook playbooks/test_network_connectivity.yml > ../files/test_network_connectivity.txt
 ```
 
@@ -30,7 +26,7 @@ ansible-playbook playbooks/test_network_connectivity.yml > ../files/test_network
 
 [details --no-link]:[playbooks/test_network_connectivity.yml](./0XX_stand/files/test_network_connectivity.txt)
 
-traceroute 8.8.8.8
+Проверка узла выхода `traceroute 8.8.8.8`
 
 [details --no-link]:[centralRouter](./0XX_stand/files/traceroute/centralRouter - traceroute 8.8.8.8.txt)
 [details --no-link]:[centralServer](./0XX_stand/files/traceroute/centralServer - traceroute 8.8.8.8.txt)
