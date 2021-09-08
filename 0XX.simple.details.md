@@ -20,7 +20,7 @@
     ------------------
     |  centralRouter |     <------------------- маршруты на машине:
     ------------------                          * default via 192.168.255.1 dev eth1 
-            | * eth2: 192.168.0.1               * 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+            | * eth2: 192.168.0.1               * 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 - это рудимент
             |                                   * 192.168.0.0/24 dev eth2 proto kernel scope link src 192.168.0.1
            [3]                                  * 192.168.255.0/24 dev eth1 proto kernel scope link src 192.168.255.2 
             |
@@ -28,10 +28,12 @@
     ------------------
     |  centralServer |      <------------------- маршруты на машине:
     ------------------                          * default via 192.168.0.1 dev eth1 
-                                                * 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 
+                                                * 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 - это рудимент
                                                 * 192.168.0.0/24 dev eth1 proto kernel scope link src 192.168.0.2
  
 А вот если б было правило (оно тоже позволяет работать)
-`iptables -t nat -A POSTROUTING -o eth0 ! -d 192.168.0.0/16 -j MASQUERADE`  - то, что оно значит?
-"Сделается подстановка ip из имеющегося в eth0, но кроме паркетов идущих к 192.168.0.0/16"?
-ч
+`iptables -t nat -A POSTROUTING -o eth0 ! -d 192.168.0.0/16 -j MASQUERADE`  - то оно что значит ?
+
+"Сделается переподстановка ip из имеющегося в eth0, но это не для пакетов, идущих из-вне к сети 192.168.0.0/16"?
+
+от чего защищает это правило
