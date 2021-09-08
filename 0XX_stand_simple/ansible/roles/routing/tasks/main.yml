@@ -1,0 +1,186 @@
+---
+- name: /etc/sysconfig/network | "NOZEROCONF=yes" | I don't want 169.254.0.0/16 network at default
+  shell: |
+    echo "NOZEROCONF=yes" > /etc/sysconfig/network
+    exit 0
+  ignore_errors: false
+
+- name: /etc/sysconfig/network-scripts/route-* | delete route files
+  shell: |
+    rm -f /etc/sysconfig/network-scripts/route-*
+    exit 0
+  ignore_errors: false
+
+- name: /etc/sysconfig/network-scripts/route-* | create needed route files
+  shell: |
+    touch /etc/sysconfig/network-scripts/route-{{ item['interface'] }}
+    exit 0
+  loop: "{{ networks_hosts[inventory_hostname]['routes'] }}"
+  ignore_errors: false
+
+- name: /etc/sysconfig/network-scripts/route-* | set route
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysconfig/network-scripts/route-{{ item['interface'] }}
+    line: "{{ item.nw }} via {{ item.via }}"
+  loop: "{{ networks_hosts[inventory_hostname]['routes'] }}"
+  notify:
+    - systemctl-restart-network
+
+- name: /etc/sysconfig/network-scripts/ifcfg-ethX | content
+  command: /bin/cat /etc/sysconfig/network-scripts/ifcfg-{{ default_gateway['interface'] }}
+  when: (default_gateway['interface'] is defined and default_gateway['interface'] != '') and not (default_gateway['interface'] == None)
+  vars:
+    default_gateway: "{{ networks_hosts[inventory_hostname]['default_gateway'] }}"
+  register: ifcfg_ethX_content
+  tags:
+    - ifcfg-ethX-default_gateway
+
+- name: /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | set up if did not set
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysconfig/network-scripts/ifcfg-{{ default_gateway['interface'] }}
+    line: "GATEWAY={{ default_gateway['gw'] }}"
+  when: (default_gateway['gw'] is defined and default_gateway['gw'] != '') and not ( ifcfg_ethX_content is search("GATEWAY=") )
+  vars:
+    default_gateway: "{{ networks_hosts[inventory_hostname]['default_gateway'] }}"
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deploy
+    - ifcfg-ethX-default-gw
+
+- name: /etc/sysconfig/network-scripts/ifcfg-ethX | GATEWAY=<ip> | replace
+  replace:
+    path:  /etc/sysconfig/network-scripts/ifcfg-{{ default_gateway['interface'] }}
+    regexp: 'GATEWAY=[\w\.]*'
+    replace: "GATEWAY={{ default_gateway['gw'] }}"
+  when: (default_gateway['gw'] is defined and default_gateway['gw'] != '') and ( ifcfg_ethX_content is search("GATEWAY=") )
+  vars:
+    default_gateway: "{{ networks_hosts[inventory_hostname]['default_gateway'] }}"
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deploy
+    - ifcfg-ethX-default-gw
+
+- name: /etc/sysconfig/network-scripts/ifcfg-eth0 | content
+  command: /bin/cat /etc/sysconfig/network-scripts/ifcfg-eth0
+  register: ifcfg_eth0_content
+  tags:
+    - deploy
+
+- name: /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if did not set
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysconfig/network-scripts/ifcfg-eth0
+    line: "DEFROUTE=no"
+  when: not ifcfg_eth0_content is search("DEFROUTE=")
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deploy
+    - ifcfg-eth0-default-route-off
+
+- name: /etc/sysconfig/network-scripts/ifcfg-eth0 | DEFROUTE=no | if "yes"
+  replace:
+    path: /etc/sysconfig/network-scripts/ifcfg-eth0
+    regexp: 'DEFROUTE=yes'
+    replace: 'DEFROUTE=no'
+  notify:
+    - systemctl-restart-network
+  tags:
+    - deploy
+    - ifcfg-eth0-default-route-off
+
+- name: /etc/sysconfig/network-scripts/ifcfg-ethX | content
+  command: /bin/cat /etc/sysconfig/network-scripts/ifcfg-{{ default_gateway['interface'] }}
+  when: (default_gateway['interface'] is defined and default_gateway['interface'] != '') and not (default_gateway['interface'] == None)
+  vars:
+    default_gateway: "{{ networks_hosts[inventory_hostname]['default_gateway'] }}"
+  register: ifcfg_ethX_content
+  tags:
+    - deploy
+    - ifcfg-ethX-defroute
+
+- name: /etc/sysconfig/network-scripts/ifcfg-ethX | DEFROUTE=yes  | if did not set
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysconfig/network-scripts/ifcfg-{{ default_gateway['interface'] }}
+    line: "DEFROUTE=yes"
+  when: (default_gateway['interface'] is defined and default_gateway['interface'] != '') and not ifcfg_ethX_content is search("DEFROUTE=")
+  vars:
+    default_gateway: "{{ networks_hosts[inventory_hostname]['default_gateway'] }}"
+  notify:
+    - systemctl-restart-network
+  tags:
+    - ifcfg-ethX-defroute
+
+- name: /etc/sysconfig/network-scripts/ifcfg-ethX | DEFROUTE=yes | if "no"
+  replace:
+    path: /etc/sysconfig/network-scripts/ifcfg-{{ default_gateway['interface'] }}
+    regexp: 'DEFROUTE=no'
+    replace: 'DEFROUTE=yes'
+  when: (default_gateway['interface'] is defined and default_gateway['interface'] != '') and ifcfg_ethX_content is search("DEFROUTE=no")
+  vars:
+    default_gateway: "{{ networks_hosts[inventory_hostname]['default_gateway'] }}"
+  notify:
+    - systemctl-restart-network
+  tags:
+    - ifcfg-ethX-defroute
+
+- name: /etc/sysctl.conf | content
+  command: /bin/cat /etc/sysctl.conf
+  register: sysctl_conf_content
+
+- name: /etc/sysctl.conf | forwarding set up | if does not yet
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysctl.conf
+    line: "net.ipv4.conf.all.forwarding = {{ lets.forwarding }}"
+  when: (lets.forwarding is defined and (lets.forwarding == 0 or lets.forwarding == 1)) and not sysctl_conf_content is search("net.ipv4.conf.all.forwarding")
+  vars:
+    lets: "{{ networks_hosts[inventory_hostname] }}"
+  notify:
+    - systemctl-restart-network
+  tags:
+    - forwarding-set-up
+
+- name: /etc/sysctl.conf | forwarding set up | if it was early
+  replace:
+    path: /etc/sysctl.conf
+    regexp: 'net\.ipv4\.conf\.all\.forwarding.*'
+    replace: 'net.ipv4.conf.all.forwarding = {{ lets.forwarding }}'
+  when: (lets.forwarding is defined and (lets.forwarding == 0 or lets.forwarding == 1)) and sysctl_conf_content is search("net.ipv4.conf.all.forwarding")
+  vars:
+    lets: "{{ networks_hosts[inventory_hostname] }}"
+  notify:
+    - systemctl-restart-network
+  tags:
+    - forwarding-set-up
+
+- name: /etc/sysctl.conf | ip_forward set up | if does not yet
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysctl.conf
+    line: "net.ipv4.ip_forward = {{ lets.ip_forward }}"
+  when: (lets.ip_forward is defined and (lets.ip_forward == 0 or lets.ip_forward == 1)) and not sysctl_conf_content is search("net.ipv4.ip_forward")
+  vars:
+    lets: "{{ networks_hosts[inventory_hostname] }}"
+  notify:
+    - systemctl-restart-network
+  tags:
+    - ip_forward-set-up
+
+- name: /etc/sysctl.conf | ip_forward set up | if it was early
+  replace:
+    path: /etc/sysctl.conf
+    regexp: 'net\.ipv4\.ip_forward.*'
+    replace: 'net.ipv4.ip_forward = {{ lets.ip_forward }}'
+  when: (lets.ip_forward is defined and (lets.ip_forward == 0 or lets.ip_forward == 1)) and sysctl_conf_content is search("net.ipv4.ip_forward")
+  vars:
+    lets: "{{ networks_hosts[inventory_hostname] }}"
+  notify:
+    - systemctl-restart-network
+  tags:
+    - ip_forward-set-up

@@ -1,0 +1,9 @@
+---
+- name: Playbook of ethX gateway config
+  hosts:
+    - inetRouter
+    - centralRouter
+    - centralServer
+  become: yes
+  roles:
+    - role: '../roles/routing'

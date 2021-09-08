@@ -1,0 +1,19 @@
+networks_hosts:
+  inetRouter:
+    forwarding: 1
+    default_gateway:
+      interface: eth0
+      gw: ''
+    routes:
+      - { interface: eth1, nw: 192.168.0.0/24, via: 192.168.255.2 }
+  centralRouter:
+    forwarding: 1
+    default_gateway:
+      interface: eth1
+      gw: 192.168.255.1
+    routes: []
+  centralServer:
+    default_gateway:
+      interface: eth1
+      gw: 192.168.0.1
+    routes: []

@@ -1,0 +1,17 @@
+---
+- name: Playbook of tests
+  hosts:
+    - inetRouter
+    - centralRouter
+    - centralServer
+    - office1Router
+    - office1Server
+    - office2Router
+    - office2Server
+    - testServer1
+    - testServer2
+    - testClient1
+    - testClient2
+#  become: yes
+  roles:
+    - role: '../roles/test_network_connectivity'
