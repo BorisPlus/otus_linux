@@ -1,0 +1,8 @@
+---
+- name: Playbook of bond config
+  hosts:
+    - inetRouter
+    - centralRouter
+  become: yes
+  roles:
+    - role: '../roles/create_bond'

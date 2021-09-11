@@ -1,0 +1,13 @@
+---
+- name: test | run to do
+  shell: "{{ item }}"
+  loop: "{{ to_do }}"
+  ignore_errors: True
+  register: result_content
+
+- name: test | to do result
+  local_action:
+    module: copy
+    content: "{{ item['stdout'] }}"
+    dest:  "../../files/{{ inventory_hostname }} - {{ item['cmd'] | replace(\"/\", \"_\")  }}.txt"
+  loop: "{{ result_content['results'] }}"

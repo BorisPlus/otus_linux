@@ -1,0 +1,7 @@
+TYPE=Ethernet
+DEVICE=eth2
+BOOTPROTO=none
+ONBOOT=True
+USERCTL=False
+MASTER=bond0
+SLAVE=True

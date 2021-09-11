@@ -1,0 +1,47 @@
+
+PLAY [Playbook of bond config] *************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [inetRouter]
+ok: [centralRouter]
+
+TASK [../roles/create_bond : /etc/sysconfig/network | "NOZEROCONF=yes" | I don't want 169.254.0.0/16 network at default] ***
+changed: [centralRouter]
+changed: [inetRouter]
+
+TASK [../roles/create_bond : rm -f modprobe.conf] ******************************
+changed: [inetRouter]
+changed: [centralRouter]
+
+TASK [../roles/create_bond : Configure modprobe.conf] **************************
+changed: [inetRouter] => (item={'DEVICE': 'bond0', 'TYPE': 'Bond', 'IPADDR': '10.1.1.1', 'NETMASK': '255.255.255.0', 'ONBOOT': True, 'USERCTL': False, 'BOOTPROTO': 'none', 'BONDING_OPTS': '"miimon=100 mode=0"'})
+skipping: [inetRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth1', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True}) 
+skipping: [inetRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth2', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True}) 
+changed: [centralRouter] => (item={'DEVICE': 'bond0', 'TYPE': 'Bond', 'IPADDR': '10.1.1.2', 'NETMASK': '255.255.255.0', 'GATEWAY': '10.1.1.1', 'ONBOOT': True, 'USERCTL': False, 'BOOTPROTO': 'none', 'BONDING_OPTS': '"miimon=100 mode=0"'})
+skipping: [centralRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth1', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True}) 
+skipping: [centralRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth2', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True}) 
+
+TASK [../roles/create_bond : /etc/sysconfig/network-scripts/ifcfg-<bonded> | delete bond] ***
+changed: [inetRouter] => (item={'DEVICE': 'bond0', 'TYPE': 'Bond', 'IPADDR': '10.1.1.1', 'NETMASK': '255.255.255.0', 'ONBOOT': True, 'USERCTL': False, 'BOOTPROTO': 'none', 'BONDING_OPTS': '"miimon=100 mode=0"'})
+changed: [centralRouter] => (item={'DEVICE': 'bond0', 'TYPE': 'Bond', 'IPADDR': '10.1.1.2', 'NETMASK': '255.255.255.0', 'GATEWAY': '10.1.1.1', 'ONBOOT': True, 'USERCTL': False, 'BOOTPROTO': 'none', 'BONDING_OPTS': '"miimon=100 mode=0"'})
+changed: [inetRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth1', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True})
+changed: [centralRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth1', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True})
+changed: [inetRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth2', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True})
+changed: [centralRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth2', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True})
+
+TASK [../roles/create_bond : /etc/sysconfig/network-scripts/ifcfg-<bonded> | create bond] ***
+changed: [centralRouter] => (item={'DEVICE': 'bond0', 'TYPE': 'Bond', 'IPADDR': '10.1.1.2', 'NETMASK': '255.255.255.0', 'GATEWAY': '10.1.1.1', 'ONBOOT': True, 'USERCTL': False, 'BOOTPROTO': 'none', 'BONDING_OPTS': '"miimon=100 mode=0"'})
+changed: [inetRouter] => (item={'DEVICE': 'bond0', 'TYPE': 'Bond', 'IPADDR': '10.1.1.1', 'NETMASK': '255.255.255.0', 'ONBOOT': True, 'USERCTL': False, 'BOOTPROTO': 'none', 'BONDING_OPTS': '"miimon=100 mode=0"'})
+changed: [inetRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth1', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True})
+changed: [centralRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth1', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True})
+changed: [inetRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth2', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True})
+changed: [centralRouter] => (item={'TYPE': 'Ethernet', 'DEVICE': 'eth2', 'BOOTPROTO': 'none', 'ONBOOT': True, 'USERCTL': False, 'MASTER': 'bond0', 'SLAVE': True})
+
+RUNNING HANDLER [../roles/create_bond : systemctl-restart-network] *************
+changed: [inetRouter]
+changed: [centralRouter]
+
+PLAY RECAP *********************************************************************
+centralRouter              : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+inetRouter                 : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

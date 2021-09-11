@@ -1,0 +1,2 @@
+alias bond0 bonding
+options bond0 miimon=100 mode=0 
