@@ -1,0 +1,39 @@
+
+PLAY [Playbook of ethX.Y vlan config] ******************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [testClient1]
+ok: [testServer1]
+ok: [testServer2]
+ok: [testClient2]
+
+TASK [../roles/create_vlan : /etc/sysconfig/network-scripts/ifcfg-eth[0-9]*.[0-9]* | delete vlan interface files] ***
+changed: [testServer2]
+changed: [testClient1]
+changed: [testClient2]
+changed: [testServer1]
+
+TASK [../roles/create_vlan : /etc/sysconfig/network-scripts/ifcfg-ethX.Y | create vlan interface file] ***
+changed: [testClient2] => (item={'DEVICE': 'eth1.200', 'BOOTPROTO': 'none', 'TYPE': 'VLAN', 'ONBOOT': 'yes', 'IPADDR': '10.10.10.254', 'NETMASK': '255.255.255.0', 'USERCTL': 'no', 'NETWORK': '10.10.10.0', 'VLAN': 'yes'})
+changed: [testServer1] => (item={'DEVICE': 'eth1.100', 'BOOTPROTO': 'none', 'TYPE': 'VLAN', 'ONBOOT': 'yes', 'IPADDR': '10.10.10.1', 'NETMASK': '255.255.255.0', 'USERCTL': 'no', 'NETWORK': '10.10.10.0', 'VLAN': 'yes'})
+changed: [testClient1] => (item={'DEVICE': 'eth1.100', 'BOOTPROTO': 'none', 'TYPE': 'VLAN', 'ONBOOT': 'yes', 'IPADDR': '10.10.10.254', 'NETMASK': '255.255.255.0', 'USERCTL': 'no', 'NETWORK': '10.10.10.0', 'VLAN': 'yes'})
+changed: [testServer2] => (item={'DEVICE': 'eth1.200', 'BOOTPROTO': 'none', 'TYPE': 'VLAN', 'ONBOOT': 'yes', 'IPADDR': '10.10.10.1', 'NETMASK': '255.255.255.0', 'USERCTL': 'no', 'NETWORK': '10.10.10.0', 'VLAN': 'yes'})
+
+TASK [../roles/create_vlan : touch /etc/sysconfig/network | feature] ***********
+changed: [testServer1]
+changed: [testClient2]
+changed: [testServer2]
+changed: [testClient1]
+
+RUNNING HANDLER [../roles/create_vlan : systemctl-restart-network] *************
+changed: [testServer2]
+changed: [testServer1]
+changed: [testClient1]
+changed: [testClient2]
+
+PLAY RECAP *********************************************************************
+testClient1                : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+testClient2                : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+testServer1                : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+testServer2                : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

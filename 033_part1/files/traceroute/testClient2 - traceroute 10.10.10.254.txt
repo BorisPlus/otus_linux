@@ -1,0 +1,2 @@
+traceroute to 10.10.10.254 (10.10.10.254), 30 hops max, 60 byte packets
+ 1  testClient2 (10.10.10.254)  0.040 ms  0.015 ms  0.013 ms

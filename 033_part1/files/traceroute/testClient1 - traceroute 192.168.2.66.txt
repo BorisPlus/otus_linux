@@ -1,0 +1,2 @@
+traceroute to 192.168.2.66 (192.168.2.66), 30 hops max, 60 byte packets
+ 1  testClient1 (192.168.2.66)  0.037 ms  0.013 ms  0.012 ms

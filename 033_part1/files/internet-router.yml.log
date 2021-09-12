@@ -1,0 +1,12 @@
+
+PLAY [Playbook of internet-node server initialization] *************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [inetRouter]
+
+TASK [../roles/internet-router : iptables masquerading] ************************
+changed: [inetRouter]
+
+PLAY RECAP *********************************************************************
+inetRouter                 : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
