@@ -1,0 +1,9 @@
+---
+- name: Playbook of tests
+  hosts:
+    - testServer1
+    - testServer2
+    - testClient1
+    - testClient2
+  roles:
+    - role: '../roles/test_interfaces'

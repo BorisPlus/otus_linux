@@ -1,0 +1,53 @@
+networks_hosts:
+  testClient1:
+    vlans:
+      - {
+        DEVICE: eth1.100,
+        BOOTPROTO: "none",
+        TYPE: VLAN,
+        ONBOOT: "yes",
+        IPADDR: 10.10.10.254,
+        NETMASK: 255.255.255.0,
+        USERCTL: "no",
+        NETWORK: 10.10.10.0,
+        VLAN: "yes",
+      }
+  testClient2:
+    vlans:
+      - {
+        DEVICE: eth1.200,
+        BOOTPROTO: none,
+        TYPE: VLAN,
+        ONBOOT: "yes",
+        IPADDR: 10.10.10.254,
+        NETMASK: 255.255.255.0,
+        USERCTL: "no",
+        NETWORK: 10.10.10.0,
+        VLAN: "yes"
+      }
+  testServer1:
+    vlans:
+      - {
+        DEVICE: eth1.100,
+        BOOTPROTO: none,
+        TYPE: VLAN,
+        ONBOOT: "yes",
+        IPADDR: 10.10.10.1,
+        NETMASK: 255.255.255.0,
+        USERCTL: "no",
+        NETWORK: 10.10.10.0,
+        VLAN: "yes"
+      }
+  testServer2:
+    vlans:
+      - {
+        DEVICE: eth1.200,
+        BOOTPROTO: none,
+        TYPE: VLAN,
+        ONBOOT: "yes",
+        IPADDR: 10.10.10.1,
+        NETMASK: 255.255.255.0,
+        USERCTL: "no",
+        NETWORK: 10.10.10.0,
+        VLAN: "yes"
+      }

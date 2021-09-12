@@ -1,0 +1,24 @@
+---
+- name: /etc/sysconfig/network-scripts/ifcfg-eth[0-9]*.[0-9]* | delete vlan interface files
+  shell: |
+    rm -f /etc/sysconfig/network-scripts/ifcfg-eth[0-9]*.[0-9]*
+    exit 0
+  ignore_errors: false
+
+- name: /etc/sysconfig/network-scripts/ifcfg-ethX.Y | create vlan interface file
+  copy:
+    content: "{% for key in item %}{{ key }}={{ item[key] }}\n{% endfor %}"
+    dest: /etc/sysconfig/network-scripts/ifcfg-{{item['DEVICE']}}
+  loop: "{{ networks_hosts[inventory_hostname]['vlans'] }}"
+  notify:
+    - systemctl-restart-network
+
+
+- name: touch /etc/sysconfig/network | feature
+  file:
+    path: /etc/sysconfig/network
+    state: touch
+    mode: u+rw,g-wx,o-rwx
+    modification_time: preserve
+    access_time: preserve
+

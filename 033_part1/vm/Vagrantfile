@@ -1,0 +1,125 @@
+# -*- mode: ruby -*-
+# vim: set ft=ruby :
+
+MACHINES = {
+    :inetRouter => {
+        :box_name => "centos/7",
+        # :public => {:ip => '10.10.10.1', :adapter => 1, :bridge => "enp4s0"},
+        :net => [
+            {ip: '192.168.255.1',   adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "inet-router-net"},
+        ]
+    },
+    :centralRouter => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.255.2',   adapter: 2, netmask: "255.255.255.252", virtualbox__intnet: "inet-router-net"},
+            {ip: '192.168.0.1',     adapter: 3, netmask: "255.255.255.240", virtualbox__intnet: "central-dir-net"},
+            {ip: '192.168.0.33',    adapter: 4, netmask: "255.255.255.240", virtualbox__intnet: "central-hw-net"},
+            {ip: '192.168.0.65',    adapter: 5, netmask: "255.255.255.192", virtualbox__intnet: "central-mgt-net"},
+        ]
+    },
+    :centralServer => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.0.2',     adapter: 2, netmask: "255.255.255.240", virtualbox__intnet: "central-dir-net"},
+        ]
+    },
+    :office1Router => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.0.34',    adapter: 2, netmask: "255.255.255.240", virtualbox__intnet: "central-hw-net"},
+            {ip: '192.168.2.1',     adapter: 3, netmask: "255.255.255.192", virtualbox__intnet: "office-1-dev-net"},
+            {ip: '192.168.2.65',    adapter: 4, netmask: "255.255.255.192", virtualbox__intnet: "office-1-test-servers-net"},
+            {ip: '192.168.2.129',   adapter: 5, netmask: "255.255.255.192", virtualbox__intnet: "office-1-managers-net"},
+            {ip: '192.168.2.193',   adapter: 6, netmask: "255.255.255.192", virtualbox__intnet: "office-1-hardware-net"},
+        ]
+    },
+    :office1Server => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.2.194',   adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "office-1-hardware-net"},
+        ]
+    },
+    :testClient1 => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.2.66',   adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "office-1-test-servers-net"},
+        ]
+    },
+    :testClient2 => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.2.67',   adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "office-1-test-servers-net"},
+        ]
+    },
+    :testServer1 => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.2.68',   adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "office-1-test-servers-net"},
+        ]
+    },
+    :testServer2 => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.2.69',   adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "office-1-test-servers-net"},
+        ]
+    },
+
+    #:office2Router => {
+    #    :box_name => "centos/7",
+    #    :net => [
+    #        {ip: '192.168.0.35',    adapter: 2, netmask: "255.255.255.240", virtualbox__intnet: "central-hw-net"},
+    #        {ip: '192.168.1.1',     adapter: 3, netmask: "255.255.255.128", virtualbox__intnet: "office-2-dev-net"},
+    #        {ip: '192.168.1.129',   adapter: 4, netmask: "255.255.255.192", virtualbox__intnet: "office-2-test-servers-net"},
+    #        {ip: '192.168.1.193',   adapter: 5, netmask: "255.255.255.192", virtualbox__intnet: "office-2-hardware-net"},
+    #    ]
+    #},
+    #:office2Server => {
+    #    :box_name => "centos/7",
+    #    :net => [
+    #        {ip: '192.168.1.194',   adapter: 2, netmask: "255.255.255.192", virtualbox__intnet: "office-2-hardware-net"},
+    #    ]
+    #},
+}
+
+Vagrant.configure("2") do |config|
+
+    MACHINES.each do |boxname, boxconfig|
+        config.gatling.rsync_on_startup = false
+        config.vm.define boxname do |box|
+            box.vm.provision "shell", run: "always", inline: <<-SHELL
+
+                systemctl stop NetworkManager    # <--- No once anymore
+                systemctl disable NetworkManager # <--- No once anymore
+
+                systemctl enable network.service
+                systemctl start network.service
+
+            SHELL
+
+            config.vm.provider "virtualbox" do |v|
+                v.memory = 256
+                v.cpus = 1
+            end
+
+            box.vm.box = boxconfig[:box_name]
+            box.vm.host_name = boxname.to_s
+
+            boxconfig[:net].each do |ipconf|
+                box.vm.network "private_network", ipconf
+            end
+
+            if boxconfig.key?(:public)
+                box.vm.network "public_network", boxconfig[:public]
+            end
+
+            box.vm.provision "shell", inline: <<-SHELL
+                mkdir -p ~root/.ssh
+                cp ~vagrant/.ssh/auth* ~root/.ssh
+                sed -i '65s/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+                systemctl restart sshd
+            SHELL
+
+        end
+    end
+end

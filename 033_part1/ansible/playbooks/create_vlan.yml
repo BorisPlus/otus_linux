@@ -1,0 +1,10 @@
+---
+- name: Playbook of ethX.Y vlan config
+  hosts:
+    - testServer1
+    - testServer2
+    - testClient1
+    - testClient2
+  become: yes
+  roles:
+    - role: '../roles/create_vlan'

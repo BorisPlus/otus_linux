@@ -1,0 +1,25 @@
+---
+- name: test | install sshpass
+  yum:
+    name: sshpass
+    state: latest
+  become: yes
+  notify:
+    - test | uninstall sshpass
+
+- name: test | get foreign host name
+  shell: sshpass -p vagrant ssh vagrant@{{ item }} hostname
+  loop: "{{ to }}"
+  register: hostname_content
+
+- name: test | print hostname
+  debug:
+    msg: hostname_content['stdout']
+
+- name: test | result file output
+  local_action:
+    module: copy
+    content: "{{ item['stdout'] }}"
+    dest: "../../files/{{ inventory_hostname }} - {{ item['cmd'] }}.txt"
+  loop: "{{ hostname_content['results'] }}"
+

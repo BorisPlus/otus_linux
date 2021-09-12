@@ -1,0 +1,6 @@
+---
+- name: test | uninstall sshpass
+  yum:
+    name: sshpass
+    state: absent
+  become: yes
