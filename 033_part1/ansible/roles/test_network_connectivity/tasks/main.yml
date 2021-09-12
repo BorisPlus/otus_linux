@@ -1,0 +1,21 @@
+---
+- name: test | install traceroute
+  yum:
+    name: traceroute
+    state: latest
+  become: yes
+  notify:
+    - test | uninstall traceroute
+
+- name: test | traceroute foreign host
+  shell: traceroute {{ item }}
+  loop: "{{ to }}"
+  ignore_errors: false
+  register: traceroute_content
+
+- name: test | result file output
+  local_action:
+    module: copy
+    content: "{{ item['stdout'] }}"
+    dest:  "../../files/traceroute/{{ inventory_hostname }} - {{ item['cmd'] }}.txt"
+  loop: "{{ traceroute_content['results'] }}"

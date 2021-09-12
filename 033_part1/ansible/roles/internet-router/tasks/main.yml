@@ -1,0 +1,10 @@
+---
+- name: iptables masquerading
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    out_interface: eth0
+    jump: MASQUERADE
+  tags:
+    - deploy
+    - iptables-masquerading

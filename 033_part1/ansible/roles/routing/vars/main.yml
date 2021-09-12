@@ -1,0 +1,67 @@
+networks_hosts:
+  inetRouter:
+    forwarding: 1
+    default_gateway:
+      interface: eth0
+      gw: ''
+    routes:
+      - { interface: eth1, nw: 192.168.0.0/24, via: 192.168.255.2 }
+      - { interface: eth1, nw: 192.168.1.0/24, via: 192.168.255.2 }
+      - { interface: eth1, nw: 192.168.2.0/24, via: 192.168.255.2 }
+  centralRouter:
+    forwarding: 1
+    #ip_forward: 1
+    default_gateway:
+      interface: eth1
+      gw: 192.168.255.1
+    routes:
+      - { interface: eth3, nw: 192.168.2.0/24, via: 192.168.0.34 }
+      - { interface: eth3, nw: 192.168.1.0/24, via: 192.168.0.35 }
+  centralServer:
+    default_gateway:
+      interface: eth1
+      gw: 192.168.0.1
+    routes: []
+  office1Router:
+    forwarding: 1
+    default_gateway:
+      interface: eth1
+      gw: 192.168.0.33
+    routes: []
+  office1Server:
+    forwarding: 1
+    default_gateway:
+      interface: eth1
+      gw: 192.168.2.193
+    routes: []
+  office2Router:
+    forwarding: 1
+    default_gateway:
+      interface: eth1
+      gw: 192.168.0.33
+    routes: [ ]
+  office2Server:
+    default_gateway:
+      interface: eth1
+      gw: 192.168.1.193
+    routes: [ ]
+  testClient1:
+    default_gateway:
+      interface: eth1
+      gw: 192.168.2.65
+    routes: [ ]
+  testClient2:
+    default_gateway:
+      interface: eth1
+      gw: 192.168.2.65
+    routes: [ ]
+  testServer1:
+    default_gateway:
+      interface: eth1
+      gw: 192.168.2.65
+    routes: [ ]
+  testServer2:
+    default_gateway:
+      interface: eth1
+      gw: 192.168.2.65
+    routes: [ ]
