@@ -16,6 +16,7 @@ Vagrant.configure("2") do |config|
   MACHINES.each do |boxname, boxconfig|
 
       config.vm.define boxname do |box|
+          config.gatling.rsync_on_startup = false
 
           box.vm.box = boxconfig[:config]
           box.vm.host_name = boxname.to_s
@@ -31,11 +32,6 @@ Vagrant.configure("2") do |config|
             sed -i '65s/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
             systemctl restart sshd
           SHELL
-
-          # config.vm.define "guest" do |guest|
-          #   guest.vm.provision "shell", path: "hw015.sh"
-          #   guest.vm.hostname = "guest"
-          # end
       end
   end
 end
