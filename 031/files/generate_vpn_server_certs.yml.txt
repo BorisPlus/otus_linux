@@ -1,0 +1,63 @@
+
+PLAY [Playbook of vpn server configure] ****************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [server]
+
+TASK [../roles/generate_vpn_server_certs : Install EPEL Repo package from standart repo] ***
+changed: [server]
+
+TASK [../roles/generate_vpn_server_certs : Install Wget] ***********************
+changed: [server]
+
+TASK [../roles/generate_vpn_server_certs : EasyRSA deploy commands] ************
+ok: [server] => {
+    "msg": "rm -f /home/vagrant/common/temp/\nmkdir -p /home/vagrant/common/temp/\ntouch /home/vagrant/common/temp/EasyRSA-3.0.8.tgz\nwget -O /home/vagrant/common/temp/EasyRSA-3.0.8.tgz https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz\ntar -C /home/vagrant/common/temp/ -xzvf /home/vagrant/common/temp/EasyRSA-3.0.8.tgz\nmv /home/vagrant/common/temp/EasyRSA-3.0.8 /home/vagrant/common/temp/easyrsa\nrm -f /home/vagrant/common/temp/EasyRSA-3.0.8.tgz\n"
+}
+
+TASK [../roles/generate_vpn_server_certs : EasyRSA deploy] *********************
+changed: [server]
+
+TASK [../roles/generate_vpn_server_certs : Copy "vars" file to guest] **********
+ok: [server]
+
+TASK [../roles/generate_vpn_server_certs : EasyRSA - Init PKI] *****************
+changed: [server]
+
+TASK [../roles/generate_vpn_server_certs : debuggins] **************************
+ok: [server] => {
+    "msg": "\nNote: using Easy-RSA configuration from: /home/vagrant/common/temp/easyrsa/vars\n\n\nWARNING!!!\n\nYou are about to remove the EASYRSA_PKI at: /home/vagrant/common/temp/easyrsa/pki\nand initialize a fresh PKI here.\n\nType the word 'yes' to continue, or any other input to abort.\n  Confirm removal: \ninit-pki complete; you may now create a CA or requests.\nYour newly created PKI dir is: /home/vagrant/common/temp/easyrsa/pki"
+}
+
+TASK [../roles/generate_vpn_server_certs : EasyRSA - Build Auth Center CERT] ***
+changed: [server]
+
+TASK [../roles/generate_vpn_server_certs : debuggins] **************************
+ok: [server] => {
+    "msg": "\nNote: using Easy-RSA configuration from: /home/vagrant/common/temp/easyrsa/vars\nUsing SSL: openssl OpenSSL 1.0.2k-fips  26 Jan 2017\n\nEnter New CA Key Passphrase: \nRe-Enter New CA Key Passphrase: \n\nCA creation complete and you may now import and sign cert requests.\nYour new CA certificate file for publishing is at:\n//home/vagrant/common/temp/easyrsa/pki/ca.crt"
+}
+
+TASK [../roles/generate_vpn_server_certs : EasyRSA - DH] ***********************
+changed: [server]
+
+TASK [../roles/generate_vpn_server_certs : debuggins] **************************
+ok: [server] => {
+    "msg": "\nNote: using Easy-RSA configuration from: /home/vagrant/common/temp/easyrsa/vars\nUsing SSL: openssl OpenSSL 1.0.2k-fips  26 Jan 2017\n\nDH parameters of size 2048 created at /home/vagrant/common/temp/easyrsa/pki/dh.pem"
+}
+
+TASK [../roles/generate_vpn_server_certs : EasyRSA - prepare Server side CERT] ***
+changed: [server]
+
+TASK [../roles/generate_vpn_server_certs : debuggins] **************************
+ok: [server] => {
+    "msg": "\nNote: using Easy-RSA configuration from: /home/vagrant/common/temp/easyrsa/vars\nUsing SSL: openssl OpenSSL 1.0.2k-fips  26 Jan 2017\n\nKeypair and certificate request completed. Your files are:\nreq: /home/vagrant/common/temp/easyrsa/pki/reqs/server.req\nkey: /home/vagrant/common/temp/easyrsa/pki/private/server.key"
+}
+
+TASK [../roles/generate_vpn_server_certs : debuggins] **************************
+ok: [server] => {
+    "msg": "!!! ALERT !!!\nSo, now you need run command 'cd /home/vagrant/common/temp/ && ./easyrsa/easyrsa sign-req server server' at guest terminal, for:\n* /home/vagrant/common/temp/easyrsa/pki/issued/server.req\n* /home/vagrant/common/temp/easyrsa/pki/issued/server.crt\n"
+}
+
+PLAY RECAP *********************************************************************
+server                     : ok=15   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

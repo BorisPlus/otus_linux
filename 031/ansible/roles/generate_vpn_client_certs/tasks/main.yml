@@ -1,12 +1,23 @@
 ---
+- name: EasyRSA - client side CERT
   shell: |
+    rm -f {{temp_dir}}easyrsa/pki/reqs/client.req
+    rm -f {{temp_dir}}easyrsa/pki/private/client.key
+    rm -f {{temp_dir}}easyrsa/pki/issued/client.crt
     cd {{temp_dir}}easyrsa
-    ./easyrsa build-client-full client1 nopass <<-END
+    ./easyrsa gen-req client nopass <<-END
+    yes
     {{ secret_phrase }}
     END
   become: true
   register: result
 
-- name: debuggins
+- name: debuggin
   debug:
     msg: "{{ result.stdout }}"
+
+- name: debuggin
+  debug:
+    msg: |
+      !!! ALERT !!!
+      So, now you need run command 'cd {{ temp_dir }} && ./easyrsa/easyrsa sign-req client client' at guest terminal

@@ -1,0 +1,5 @@
+---
+- name: systemctl-restart-openvpn
+  systemd:
+    state: restarted
+    name: openvpn

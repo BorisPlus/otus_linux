@@ -1,0 +1,106 @@
+---
+- name: Install EPEL Repo package from standart repo
+  yum:
+    name: epel-release
+    state: present
+  tags:
+    - install-epel-repo
+
+- name: Install Wget
+  yum:
+    name: wget
+    state: latest
+  tags:
+    - install-wget
+
+- name: EasyRSA deploy commands
+  debug:
+    msg: |
+      rm -f {{ temp_dir }}
+      mkdir -p {{ temp_dir }}
+      touch {{ temp_dir }}EasyRSA-3.0.8.tgz
+      wget -O {{ temp_dir }}EasyRSA-3.0.8.tgz https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz
+      tar -C {{ temp_dir }} -xzvf {{ temp_dir }}EasyRSA-3.0.8.tgz
+      mv {{ temp_dir }}EasyRSA-3.0.8 {{ temp_dir }}easyrsa
+      rm -f {{ temp_dir }}EasyRSA-3.0.8.tgz
+
+- name: EasyRSA deploy
+  shell: |
+    rm -f {{ temp_dir }}
+    mkdir -p {{ temp_dir }}
+    touch {{ temp_dir }}EasyRSA-3.0.8.tgz
+    wget -O {{ temp_dir }}EasyRSA-3.0.8.tgz https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz
+    tar -C {{ temp_dir }} -xzvf {{ temp_dir }}EasyRSA-3.0.8.tgz
+    mv {{ temp_dir }}EasyRSA-3.0.8 {{ temp_dir }}easyrsa
+    rm -f {{ temp_dir }}EasyRSA-3.0.8.tgz
+
+- name: Copy "vars" file to guest
+  copy:
+    src: ../../common_files/vars
+    dest: "{{ temp_dir }}easyrsa/"
+
+# /home/vagrant/common/temp/easyrsa/pki
+- name: EasyRSA - Init PKI
+  shell: |
+    cd {{temp_dir}}easyrsa/
+    ./easyrsa init-pki <<-END
+    yes
+    END
+  register: result
+
+- name: debuggins
+  debug:
+    msg: "{{ result.stdout }}"
+
+# /home/vagrant/common/temp/easyrsa/pki/ca.crt"
+- name: EasyRSA - Build Auth Center CERT
+  shell: |
+    cd /{{temp_dir}}easyrsa
+    ./easyrsa build-ca <<-END
+    {{ secret_phrase }}
+    {{ secret_phrase }}
+
+    END
+  register: result
+
+- name: debuggins
+  debug:
+    msg: "{{ result.stdout }}"
+
+# /home/vagrant/common/temp/easyrsa/pki/dh.pem"
+- name: EasyRSA - DH
+  shell: |
+    cd {{temp_dir}}easyrsa
+    ./easyrsa gen-dh
+  become: true
+  register: result
+
+- name: debuggins
+  debug:
+    msg: "{{ result.stdout }}"
+
+# /home/vagrant/common/temp/easyrsa/pki/dh.pem
+- name: EasyRSA - prepare Server side CERT
+  shell: |
+    cd {{temp_dir}}easyrsa
+    ./easyrsa gen-req server nopass <<-END
+
+    {{ secret_phrase }}
+
+    END
+  become: true
+  register: result
+
+- name: debuggins
+  debug:
+    msg: "{{ result.stdout }}"
+
+# /home/vagrant/common/temp/easyrsa/pki/issued/server.crt
+- name: debuggins
+  debug:
+    msg: |
+      !!! ALERT !!!
+      So, now you need run command 'cd {{ temp_dir }} && ./easyrsa/easyrsa sign-req server server' at guest terminal, for:
+      * {{temp_dir}}easyrsa/pki/issued/server.req
+      * {{temp_dir}}easyrsa/pki/issued/server.crt
+

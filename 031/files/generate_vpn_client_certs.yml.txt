@@ -1,0 +1,22 @@
+
+PLAY [Playbook of generate vpn-client certs] ***********************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [server]
+
+TASK [../roles/generate_vpn_client_certs : EasyRSA - client side CERT] *********
+changed: [server]
+
+TASK [../roles/generate_vpn_client_certs : debuggin] ***************************
+ok: [server] => {
+    "msg": "\nNote: using Easy-RSA configuration from: /home/vagrant/common/temp/easyrsa/vars\nUsing SSL: openssl OpenSSL 1.0.2k-fips  26 Jan 2017\n\nKeypair and certificate request completed. Your files are:\nreq: /home/vagrant/common/temp/easyrsa/pki/reqs/client.req\nkey: /home/vagrant/common/temp/easyrsa/pki/private/client.key"
+}
+
+TASK [../roles/generate_vpn_client_certs : debuggin] ***************************
+ok: [server] => {
+    "msg": "!!! ALERT !!!\nSo, now you need run command 'cd /home/vagrant/common/temp/ && ./easyrsa/easyrsa sign-req client client' at guest terminal\n"
+}
+
+PLAY RECAP *********************************************************************
+server                     : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

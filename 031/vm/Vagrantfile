@@ -1,0 +1,48 @@
+# -*- mode: ruby -*-
+# vim: set ft=ruby :
+
+MACHINES = {
+    :server => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.31.1', adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "ethernet"},
+        ]
+    },
+    :client => {
+        :box_name => "centos/7",
+        :net => [
+            {ip: '192.168.31.2', adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "ethernet"},
+        ]
+    },
+}
+
+Vagrant.configure("2") do |config|
+
+    MACHINES.each do |boxname, boxconfig|
+        config.gatling.rsync_on_startup = false
+        config.vm.define boxname do |box|
+            # vagrant plugin uninstall vagrant-vbguest
+            # vagrant plugin install vagrant-vbguest --plugin-version 0.21
+
+            box.vm.provider "virtualbox" do |v|
+                v.memory = 256
+                v.cpus = 1
+            end
+
+            box.vm.box = boxconfig[:box_name]
+            box.vm.host_name = boxname.to_s
+
+            box.vm.synced_folder "guest/", "/home/vagrant/common"
+
+            boxconfig[:net].each do |ipconf|
+                box.vm.network "private_network", ipconf
+            end
+
+            box.vm.provision "shell", inline: <<-SHELL
+                mkdir -p ~root/.ssh
+                cp ~vagrant/.ssh/auth* ~root/.ssh
+            SHELL
+
+        end
+    end
+end
