@@ -1,0 +1,8 @@
+---
+- name: Clear lab
+  hosts:
+    - server
+    - client
+  become: yes
+  roles:
+    - role: '../roles/clear_lab'

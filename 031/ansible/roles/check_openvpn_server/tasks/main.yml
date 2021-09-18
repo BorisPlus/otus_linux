@@ -1,0 +1,16 @@
+---
+- name: Check openvpn server
+  shell: "{{ item }}"
+  loop:
+    - systemctl status openvpn@server.service
+    - sudo cat /var/log/openvpn/openvpn.log
+    - sudo cat /var/log/openvpn/openvpn-status.log
+  register: check_content
+
+- name: Store check to files
+  local_action:
+    module: copy
+    content: "{{ item['stdout'] }}"
+    dest: "../../files/{{ item['cmd'] | replace('/', '_') }}.txt"
+  loop: "{{ check_content['results'] }}"
+

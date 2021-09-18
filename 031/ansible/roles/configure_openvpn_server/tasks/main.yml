@@ -1,0 +1,53 @@
+---
+- name: Install EPEL Repo package from standart repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install Openvpn
+  yum:
+    name: openvpn
+    state: latest
+
+- name: Copy "server.conf" file
+  copy:
+    src: ../files/server.conf
+    dest: /etc/openvpn/server.conf
+#    owner: openvpn
+#    group: nobody
+#    mode: '0770'
+
+- name: Create openvpn directories
+  shell: |
+    mkdir -p /etc/openvpn/ccd
+    mkdir -p /var/log/openvpn
+
+- name: Generate tc.key
+  shell: |
+    mkdir -p /etc/openvpn/keys/
+    openvpn --genkey --secret {{ temp_dir }}easyrsa/pki/tc.key
+
+- name: Collect server keys dirs /etc/openvpn/keys/
+  shell: |
+    mkdir -p /etc/openvpn/keys/{{ item }}
+    chown openvpn:nobody -R /etc/openvpn/keys/
+  loop:
+    - private
+    - issued
+
+- name: Collect server keys /etc/openvpn/keys/
+  copy:
+    src: "{{ temp_dir }}easyrsa/pki/{{ item }}"
+    dest: /etc/openvpn/keys/{{ item }}
+    remote_src: true
+    owner: openvpn
+    group: nobody
+    mode: '0770'
+  loop:
+    - ca.crt
+    - dh.pem
+    - issued/server.crt
+    - private/server.key
+    - tc.key
+  notify:
+    - systemctl-restart-openvpn

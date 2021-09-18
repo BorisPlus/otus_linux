@@ -1,0 +1,12 @@
+---
+  shell: |
+    cd {{temp_dir}}easyrsa
+    ./easyrsa build-client-full client1 nopass <<-END
+    {{ secret_phrase }}
+    END
+  become: true
+  register: result
+
+- name: debuggins
+  debug:
+    msg: "{{ result.stdout }}"

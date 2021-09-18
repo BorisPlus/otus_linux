@@ -1,0 +1,7 @@
+---
+- name: Configure openvpn client
+  hosts:
+    - client
+  become: yes
+  roles:
+    - role: '../roles/configure_openvpn_client'

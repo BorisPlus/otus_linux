@@ -1,0 +1,16 @@
+---
+- name: Clear project | remove temp dir
+  shell:
+    rm -fr {{ temp_dir }}
+    echo '' > /var/log/openvpn/openvpn.log
+    echo '' > /var/log/openvpn/openvpn-status.log
+
+- name: Clear project | uninstall wget
+  yum:
+    name: wget
+    state: absent
+
+- name: Clear project | remove epel-release
+  yum:
+    name: epel-release
+    state: absent

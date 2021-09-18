@@ -1,0 +1,7 @@
+---
+- name: Playbook of generate vpn-client certs
+  hosts:
+    - server
+  become: yes
+  roles:
+    - role: '../roles/generate_vpn_client_certs'

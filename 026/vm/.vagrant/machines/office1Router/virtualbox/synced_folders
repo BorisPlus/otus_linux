@@ -1,1 +1,0 @@
-{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/b/pycharm_projects_2021_2/otus_linux/026/vm","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
