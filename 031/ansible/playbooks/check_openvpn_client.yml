@@ -1,0 +1,6 @@
+---
+- name: Check openvpn client
+  hosts:
+    - client
+  roles:
+    - role: '../roles/check_openvpn_client'

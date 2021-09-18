@@ -2,3 +2,37 @@
 PLAY [Configure openvpn server] ************************************************
 
 TASK [Gathering Facts] *********************************************************
+ok: [server]
+
+TASK [../roles/configure_openvpn_server : Install EPEL Repo package from standart repo] ***
+ok: [server]
+
+TASK [../roles/configure_openvpn_server : Install Openvpn] *********************
+changed: [server]
+
+TASK [../roles/configure_openvpn_server : Copy "server.conf" file] *************
+changed: [server]
+
+TASK [../roles/configure_openvpn_server : Create openvpn directories] **********
+changed: [server]
+
+TASK [../roles/configure_openvpn_server : Generate tc.key] *********************
+changed: [server]
+
+TASK [../roles/configure_openvpn_server : Collect server keys dirs /etc/openvpn/keys/] ***
+changed: [server] => (item=private)
+changed: [server] => (item=issued)
+
+TASK [../roles/configure_openvpn_server : Collect server keys /etc/openvpn/keys/] ***
+changed: [server] => (item=ca.crt)
+changed: [server] => (item=dh.pem)
+changed: [server] => (item=issued/server.crt)
+changed: [server] => (item=private/server.key)
+changed: [server] => (item=tc.key)
+
+RUNNING HANDLER [../roles/configure_openvpn_server : systemctl-restart-openvpn] ***
+changed: [server]
+
+PLAY RECAP *********************************************************************
+server                     : ok=9    changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

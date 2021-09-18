@@ -5,12 +5,13 @@
     - systemctl status openvpn@server.service
     - sudo cat /var/log/openvpn/openvpn.log
     - sudo cat /var/log/openvpn/openvpn-status.log
+    - /sbin/ip add show tun0
   register: check_content
 
 - name: Store check to files
   local_action:
     module: copy
     content: "{{ item['stdout'] }}"
-    dest: "../../files/{{ item['cmd'] | replace('/', '_') | replace(' ', '-') }}.txt"
+    dest: "../../files/{{ inventory_hostname }}-{{ item['cmd'] | replace('/', '_') | replace(' ', '-') }}.txt"
   loop: "{{ check_content['results'] }}"
 
