@@ -11,6 +11,6 @@
   local_action:
     module: copy
     content: "{{ item['stdout'] }}"
-    dest: "../../files/{{ item['cmd'] | replace('/', '_') | replace('@', 'A') | replace(' ', '-') }}.txt"
+    dest: "../../files/{{ item['cmd'] | replace('/', '_') | replace(' ', '-') }}.txt"
   loop: "{{ check_content['results'] }}"
 
