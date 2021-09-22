@@ -7,7 +7,7 @@
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
     link/ether 52:54:00:4d:77:d3 brd ff:ff:ff:ff:ff:ff
     inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
-       valid_lft 86095sec preferred_lft 86095sec
+       valid_lft 86212sec preferred_lft 86212sec
     inet6 fe80::5054:ff:fe4d:77d3/64 scope link 
        valid_lft forever preferred_lft forever
 3: eth1: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master bond0 state UP group default qlen 1000
@@ -16,7 +16,7 @@
     link/ether 08:00:27:92:b2:ab brd ff:ff:ff:ff:ff:ff
 5: bond0: <BROADCAST,MULTICAST,MASTER,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
     link/ether 08:00:27:92:b2:ab brd ff:ff:ff:ff:ff:ff
-    inet 10.1.1.1/24 brd 10.1.1.255 scope global bond0
+    inet 10.1.1.1/30 brd 10.1.1.3 scope global bond0
        valid_lft forever preferred_lft forever
     inet6 fe80::a00:27ff:fe92:b2ab/64 scope link 
        valid_lft forever preferred_lft forever

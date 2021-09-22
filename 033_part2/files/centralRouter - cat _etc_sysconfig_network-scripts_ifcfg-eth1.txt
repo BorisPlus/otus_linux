@@ -1,6 +1,6 @@
 DEVICE=eth1
-SLAVE="yes"
+SLAVE=yes
 MASTER=bond0
 BOOTPROTO=none
-ONBOOT="yes"
-USERCTL="no"
+ONBOOT=yes
+USERCTL=no

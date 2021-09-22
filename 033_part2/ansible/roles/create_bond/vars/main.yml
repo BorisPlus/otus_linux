@@ -8,55 +8,55 @@ networks_hosts:
         # UUID: e19e2059-2e31-4143-915a-cdc11d19c9d6
         DEVICE: bond0,
         TYPE: Bond,
-        BONDING_MASTER: '"yes"',
+        BONDING_MASTER: "yes",
         IPADDR: 10.1.1.1,
-        NETMASK: 255.255.255.0,
-        ONBOOT: '"yes"',
-        USERCTL: '"no"',
-        BONDING_OPTS: '"mode=0 miimon=100 fail_over_mac=1"',
+        NETMASK: 255.255.255.252,
+        ONBOOT: "yes",
+        USERCTL: "no",
+        BONDING_OPTS: '"mode=0 miimon=100"',
       }
       - {
         DEVICE: eth1,
-        SLAVE: '"yes"',
+        SLAVE: "yes",
         MASTER: bond0,
         BOOTPROTO: 'none',
-        ONBOOT: '"yes"',
-        USERCTL: '"no"',
+        ONBOOT: "yes",
+        USERCTL: "no",
       }
       - {
         DEVICE: eth2,
-        SLAVE: '"yes"',
+        SLAVE: "yes",
         MASTER: bond0,
         BOOTPROTO: 'none',
-        ONBOOT: '"yes"',
-        USERCTL: '"no"',
+        ONBOOT: "yes",
+        USERCTL: "no",
       }
   centralRouter:
     bonds:
       - {
         DEVICE: bond0,
         TYPE: Bond,
-        BONDING_MASTER: '"yes"',
+        BONDING_MASTER: "yes",
         IPADDR: 10.1.1.2,
-        NETMASK: 255.255.255.0,
+        NETMASK: 255.255.255.252,
         GATEWAY: 10.1.1.1,
-        ONBOOT: '"yes"',
-        USERCTL: '"no"',
-        BONDING_OPTS: '"mode=0 miimon=100 fail_over_mac=1"',
+        ONBOOT: "yes",
+        USERCTL: "no",
+        BONDING_OPTS: '"mode=0 miimon=100"',
       }
       - {
         DEVICE: eth1,
-        SLAVE: '"yes"',
+        SLAVE: "yes",
         MASTER: bond0,
         BOOTPROTO: 'none',
-        ONBOOT: '"yes"',
-        USERCTL: '"no"',
+        ONBOOT: "yes",
+        USERCTL: "no",
       }
       - {
         DEVICE: eth2,
-        SLAVE: '"yes"',
+        SLAVE: "yes",
         MASTER: bond0,
         BOOTPROTO: 'none',
-        ONBOOT: '"yes"',
-        USERCTL: '"no"',
+        ONBOOT: "yes",
+        USERCTL: "no",
       }
