@@ -1,7 +1,9 @@
 DEVICE=bond0
 TYPE=Bond
+BONDING_MASTER=True
 IPADDR=10.1.1.1
 NETMASK=255.255.255.0
 ONBOOT=True
 USERCTL=False
-BOOTPROTO=none
+BOOTPROTO=static
+BONDING_OPTS="mode=0 miimon=100 fail_over_mac=1"

@@ -1,2 +1,2 @@
 alias bond0 bonding
-options bond0 miimon=100 mode=0 
+options bond0 mode=0 miimon=100 fail_over_mac=1 

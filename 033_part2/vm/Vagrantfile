@@ -5,15 +5,15 @@ MACHINES = {
     :inetRouter => {
         :box_name => "centos/7",
         :net => [
-            {adapter: 2, virtualbox__intnet: "channel_1"}, # auto_config: false
-            {adapter: 3, virtualbox__intnet: "channel_2"}
+            {adapter: 2, virtualbox__intnet: "channel_1",},
+            {adapter: 3, virtualbox__intnet: "channel_1",}
         ]
     },
     :centralRouter => {
         :box_name => "centos/7",
         :net => [
-            {adapter: 2, virtualbox__intnet: "channel_2"},
-            {adapter: 3, virtualbox__intnet: "channel_1"},
+            {adapter: 2, virtualbox__intnet: "channel_1",},
+            {adapter: 3, virtualbox__intnet: "channel_1",},
         ]
     },
 }

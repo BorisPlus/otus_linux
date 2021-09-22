@@ -1,7 +1,7 @@
-TYPE=Ethernet
 DEVICE=eth2
-BOOTPROTO=none
+TYPE=Ethernet
+SLAVE=True
+MASTER=bond0
+BOOTPROTO=static
 ONBOOT=True
 USERCTL=False
-MASTER=bond0
-SLAVE=True
