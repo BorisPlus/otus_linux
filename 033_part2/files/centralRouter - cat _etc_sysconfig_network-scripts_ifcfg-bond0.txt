@@ -8,4 +8,4 @@ GATEWAY=192.168.1.1
 ONBOOT=yes
 DEFROUTE=yes
 USERCTL=no
-BONDING_OPTS="mode=1 miimon=100"
+BONDING_OPTS="mode=1 miimon=100 primary=eth1 primary=eth2 primary_select=always downdelay=200 updelay=200"

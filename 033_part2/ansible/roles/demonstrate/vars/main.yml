@@ -1,10 +1,10 @@
 to_do:
-  - cat /etc/modprobe.d/bond.conf
+  # - cat /etc/modprobe.d/bonding.conf
   - cat /etc/sysconfig/network-scripts/ifcfg-bond0
   - cat /etc/sysconfig/network-scripts/ifcfg-eth1
   - cat /etc/sysconfig/network-scripts/ifcfg-eth2
   - cat /proc/net/bonding/bond0
   - /sbin/ip a
   - /sbin/ip r
-  - ping -s 64 -c 4 192.168.1.1
-  - ping -s 64 -c 4 192.168.1.2
+  - ping -c 4 192.168.1.1
+  - ping -c 4 192.168.1.2

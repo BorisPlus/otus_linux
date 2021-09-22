@@ -14,7 +14,7 @@ networks_hosts:
         ONBOOT: "yes",
         DEFROUTE: "yes",
         USERCTL: "no",
-        BONDING_OPTS: '"mode=1 miimon=100"',
+        BONDING_OPTS: '"mode=1 miimon=100 primary=eth1 primary=eth2 primary_select=always downdelay=200 updelay=200"',
       }
       - {
         DEVICE: eth1,
@@ -51,7 +51,7 @@ networks_hosts:
         ONBOOT: "yes",
         DEFROUTE: "yes",
         USERCTL: "no",
-        BONDING_OPTS: '"mode=1 miimon=100"', #  primary=eth1 primary_select=always
+        BONDING_OPTS: '"mode=1 miimon=100 primary=eth1 primary=eth2 primary_select=always downdelay=200 updelay=200"', # ls /sys/class/net/bond0/bonding/
       }
       - {
         DEVICE: eth1,

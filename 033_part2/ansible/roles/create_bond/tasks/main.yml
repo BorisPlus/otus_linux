@@ -5,22 +5,20 @@
     exit 0
   ignore_errors: false
 
-- name: rm -f modprobe.conf
-  shell: |
-    rm -f /etc/modprobe.conf
-    exit 0
-
-- name: rm -f /etc/modprobe.d/bond.conf
-  shell: |
-    rm -f /etc/modprobe.d/bond.conf
-    exit 0
+#    rm -f /etc/modprobe.conf
+#    exit 0
+#
+#- name: rm -f /etc/modprobe.d/bonding.conf
+#  shell: |
+#    rm -f /etc/modprobe.d/bonding.conf
+#    exit 0
 
 #    echo "options {{ item.DEVICE }} -o {{ item.DEVICE }} {{ item.BONDING_OPTS }} " >> /etc/modprobe.d/bond.conf
 
-#- name: Configure bond in modprobe.conf
+#- name: Configure bond in /etc/modprobe.d/bonding.conf
 #  shell: |
-#    echo "alias {{ item.DEVICE }} bonding" >> /etc/modprobe.d/bond.conf
-#    echo "options {{ item.DEVICE }} {{ item.BONDING_OPTS }} " >> /etc/modprobe.d/bond.conf
+#    echo "alias {{ item.DEVICE }} bonding" >> /etc/modprobe.d/bonding.conf
+#    echo "options {{ item.DEVICE }} -o {{ item.DEVICE }} {{ item.BONDING_OPTS }} " >> /etc/modprobe.d/bonding.conf
 #    exit 0
 #  loop: "{{ networks_hosts[inventory_hostname]['bonds'] }}"
 #  when: item['TYPE'] is defined and item['TYPE'] == "Bond"
@@ -33,7 +31,6 @@
 
 - name: /etc/sysconfig/network-scripts/ifcfg-<bonded> | create bond
   copy:
-    #content: "{% for key in item %}{% if key != 'BONDING_OPTS' %}{{ key }}={{ item[key] }}\n{% endif %}{% endfor %}"
     content: "{% for key in item %}{{ key }}={{ item[key] }}\n{% endfor %}"
     dest: /etc/sysconfig/network-scripts/ifcfg-{{item.DEVICE}}
   loop: "{{ networks_hosts[inventory_hostname]['bonds'] }}"

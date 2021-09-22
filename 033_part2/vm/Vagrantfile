@@ -6,14 +6,14 @@ MACHINES = {
         :box_name => "centos/7",
         :net => [
             {adapter: 2, virtualbox__intnet: "channel_1",},
-            {adapter: 3, virtualbox__intnet: "channel_1",}
+            {adapter: 3, virtualbox__intnet: "channel_2",}
         ]
     },
     :centralRouter => {
         :box_name => "centos/7",
         :net => [
             {adapter: 2, virtualbox__intnet: "channel_1",},
-            {adapter: 3, virtualbox__intnet: "channel_1",},
+            {adapter: 3, virtualbox__intnet: "channel_2",},
         ]
     },
 }

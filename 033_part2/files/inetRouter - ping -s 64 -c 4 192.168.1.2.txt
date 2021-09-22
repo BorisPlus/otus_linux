@@ -1,9 +1,9 @@
 PING 192.168.1.2 (192.168.1.2) 64(92) bytes of data.
-72 bytes from 192.168.1.2: icmp_seq=1 ttl=64 time=0.357 ms
-72 bytes from 192.168.1.2: icmp_seq=2 ttl=64 time=0.333 ms
-72 bytes from 192.168.1.2: icmp_seq=3 ttl=64 time=0.851 ms
-72 bytes from 192.168.1.2: icmp_seq=4 ttl=64 time=0.636 ms
+72 bytes from 192.168.1.2: icmp_seq=1 ttl=64 time=0.322 ms
+72 bytes from 192.168.1.2: icmp_seq=2 ttl=64 time=0.916 ms
+72 bytes from 192.168.1.2: icmp_seq=3 ttl=64 time=0.737 ms
+72 bytes from 192.168.1.2: icmp_seq=4 ttl=64 time=2.92 ms
 
 --- 192.168.1.2 ping statistics ---
 4 packets transmitted, 4 received, 0% packet loss, time 3003ms
-rtt min/avg/max/mdev = 0.333/0.544/0.851/0.214 ms
+rtt min/avg/max/mdev = 0.322/1.223/2.920/1.003 ms

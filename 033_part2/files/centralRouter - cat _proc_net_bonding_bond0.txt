@@ -1,19 +1,19 @@
 Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
 
 Bonding Mode: fault-tolerance (active-backup)
-Primary Slave: eth1 (primary_reselect always)
-Currently Active Slave: eth1
+Primary Slave: eth2 (primary_reselect always)
+Currently Active Slave: eth2
 MII Status: up
 MII Polling Interval (ms): 100
-Up Delay (ms): 0
-Down Delay (ms): 0
+Up Delay (ms): 200
+Down Delay (ms): 200
 
 Slave Interface: eth1
 MII Status: up
 Speed: 1000 Mbps
 Duplex: full
 Link Failure Count: 0
-Permanent HW addr: 08:00:27:f3:9d:fe
+Permanent HW addr: 08:00:27:b0:ce:4a
 Slave queue ID: 0
 
 Slave Interface: eth2
@@ -21,5 +21,5 @@ MII Status: up
 Speed: 1000 Mbps
 Duplex: full
 Link Failure Count: 0
-Permanent HW addr: 08:00:27:c2:2b:8d
+Permanent HW addr: 08:00:27:84:e8:54
 Slave queue ID: 0
