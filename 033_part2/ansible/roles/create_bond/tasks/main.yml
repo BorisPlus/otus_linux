@@ -23,10 +23,12 @@
     rm -f /etc/sysconfig/network-scripts/ifcfg-{{ item.DEVICE }}
     exit 0
   loop: "{{ networks_hosts[inventory_hostname]['bonds'] }}"
+#  when: item.TYPE == "Bond"
 
 - name: /etc/sysconfig/network-scripts/ifcfg-<bonded> | create bond
   copy:
-    content: "{% for key in item %}{% if key != 'BONDING_OPTS' %}{{ key }}={{ item[key] }}\n{% endif %}{% endfor %}"
+#    content: "{% for key in item %}{% if key != 'BONDING_OPTS' %}{{ key }}={{ item[key] }}\n{% endif %}{% endfor %}"
+    content: "{% for key in item %}{{ key }}={{ item[key] }}\n{% endfor %}"
     dest: /etc/sysconfig/network-scripts/ifcfg-{{item.DEVICE}}
   loop: "{{ networks_hosts[inventory_hostname]['bonds'] }}"
   notify:
