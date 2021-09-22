@@ -11,7 +11,7 @@ MII Status: up
 Speed: 1000 Mbps
 Duplex: full
 Link Failure Count: 0
-Permanent HW addr: 08:00:27:36:43:cb
+Permanent HW addr: 08:00:27:92:b2:ab
 Slave queue ID: 0
 
 Slave Interface: eth2
@@ -19,5 +19,5 @@ MII Status: up
 Speed: 1000 Mbps
 Duplex: full
 Link Failure Count: 0
-Permanent HW addr: 08:00:27:38:20:5f
+Permanent HW addr: 08:00:27:59:35:12
 Slave queue ID: 0

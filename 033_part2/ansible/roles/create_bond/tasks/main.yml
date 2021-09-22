@@ -10,37 +10,25 @@
     rm -f /etc/modprobe.conf
     exit 0
 
-- name: Configure modprobe.conf
+- name: Configure bond in modprobe.conf
   shell: |
     echo "alias {{ item.DEVICE }} bonding" >> /etc/modprobe.conf
     echo "options {{ item.DEVICE }} {{ item.BONDING_OPTS }} " >> /etc/modprobe.conf
     exit 0
   loop: "{{ networks_hosts[inventory_hostname]['bonds'] }}"
-  when: item.TYPE == "Bond"
+  when: item['TYPE'] is defined and item['TYPE'] == "Bond"
 
-- name: /etc/sysconfig/network-scripts/ifcfg-<bonded> | delete bond
+- name: /etc/sysconfig/network-scripts/ifcfg-<bonded> | delete interfaces
   shell: |
     rm -f /etc/sysconfig/network-scripts/ifcfg-{{ item.DEVICE }}
     exit 0
   loop: "{{ networks_hosts[inventory_hostname]['bonds'] }}"
-#  when: item.TYPE == "Bond"
 
 - name: /etc/sysconfig/network-scripts/ifcfg-<bonded> | create bond
   copy:
-#    content: "{% for key in item %}{% if key != 'BONDING_OPTS' %}{{ key }}={{ item[key] }}\n{% endif %}{% endfor %}"
+    #content: "{% for key in item %}{% if key != 'BONDING_OPTS' %}{{ key }}={{ item[key] }}\n{% endif %}{% endfor %}"
     content: "{% for key in item %}{{ key }}={{ item[key] }}\n{% endfor %}"
     dest: /etc/sysconfig/network-scripts/ifcfg-{{item.DEVICE}}
   loop: "{{ networks_hosts[inventory_hostname]['bonds'] }}"
   notify:
     - systemctl-restart-network
-
-#- name: /etc/sysconfig/network-scripts/ifcfg-bond0 | ifup
-#  shell: |
-#    ifdown eth1
-#    ifdown eth2
-#    ifup bond0
-#    exit 0
-#  notify:
-#    - systemctl-restart-network
-# cat /proc/net/bonding/bond0
-
