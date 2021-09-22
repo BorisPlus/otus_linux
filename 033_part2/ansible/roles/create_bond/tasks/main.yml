@@ -10,13 +10,20 @@
     rm -f /etc/modprobe.conf
     exit 0
 
-- name: Configure bond in modprobe.conf
+- name: rm -f /etc/modprobe.d/bond.conf
   shell: |
-    echo "alias {{ item.DEVICE }} bonding" >> /etc/modprobe.conf
-    echo "options {{ item.DEVICE }} {{ item.BONDING_OPTS }} " >> /etc/modprobe.conf
+    rm -f /etc/modprobe.d/bond.conf
     exit 0
-  loop: "{{ networks_hosts[inventory_hostname]['bonds'] }}"
-  when: item['TYPE'] is defined and item['TYPE'] == "Bond"
+
+#    echo "options {{ item.DEVICE }} -o {{ item.DEVICE }} {{ item.BONDING_OPTS }} " >> /etc/modprobe.d/bond.conf
+
+#- name: Configure bond in modprobe.conf
+#  shell: |
+#    echo "alias {{ item.DEVICE }} bonding" >> /etc/modprobe.d/bond.conf
+#    echo "options {{ item.DEVICE }} {{ item.BONDING_OPTS }} " >> /etc/modprobe.d/bond.conf
+#    exit 0
+#  loop: "{{ networks_hosts[inventory_hostname]['bonds'] }}"
+#  when: item['TYPE'] is defined and item['TYPE'] == "Bond"
 
 - name: /etc/sysconfig/network-scripts/ifcfg-<bonded> | delete interfaces
   shell: |

@@ -4,59 +4,74 @@ networks_hosts:
       - {
         # NAME: bond0,
         # ZONE: internal,
-        # NM_CONTROLLED: no,
         # UUID: e19e2059-2e31-4143-915a-cdc11d19c9d6
         DEVICE: bond0,
+        NAME: bond0,
         TYPE: Bond,
         BONDING_MASTER: "yes",
-        IPADDR: 10.1.1.1,
+        IPADDR: 192.168.1.1,
         NETMASK: 255.255.255.252,
         ONBOOT: "yes",
+        DEFROUTE: "yes",
         USERCTL: "no",
-        BONDING_OPTS: '"mode=0 miimon=100"',
+        BONDING_OPTS: '"mode=1 miimon=100"',
       }
       - {
         DEVICE: eth1,
+        NAME: eth1,
+        TYPE: Ethernet,
         SLAVE: "yes",
         MASTER: bond0,
         BOOTPROTO: 'none',
         ONBOOT: "yes",
         USERCTL: "no",
+        NM_CONTROLLED: "no",
       }
       - {
         DEVICE: eth2,
+        NAME: eth2,
+        TYPE: Ethernet,
         SLAVE: "yes",
         MASTER: bond0,
         BOOTPROTO: 'none',
         ONBOOT: "yes",
         USERCTL: "no",
+        NM_CONTROLLED: "no",
       }
   centralRouter:
     bonds:
       - {
         DEVICE: bond0,
+        NAME: bond0,
         TYPE: Bond,
         BONDING_MASTER: "yes",
-        IPADDR: 10.1.1.2,
+        IPADDR: 192.168.1.2,
         NETMASK: 255.255.255.252,
-        GATEWAY: 10.1.1.1,
+        GATEWAY: 192.168.1.1,
         ONBOOT: "yes",
+        DEFROUTE: "yes",
         USERCTL: "no",
-        BONDING_OPTS: '"mode=0 miimon=100"',
+        BONDING_OPTS: '"mode=1 miimon=100"', #  primary=eth1 primary_select=always
       }
       - {
         DEVICE: eth1,
+        NAME: eth1,
+        TYPE: Ethernet,
         SLAVE: "yes",
         MASTER: bond0,
         BOOTPROTO: 'none',
         ONBOOT: "yes",
         USERCTL: "no",
+        NM_CONTROLLED: "no",
       }
       - {
         DEVICE: eth2,
+        NAME: eth2,
+        TYPE: Ethernet,
         SLAVE: "yes",
         MASTER: bond0,
         BOOTPROTO: 'none',
         ONBOOT: "yes",
         USERCTL: "no",
+        NM_CONTROLLED: "no",
       }

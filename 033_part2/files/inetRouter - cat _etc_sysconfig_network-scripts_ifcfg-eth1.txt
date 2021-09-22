@@ -1,6 +1,9 @@
 DEVICE=eth1
+NAME=eth1
+TYPE=Ethernet
 SLAVE=yes
 MASTER=bond0
 BOOTPROTO=none
 ONBOOT=yes
 USERCTL=no
+NM_CONTROLLED=no

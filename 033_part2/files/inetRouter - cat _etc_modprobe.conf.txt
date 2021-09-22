@@ -1,2 +1,2 @@
 alias bond0 bonding
-options bond0 mode=0 miimon=100 
+options bond0 mode=1 miimon=100 
