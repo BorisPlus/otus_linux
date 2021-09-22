@@ -1,4 +1,9 @@
 PING 10.1.1.2 (10.1.1.2) 64(92) bytes of data.
+72 bytes from 10.1.1.2: icmp_seq=1 ttl=64 time=0.353 ms
+72 bytes from 10.1.1.2: icmp_seq=2 ttl=64 time=0.859 ms
+72 bytes from 10.1.1.2: icmp_seq=3 ttl=64 time=0.842 ms
+72 bytes from 10.1.1.2: icmp_seq=4 ttl=64 time=0.885 ms
 
 --- 10.1.1.2 ping statistics ---
-4 packets transmitted, 0 received, 100% packet loss, time 3004ms
+4 packets transmitted, 4 received, 0% packet loss, time 3003ms
+rtt min/avg/max/mdev = 0.353/0.734/0.885/0.223 ms
