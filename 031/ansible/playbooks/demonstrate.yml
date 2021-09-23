@@ -1,7 +1,0 @@
----
-- name: Demonstration
-  hosts:
-    - inetRouter
-    - centralRouter
-  roles:
-    - role: '../roles/demonstrate'

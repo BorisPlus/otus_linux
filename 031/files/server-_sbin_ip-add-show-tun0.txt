@@ -2,5 +2,5 @@
     link/none 
     inet 172.16.10.1 peer 172.16.10.2/32 scope global tun0
        valid_lft forever preferred_lft forever
-    inet6 fe80::aade:ff87:a922:259c/64 scope link flags 800 
+    inet6 fe80::bf18:158:d712:2490/64 scope link flags 800 
        valid_lft forever preferred_lft forever

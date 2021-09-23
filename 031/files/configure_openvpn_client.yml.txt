@@ -5,24 +5,27 @@ TASK [Gathering Facts] *********************************************************
 ok: [client]
 
 TASK [../roles/configure_openvpn_client : Install EPEL Repo package from standart repo] ***
-ok: [client]
+changed: [client]
 
 TASK [../roles/configure_openvpn_client : Install Openvpn] *********************
-ok: [client]
+changed: [client]
 
 TASK [../roles/configure_openvpn_client : Copy "client.conf" file] *************
-ok: [client]
+changed: [client]
 
 TASK [../roles/configure_openvpn_client : Collect client keys dirs /etc/openvpn/] ***
 changed: [client] => (item=private)
 changed: [client] => (item=issued)
 
 TASK [../roles/configure_openvpn_client : Collect client keys /etc/openvpn/] ***
-ok: [client] => (item=ca.crt)
-ok: [client] => (item=tc.key)
-ok: [client] => (item=private/client.key)
-ok: [client] => (item=issued/client.crt)
+changed: [client] => (item=ca.crt)
+changed: [client] => (item=tc.key)
+changed: [client] => (item=private/client.key)
+changed: [client] => (item=issued/client.crt)
+
+RUNNING HANDLER [../roles/configure_openvpn_client : systemctl-restart-openvpn] ***
+changed: [client]
 
 PLAY RECAP *********************************************************************
-client                     : ok=6    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+client                     : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
