@@ -1,0 +1,21 @@
+
+PLAY [RAS] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [server]
+
+TASK [../roles/ras_additional : Install EPEL Repo package from standart repo] ***
+ok: [server]
+
+TASK [../roles/ras_additional : NGINX | Install NGINX package from EPEL Repo] ***
+ok: [server]
+
+TASK [../roles/ras_additional : Copy "nginx.conf" file] ************************
+changed: [server]
+
+TASK [../roles/ras_additional : NGINX | Create RAS Nginx index page] ***********
+ok: [server]
+
+PLAY RECAP *********************************************************************
+server                     : ok=5    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
