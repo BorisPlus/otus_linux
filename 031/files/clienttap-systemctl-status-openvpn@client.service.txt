@@ -1,0 +1,7 @@
+● openvpn@client.service - OpenVPN Robust And Highly Flexible Tunneling Application On client
+   Loaded: loaded (/usr/lib/systemd/system/openvpn@.service; enabled; vendor preset: disabled)
+   Active: active (running) since Сб 2021-09-25 19:57:40 UTC; 9min ago
+ Main PID: 29600 (openvpn)
+   Status: "Pre-connection initialization successful"
+   CGroup: /system.slice/system-openvpn.slice/openvpn@client.service
+           └─29600 /usr/sbin/openvpn --cd /etc/openvpn/ --config client.conf

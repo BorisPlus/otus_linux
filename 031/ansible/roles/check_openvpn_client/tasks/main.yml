@@ -1,9 +1,9 @@
 ---
 - name: Check openvpn client
-  shell: "{{ item }}"
+  shell: '{{ item }}'
   loop:
     - systemctl status openvpn@client.service
-    - /sbin/ip add show tun0
+    - "/sbin/ip addr | awk -v RS='(^|\n)[0-9]+: ' '/^(tun|tap)[0-9]*:/ {print}'"
   register: check_content
 
 - name: Store check to files

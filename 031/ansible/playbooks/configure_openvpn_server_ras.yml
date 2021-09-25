@@ -1,0 +1,7 @@
+---
+- name: Configure openvpn server RAS
+  hosts:
+    - server
+  roles:
+    - role: '../roles/configure_openvpn_server_ras'
+  become: yes

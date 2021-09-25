@@ -1,0 +1,46 @@
+Sat Sep 25 19:36:13 2021 WARNING: file '/etc/openvpn/keys/private/server.key' is group or others accessible
+Sat Sep 25 19:36:13 2021 WARNING: file '/etc/openvpn/keys/ta.key' is group or others accessible
+Sat Sep 25 19:36:13 2021 OpenVPN 2.4.11 x86_64-redhat-linux-gnu [Fedora EPEL patched] [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on Apr 21 2021
+Sat Sep 25 19:36:13 2021 library versions: OpenSSL 1.0.2k-fips  26 Jan 2017, LZO 2.06
+Sat Sep 25 19:36:13 2021 Diffie-Hellman initialized with 2048 bit key
+Sat Sep 25 19:36:13 2021 Outgoing Control Channel Authentication: Using 160 bit message hash 'SHA1' for HMAC authentication
+Sat Sep 25 19:36:13 2021 Incoming Control Channel Authentication: Using 160 bit message hash 'SHA1' for HMAC authentication
+Sat Sep 25 19:36:13 2021 TUN/TAP device tap0 opened
+Sat Sep 25 19:36:13 2021 TUN/TAP TX queue length set to 100
+Sat Sep 25 19:36:13 2021 /sbin/ip link set dev tap0 up mtu 1500
+Sat Sep 25 19:36:13 2021 /sbin/ip addr add dev tap0 172.16.32.1/24 broadcast 172.16.32.255
+Sat Sep 25 19:36:13 2021 Could not determine IPv4/IPv6 protocol. Using AF_INET
+Sat Sep 25 19:36:13 2021 Socket Buffers: R=[212992->212992] S=[212992->212992]
+Sat Sep 25 19:36:13 2021 UDPv4 link local (bound): [AF_INET]192.168.32.1:1195
+Sat Sep 25 19:36:13 2021 UDPv4 link remote: [AF_UNSPEC]
+Sat Sep 25 19:36:13 2021 GID set to nobody
+Sat Sep 25 19:36:13 2021 UID set to nobody
+Sat Sep 25 19:36:13 2021 MULTI: multi_init called, r=256 v=256
+Sat Sep 25 19:36:13 2021 IFCONFIG POOL: base=172.16.32.2 size=253, ipv6=0
+Sat Sep 25 19:36:13 2021 Initialization Sequence Completed
+Sat Sep 25 19:45:46 2021 event_wait : Interrupted system call (code=4)
+Sat Sep 25 19:45:46 2021 Closing TUN/TAP interface
+Sat Sep 25 19:45:46 2021 /sbin/ip addr del dev tap0 172.16.32.1/24
+RTNETLINK answers: Operation not permitted
+Sat Sep 25 19:45:46 2021 Linux ip addr del failed: external program exited with error status: 2
+Sat Sep 25 19:45:46 2021 SIGTERM[hard,] received, process exiting
+Sat Sep 25 19:45:46 2021 WARNING: file '/etc/openvpn/keys/private/server.key' is group or others accessible
+Sat Sep 25 19:45:46 2021 WARNING: file '/etc/openvpn/keys/ta.key' is group or others accessible
+Sat Sep 25 19:45:46 2021 OpenVPN 2.4.11 x86_64-redhat-linux-gnu [Fedora EPEL patched] [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on Apr 21 2021
+Sat Sep 25 19:45:46 2021 library versions: OpenSSL 1.0.2k-fips  26 Jan 2017, LZO 2.06
+Sat Sep 25 19:45:46 2021 Diffie-Hellman initialized with 2048 bit key
+Sat Sep 25 19:45:46 2021 Outgoing Control Channel Authentication: Using 160 bit message hash 'SHA1' for HMAC authentication
+Sat Sep 25 19:45:46 2021 Incoming Control Channel Authentication: Using 160 bit message hash 'SHA1' for HMAC authentication
+Sat Sep 25 19:45:46 2021 TUN/TAP device tap0 opened
+Sat Sep 25 19:45:46 2021 TUN/TAP TX queue length set to 100
+Sat Sep 25 19:45:46 2021 /sbin/ip link set dev tap0 up mtu 1500
+Sat Sep 25 19:45:46 2021 /sbin/ip addr add dev tap0 172.16.32.1/24 broadcast 172.16.32.255
+Sat Sep 25 19:45:46 2021 Could not determine IPv4/IPv6 protocol. Using AF_INET
+Sat Sep 25 19:45:46 2021 Socket Buffers: R=[212992->212992] S=[212992->212992]
+Sat Sep 25 19:45:46 2021 UDPv4 link local (bound): [AF_INET]192.168.32.1:1195
+Sat Sep 25 19:45:46 2021 UDPv4 link remote: [AF_UNSPEC]
+Sat Sep 25 19:45:46 2021 GID set to nobody
+Sat Sep 25 19:45:46 2021 UID set to nobody
+Sat Sep 25 19:45:46 2021 MULTI: multi_init called, r=256 v=256
+Sat Sep 25 19:45:46 2021 IFCONFIG POOL: base=172.16.32.2 size=253, ipv6=0
+Sat Sep 25 19:45:46 2021 Initialization Sequence Completed

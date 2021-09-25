@@ -1,0 +1,31 @@
+
+PLAY [Configure openvpn tun-client] ********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [clienttun]
+
+TASK [../roles/configure_openvpn_clienttun : Install EPEL Repo package from standart repo] ***
+changed: [clienttun]
+
+TASK [../roles/configure_openvpn_clienttun : Install Openvpn] ******************
+changed: [clienttun]
+
+TASK [../roles/configure_openvpn_clienttun : Copy "client.conf" file] **********
+changed: [clienttun]
+
+TASK [../roles/configure_openvpn_clienttun : Collect client keys dirs /etc/openvpn/] ***
+changed: [clienttun] => (item=private)
+changed: [clienttun] => (item=issued)
+
+TASK [../roles/configure_openvpn_clienttun : Collect client keys /etc/openvpn/] ***
+changed: [clienttun] => (item=ca.crt)
+changed: [clienttun] => (item=ta.key)
+changed: [clienttun] => (item=private/client.key)
+changed: [clienttun] => (item=issued/client.crt)
+
+RUNNING HANDLER [../roles/configure_openvpn_clienttun : systemctl-restart-openvpn] ***
+changed: [clienttun]
+
+PLAY RECAP *********************************************************************
+clienttun                  : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

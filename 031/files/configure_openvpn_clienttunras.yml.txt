@@ -1,0 +1,23 @@
+
+PLAY [What is nessesary for tun-ras-client] ************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [server]
+
+TASK [../roles/configure_openvpn_clienttunras : Collect client keys for remote access (part 1)] ***
+changed: [server]
+
+TASK [../roles/configure_openvpn_clienttunras : Collect client keys for remote access (part 2)] ***
+changed: [server] => (item=ca.crt)
+changed: [server] => (item=ta.key)
+changed: [server] => (item=private/client.key)
+changed: [server] => (item=issued/client.crt)
+
+TASK [../roles/configure_openvpn_clienttunras : debuggins] *********************
+ok: [server] => {
+    "msg": "Ready. Use cert files for access to vpn 192.168.33.2 from your desktop client.\n"
+}
+
+PLAY RECAP *********************************************************************
+server                     : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

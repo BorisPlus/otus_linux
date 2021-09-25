@@ -1,0 +1,53 @@
+Sat Sep 25 19:36:12 2021 WARNING: file '/etc/openvpn/keys/private/server.key' is group or others accessible
+Sat Sep 25 19:36:12 2021 WARNING: file '/etc/openvpn/keys/ta.key' is group or others accessible
+Sat Sep 25 19:36:12 2021 OpenVPN 2.4.11 x86_64-redhat-linux-gnu [Fedora EPEL patched] [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on Apr 21 2021
+Sat Sep 25 19:36:12 2021 library versions: OpenSSL 1.0.2k-fips  26 Jan 2017, LZO 2.06
+Sat Sep 25 19:36:12 2021 Diffie-Hellman initialized with 2048 bit key
+Sat Sep 25 19:36:12 2021 Outgoing Control Channel Authentication: Using 160 bit message hash 'SHA1' for HMAC authentication
+Sat Sep 25 19:36:12 2021 Incoming Control Channel Authentication: Using 160 bit message hash 'SHA1' for HMAC authentication
+Sat Sep 25 19:36:12 2021 ROUTE_GATEWAY 10.0.2.2/255.255.255.0 IFACE=eth0 HWADDR=52:54:00:4d:77:d3
+Sat Sep 25 19:36:12 2021 TUN/TAP device tun0 opened
+Sat Sep 25 19:36:12 2021 TUN/TAP TX queue length set to 100
+Sat Sep 25 19:36:12 2021 /sbin/ip link set dev tun0 up mtu 1500
+Sat Sep 25 19:36:12 2021 /sbin/ip addr add dev tun0 local 172.16.31.1 peer 172.16.31.2
+Sat Sep 25 19:36:12 2021 /sbin/ip route add 172.16.31.0/24 via 172.16.31.2
+Sat Sep 25 19:36:12 2021 Could not determine IPv4/IPv6 protocol. Using AF_INET
+Sat Sep 25 19:36:12 2021 Socket Buffers: R=[212992->212992] S=[212992->212992]
+Sat Sep 25 19:36:12 2021 UDPv4 link local (bound): [AF_INET]192.168.31.1:1194
+Sat Sep 25 19:36:12 2021 UDPv4 link remote: [AF_UNSPEC]
+Sat Sep 25 19:36:12 2021 GID set to nobody
+Sat Sep 25 19:36:12 2021 UID set to nobody
+Sat Sep 25 19:36:12 2021 MULTI: multi_init called, r=256 v=256
+Sat Sep 25 19:36:12 2021 IFCONFIG POOL: base=172.16.31.4 size=62, ipv6=0
+Sat Sep 25 19:36:12 2021 Initialization Sequence Completed
+Sat Sep 25 19:45:45 2021 event_wait : Interrupted system call (code=4)
+Sat Sep 25 19:45:45 2021 /sbin/ip route del 172.16.31.0/24
+RTNETLINK answers: Operation not permitted
+Sat Sep 25 19:45:45 2021 ERROR: Linux route delete command failed: external program exited with error status: 2
+Sat Sep 25 19:45:45 2021 Closing TUN/TAP interface
+Sat Sep 25 19:45:45 2021 /sbin/ip addr del dev tun0 local 172.16.31.1 peer 172.16.31.2
+RTNETLINK answers: Operation not permitted
+Sat Sep 25 19:45:45 2021 Linux ip addr del failed: external program exited with error status: 2
+Sat Sep 25 19:45:45 2021 SIGTERM[hard,] received, process exiting
+Sat Sep 25 19:45:45 2021 WARNING: file '/etc/openvpn/keys/private/server.key' is group or others accessible
+Sat Sep 25 19:45:45 2021 WARNING: file '/etc/openvpn/keys/ta.key' is group or others accessible
+Sat Sep 25 19:45:45 2021 OpenVPN 2.4.11 x86_64-redhat-linux-gnu [Fedora EPEL patched] [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on Apr 21 2021
+Sat Sep 25 19:45:45 2021 library versions: OpenSSL 1.0.2k-fips  26 Jan 2017, LZO 2.06
+Sat Sep 25 19:45:45 2021 Diffie-Hellman initialized with 2048 bit key
+Sat Sep 25 19:45:45 2021 Outgoing Control Channel Authentication: Using 160 bit message hash 'SHA1' for HMAC authentication
+Sat Sep 25 19:45:45 2021 Incoming Control Channel Authentication: Using 160 bit message hash 'SHA1' for HMAC authentication
+Sat Sep 25 19:45:45 2021 ROUTE_GATEWAY 10.0.2.2/255.255.255.0 IFACE=eth0 HWADDR=52:54:00:4d:77:d3
+Sat Sep 25 19:45:45 2021 TUN/TAP device tun0 opened
+Sat Sep 25 19:45:45 2021 TUN/TAP TX queue length set to 100
+Sat Sep 25 19:45:45 2021 /sbin/ip link set dev tun0 up mtu 1500
+Sat Sep 25 19:45:45 2021 /sbin/ip addr add dev tun0 local 172.16.31.1 peer 172.16.31.2
+Sat Sep 25 19:45:45 2021 /sbin/ip route add 172.16.31.0/24 via 172.16.31.2
+Sat Sep 25 19:45:45 2021 Could not determine IPv4/IPv6 protocol. Using AF_INET
+Sat Sep 25 19:45:45 2021 Socket Buffers: R=[212992->212992] S=[212992->212992]
+Sat Sep 25 19:45:45 2021 UDPv4 link local (bound): [AF_INET]192.168.31.1:1194
+Sat Sep 25 19:45:45 2021 UDPv4 link remote: [AF_UNSPEC]
+Sat Sep 25 19:45:45 2021 GID set to nobody
+Sat Sep 25 19:45:45 2021 UID set to nobody
+Sat Sep 25 19:45:45 2021 MULTI: multi_init called, r=256 v=256
+Sat Sep 25 19:45:45 2021 IFCONFIG POOL: base=172.16.31.4 size=62, ipv6=0
+Sat Sep 25 19:45:45 2021 Initialization Sequence Completed

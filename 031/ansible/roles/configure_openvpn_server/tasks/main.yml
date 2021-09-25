@@ -9,23 +9,35 @@
     name: openvpn
     state: latest
 
-- name: Copy "server.conf" file
-  copy:
-    src: ../files/server.conf
-    dest: /etc/openvpn/server.conf
-#    owner: openvpn
-#    group: nobody
-#    mode: '0770'
+- name: Install policycoreutils
+  yum:
+    name: policycoreutils-python
+    state: latest
+
+- name: SELinux | openvpn_port_t add 1195, 1196
+  shell: |
+    semanage port -a -t openvpn_port_t -p udp 1195
+    semanage port -a -t openvpn_port_t -p udp 1196
+    exit 0
 
 - name: Create openvpn directories
   shell: |
     mkdir -p /etc/openvpn/ccd
     mkdir -p /var/log/openvpn
 
-- name: Generate tc.key
+- name: Copy "server-{tun,tap,tun-ras}.conf" file
+  copy:
+    src: ../files/{{item}}
+    dest: /etc/openvpn/{{item}}
+  loop:
+    - server-tun.conf
+    - server-tap.conf
+    - server-tun-ras.conf
+
+- name: Generate ta.key
   shell: |
     mkdir -p /etc/openvpn/keys/
-    openvpn --genkey --secret {{ temp_dir }}easyrsa/pki/tc.key
+    openvpn --genkey --secret {{ temp_dir }}easyrsa/pki/ta.key
 
 - name: Collect server keys dirs /etc/openvpn/keys/
   shell: |
@@ -46,8 +58,8 @@
   loop:
     - ca.crt
     - dh.pem
+    - ta.key
     - issued/server.crt
     - private/server.key
-    - tc.key
   notify:
-    - systemctl-restart-openvpn
+    - systemctl restart openvpn@server-{tun,tap,tun-ras}.service

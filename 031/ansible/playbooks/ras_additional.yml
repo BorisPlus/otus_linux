@@ -1,0 +1,7 @@
+---
+- name: RAS
+  hosts:
+    - server
+  become: yes
+  roles:
+    - role: '../roles/ras_additional'

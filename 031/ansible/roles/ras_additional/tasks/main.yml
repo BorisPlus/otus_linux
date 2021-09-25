@@ -1,0 +1,33 @@
+---
+- name: Install EPEL Repo package from standart repo
+  yum:
+    name: epel-release
+    state: present
+  tags:
+    - epel-repo
+
+- name: NGINX | Install NGINX package from EPEL Repo
+  yum:
+    name: nginx
+    state: latest
+  notify:
+    - start nginx
+
+- name: Copy "nginx.conf" file
+  copy:
+    src: ../files/nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: NGINX | Create RAS Nginx index page
+  copy:
+    content: "Hello from RAS :)\n"
+    dest: /usr/share/nginx/html/index.html
+  notify:
+    - restart nginx
+#
+#- name: Collect client keys for remote access (part 1)
+#  shell: |
+#    mkdir -p "{{ temp_dir }}ras_client/"{private,issued}
+#    echo 'net.ipv4.conf.all.forwarding=1'  > /etc/sysctl.conf
+#    echo "net.ipv4.ip_forward = 1" > /etc/sysctl.conf
+#

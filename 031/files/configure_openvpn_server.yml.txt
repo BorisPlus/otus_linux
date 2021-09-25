@@ -8,15 +8,23 @@ TASK [../roles/configure_openvpn_server : Install EPEL Repo package from standar
 ok: [server]
 
 TASK [../roles/configure_openvpn_server : Install Openvpn] *********************
-changed: [server]
+ok: [server]
 
-TASK [../roles/configure_openvpn_server : Copy "server.conf" file] *************
+TASK [../roles/configure_openvpn_server : Install policycoreutils] *************
+ok: [server]
+
+TASK [../roles/configure_openvpn_server : SELinux | openvpn_port_t add 1195, 1196] ***
 changed: [server]
 
 TASK [../roles/configure_openvpn_server : Create openvpn directories] **********
 changed: [server]
 
-TASK [../roles/configure_openvpn_server : Generate tc.key] *********************
+TASK [../roles/configure_openvpn_server : Copy "server-{tun,tap,tun-ras}.conf" file] ***
+ok: [server] => (item=server-tun.conf)
+ok: [server] => (item=server-tap.conf)
+changed: [server] => (item=server-tun-ras.conf)
+
+TASK [../roles/configure_openvpn_server : Generate ta.key] *********************
 changed: [server]
 
 TASK [../roles/configure_openvpn_server : Collect server keys dirs /etc/openvpn/keys/] ***
@@ -24,15 +32,17 @@ changed: [server] => (item=private)
 changed: [server] => (item=issued)
 
 TASK [../roles/configure_openvpn_server : Collect server keys /etc/openvpn/keys/] ***
-changed: [server] => (item=ca.crt)
-changed: [server] => (item=dh.pem)
-changed: [server] => (item=issued/server.crt)
-changed: [server] => (item=private/server.key)
-changed: [server] => (item=tc.key)
+ok: [server] => (item=ca.crt)
+ok: [server] => (item=dh.pem)
+changed: [server] => (item=ta.key)
+ok: [server] => (item=issued/server.crt)
+ok: [server] => (item=private/server.key)
 
-RUNNING HANDLER [../roles/configure_openvpn_server : systemctl-restart-openvpn] ***
-changed: [server]
+RUNNING HANDLER [../roles/configure_openvpn_server : systemctl restart openvpn@server-{tun,tap,tun-ras}.service] ***
+changed: [server] => (item=tun)
+changed: [server] => (item=tap)
+changed: [server] => (item=tun-ras)
 
 PLAY RECAP *********************************************************************
-server                     : ok=9    changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+server                     : ok=11   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 

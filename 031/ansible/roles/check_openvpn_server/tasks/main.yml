@@ -1,11 +1,17 @@
 ---
-- name: Check openvpn server
+- name: Check openvpn server-{tun,tap,tun-ras}
   shell: "{{ item }}"
   loop:
-    - systemctl status openvpn@server.service
-    - sudo cat /var/log/openvpn/openvpn.log
-    - sudo cat /var/log/openvpn/openvpn-status.log
-    - /sbin/ip add show tun0
+    - systemctl status openvpn@server-tun.service
+    - sudo cat /var/log/openvpn/openvpn-tun.log
+    - sudo cat /var/log/openvpn/openvpn-tun-status.log
+    - systemctl status openvpn@server-tap.service
+    - sudo cat /var/log/openvpn/openvpn-tap.log
+    - sudo cat /var/log/openvpn/openvpn-tap-status.log
+    - systemctl status openvpn@server-tun-ras.service
+    - sudo cat /var/log/openvpn/openvpn-tun-ras.log
+    - sudo cat /var/log/openvpn/openvpn-tun-ras-status.log
+    - "/sbin/ip addr | awk -v RS='(^|\n)[0-9]+: ' '/^(tun|tap)[0-9]*:/ {print}'"
   register: check_content
 
 - name: Store check to files

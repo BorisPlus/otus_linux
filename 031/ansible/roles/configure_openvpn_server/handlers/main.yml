@@ -1,8 +1,10 @@
 ---
-- name: systemctl-restart-openvpn
+- name: systemctl restart openvpn@server-{tun,tap,tun-ras}.service
   systemd:
-    name: openvpn@server.service
+    name: openvpn@server-{{item}}.service
     state: restarted
-    enabled: yes
+  loop:
+    - tun
+    - tap
+    - tun-ras
   become: true
-

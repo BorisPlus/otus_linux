@@ -1,0 +1,7 @@
+● openvpn@server-tun-ras.service - OpenVPN Robust And Highly Flexible Tunneling Application On server/tun/ras
+   Loaded: loaded (/usr/lib/systemd/system/openvpn@.service; disabled; vendor preset: disabled)
+   Active: active (running) since Сб 2021-09-25 19:45:47 UTC; 1min 47s ago
+ Main PID: 23423 (openvpn)
+   Status: "Initialization Sequence Completed"
+   CGroup: /system.slice/system-openvpn.slice/openvpn@server-tun-ras.service
+           └─23423 /usr/sbin/openvpn --cd /etc/openvpn/ --config server-tun-ras.conf

@@ -1,0 +1,20 @@
+---
+- name: Collect client keys for remote access (part 1)
+  shell: |
+    mkdir -p "{{ temp_dir }}ras_client/"{private,issued}
+
+- name: Collect client keys for remote access (part 2)
+  copy:
+    src: "{{ temp_dir }}easyrsa/pki/{{ item }}"
+    dest: "{{ temp_dir }}ras_client/{{ item }}"
+    remote_src: true
+  loop:
+    - ca.crt
+    - ta.key
+    - private/client.key
+    - issued/client.crt
+
+- name: debuggins
+  debug:
+    msg: |
+      Ready. Use cert files for access to vpn 192.168.33.2 from your desktop client.

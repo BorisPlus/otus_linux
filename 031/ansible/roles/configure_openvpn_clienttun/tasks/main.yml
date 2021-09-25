@@ -1,0 +1,35 @@
+---
+- name: Install EPEL Repo package from standart repo
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install Openvpn
+  yum:
+    name: openvpn
+    state: latest
+
+- name: Copy "client.conf" file
+  copy:
+    src: ../files/client.conf
+    dest: /etc/openvpn/client.conf
+
+- name: Collect client keys dirs /etc/openvpn/
+  shell: |
+    mkdir -p /etc/openvpn/{{ item }}
+  loop:
+    - private
+    - issued
+
+- name: Collect client keys /etc/openvpn/
+  copy:
+    src: "{{ temp_dir }}easyrsa/pki/{{ item }}"
+    dest: /etc/openvpn/{{ item }}
+    remote_src: true
+  loop:
+    - ca.crt
+    - ta.key
+    - private/client.key
+    - issued/client.crt
+  notify:
+    - systemctl-restart-openvpn

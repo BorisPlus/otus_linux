@@ -1,6 +1,7 @@
 ---
-- name: Check openvpn client
+- name: Check openvpn tun/tap-client
   hosts:
-    - client
+    - clienttun
+    - clienttap
   roles:
     - role: '../roles/check_openvpn_client'

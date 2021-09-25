@@ -1,0 +1,31 @@
+
+PLAY [Configure openvpn tap-client] ********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [clienttap]
+
+TASK [../roles/configure_openvpn_clienttap : Install EPEL Repo package from standart repo] ***
+changed: [clienttap]
+
+TASK [../roles/configure_openvpn_clienttap : Install Openvpn] ******************
+changed: [clienttap]
+
+TASK [../roles/configure_openvpn_clienttap : Copy "client.conf" file] **********
+changed: [clienttap]
+
+TASK [../roles/configure_openvpn_clienttap : Collect client keys dirs /etc/openvpn/] ***
+changed: [clienttap] => (item=private)
+changed: [clienttap] => (item=issued)
+
+TASK [../roles/configure_openvpn_clienttap : Collect client keys /etc/openvpn/] ***
+changed: [clienttap] => (item=ca.crt)
+changed: [clienttap] => (item=ta.key)
+changed: [clienttap] => (item=private/client.key)
+changed: [clienttap] => (item=issued/client.crt)
+
+RUNNING HANDLER [../roles/configure_openvpn_clienttap : systemctl-restart-openvpn] ***
+changed: [clienttap]
+
+PLAY RECAP *********************************************************************
+clienttap                  : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

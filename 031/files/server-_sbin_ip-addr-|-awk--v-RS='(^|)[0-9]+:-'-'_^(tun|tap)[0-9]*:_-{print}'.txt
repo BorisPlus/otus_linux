@@ -1,0 +1,18 @@
+tun0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 100
+    link/none 
+    inet 172.16.31.1 peer 172.16.31.2/32 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::2a9c:de5f:7377:4b87/64 scope link flags 800 
+       valid_lft forever preferred_lft forever
+tap0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 100
+    link/ether 8a:81:e2:6f:1e:ce brd ff:ff:ff:ff:ff:ff
+    inet 172.16.32.1/24 brd 172.16.32.255 scope global tap0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::8881:e2ff:fe6f:1ece/64 scope link 
+       valid_lft forever preferred_lft forever
+tun1: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 100
+    link/none 
+    inet 172.16.33.1 peer 172.16.33.2/32 scope global tun1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::d6a2:b023:1fb1:23fc/64 scope link flags 800 
+       valid_lft forever preferred_lft forever

@@ -1,0 +1,7 @@
+---
+- name: systemctl-restart-openvpn
+  systemd:
+    name: openvpn@client.service
+    state: restarted
+    enabled: yes
+  become: true

@@ -1,0 +1,6 @@
+---
+- name: What is nessesary for tun-ras-client
+  hosts:
+    - server
+  roles:
+    - role: '../roles/configure_openvpn_clienttunras'

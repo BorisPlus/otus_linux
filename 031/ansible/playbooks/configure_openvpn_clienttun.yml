@@ -1,0 +1,7 @@
+---
+- name: Configure openvpn tun-client
+  hosts:
+    - clienttun
+  become: yes
+  roles:
+    - role: '../roles/configure_openvpn_clienttun'
