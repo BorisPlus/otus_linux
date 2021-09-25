@@ -8,3 +8,8 @@
   systemd:
     name: nginx
     state: restarted
+
+- name: restart network
+  systemd:
+    name: network
+    state: restarted

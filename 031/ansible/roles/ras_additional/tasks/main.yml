@@ -1,4 +1,12 @@
 ---
+- name: forwarding on
+  shell: |
+    echo 'net.ipv4.conf.all.forwarding=1'  > /etc/sysctl.conf
+    echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+    echo "net.ipv4.conf.default.rp_filter = 2" >> /etc/sysctl.conf
+  notify:
+    - restart network
+
 - name: Install EPEL Repo package from standart repo
   yum:
     name: epel-release
@@ -24,10 +32,5 @@
     dest: /usr/share/nginx/html/index.html
   notify:
     - restart nginx
-#
-#- name: Collect client keys for remote access (part 1)
-#  shell: |
-#    mkdir -p "{{ temp_dir }}ras_client/"{private,issued}
-#    echo 'net.ipv4.conf.all.forwarding=1'  > /etc/sysctl.conf
-#    echo "net.ipv4.ip_forward = 1" > /etc/sysctl.conf
-#
+
+
