@@ -18,21 +18,19 @@
   - name: remove old
     shell: |
       rm -f /etc/named.conf
-      rm -f /etc/named/named.dns*
-      rm -f /etc/named/named.newdns*
+      rm -f /etc/named/named.dns.*
+      rm -f /etc/named/named.newdns.*
   - name: copy named.conf
     copy: src=master-named.conf dest=/etc/named.conf owner=root group=named mode=0640
   - name: copy zones
     copy: src={{ item }} dest=/etc/named/ owner=root group=named mode=0660
     with_fileglob:
-      - named.dns*
-      - named.newdns*
+      - named.dns.*
+      - named.newdns.*
   - name: copy resolv.conf to the servers
     copy: src=servers-resolv.conf dest=/etc/resolv.conf owner=root group=root mode=0644
-  
   - name: set /etc/named permissions
     file: path=/etc/named owner=root group=named mode=0670
-
   - name: ensure named is running and enabled
     service: name=named state=restarted enabled=yes
 

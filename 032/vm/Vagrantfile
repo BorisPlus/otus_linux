@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
   # vagrant-gatling-rsync is starting the sync engine
   # because you have at least one rsync folder.
   # To disable this behavior, set `config.gatling.rsync_on_startup = false` in your Vagrantfile.
-  #config.gatling.rsync_on_startup = false
+  config.gatling.rsync_on_startup = false
 
   #config.vm.provision "ansible" do |ansible|
   #  ansible.verbose = "vvv"
