@@ -2,3 +2,4 @@
 **/guest
 **/guest/**
 **/**.log
+**/ansible/inventories/hosts

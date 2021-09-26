@@ -1,0 +1,42 @@
+---
+- hosts: all
+  tasks:
+  - name: dns access records checker
+    shell: "{{ item }}"
+    when: not("{{ item }}" == '')
+    loop:
+      - #
+      - dig @192.168.50.10 +short -x 192.168.50.10
+      - dig @192.168.50.10 +short -x 192.168.50.11
+      - dig @192.168.50.10 +short -x 192.168.50.15
+      - dig @192.168.50.10 +short -x 192.168.50.16
+      - #
+      - dig @192.168.50.11 +short -x 192.168.50.10
+      - dig @192.168.50.11 +short -x 192.168.50.11
+      - dig @192.168.50.11 +short -x 192.168.50.15
+      - dig @192.168.50.11 +short -x 192.168.50.16
+      - #
+      - dig @192.168.50.10 +short ns01.dns.lab
+      - dig @192.168.50.10 +short ns02.dns.lab
+      - dig @192.168.50.10 +short web1.dns.lab
+      - dig @192.168.50.10 +short web2.dns.lab
+      - dig @192.168.50.10 +short ns01.newdns.lab
+      - dig @192.168.50.10 +short ns02.newdns.lab
+      - dig @192.168.50.10 +short www.newdns.lab
+      - #
+      - dig @192.168.50.11 +short ns01.dns.lab
+      - dig @192.168.50.11 +short ns02.dns.lab
+      - dig @192.168.50.11 +short web1.dns.lab
+      - dig @192.168.50.11 +short web2.dns.lab
+      - dig @192.168.50.11 +short ns01.newdns.lab
+      - dig @192.168.50.11 +short ns02.newdns.lab
+      - dig @192.168.50.11 +short www.newdns.lab
+    register: check_content
+
+  - name: Store check to files
+    local_action:
+      module: copy
+      content: "{{ item['stdout'] }}"
+      dest: "../../files/tests_reports/{{ inventory_hostname }}-{{ item['cmd'] | replace('/', '_') | replace(' ', '-') }}.txt"
+    loop: "{{ check_content['results'] }}"
+    when: item['stdout'] is defined
