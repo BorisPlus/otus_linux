@@ -1,4 +1,9 @@
 zone dns.lab/IN: loaded serial 2711201407
 zone 50.168.192.in-addr.arpa/IN: loaded serial 2711201407
 zone newdns.lab/IN: loaded serial 2711201407
+zone 50.168.192.newdns.arpa/IN: loaded serial 2711201407
 zone dns.lab/IN: loaded serial 2711201407
+zone dns.lab/IN: loaded serial 2711201407
+zone 50.168.192.in-addr.arpa/IN: loaded serial 2711201407
+zone newdns.lab/IN: loaded serial 2711201407
+zone 50.168.192.newdns.arpa/IN: loaded serial 2711201407
