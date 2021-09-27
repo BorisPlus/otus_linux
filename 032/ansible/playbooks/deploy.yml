@@ -7,36 +7,36 @@
       chattr -i /etc/resolv.conf
       rm -f /etc/resolv.conf
       systemctl restart network
-#  - name: remove packages
-#    yum: name={{ item }} state=absent
-#    with_items:
-#      - bind
-#      - bind-utils
-#      - ntp
-#  - name: install packages
-#    yum: name={{ item }} state=latest
-#    with_items:
-#      - bind
-#      - bind-utils
-#      - ntp
-#  - name: copy transferkey to all servers and the client
-#    copy: src=named.zonetransfer.key dest=/etc/named.zonetransfer.key owner=root group=named mode=0644
-#  - name: network manager war | /etc/NetworkManager/NetworkManager.conf | content
-#    command: /bin/cat /etc/NetworkManager/NetworkManager.conf
-#    register: network_manager_conf
-#  - name: network manager war | /etc/NetworkManager/NetworkManager.conf | dns=none | if did not set
-#    lineinfile:
-#      insertafter: '\[main\]'
-#      dest: /etc/NetworkManager/NetworkManager.conf
-#      line: "dns=none"
-#    when: not network_manager_conf is search("dns=")
-#  - name: network manager war | /etc/NetworkManager/NetworkManager.conf | dns=none
-#    replace:
-#      path: /etc/NetworkManager/NetworkManager.conf
-#      regexp: 'dns=.*'
-#      replace: 'dns=none'
-#  - name: ensure network is running and enabled
-#    service: name=network state=restarted enabled=yes
+  - name: remove packages
+    yum: name={{ item }} state=absent
+    with_items:
+      - bind
+      - bind-utils
+      - ntp
+  - name: install packages
+    yum: name={{ item }} state=latest
+    with_items:
+      - bind
+      - bind-utils
+      - ntp
+  - name: copy transferkey to all servers and the client
+    copy: src=named.zonetransfer.key dest=/etc/named.zonetransfer.key owner=root group=named mode=0644
+  - name: network manager war | /etc/NetworkManager/NetworkManager.conf | content
+    command: /bin/cat /etc/NetworkManager/NetworkManager.conf
+    register: network_manager_conf
+  - name: network manager war | /etc/NetworkManager/NetworkManager.conf | dns=none | if did not set
+    lineinfile:
+      insertafter: '\[main\]'
+      dest: /etc/NetworkManager/NetworkManager.conf
+      line: "dns=none"
+    when: not network_manager_conf is search("dns=")
+  - name: network manager war | /etc/NetworkManager/NetworkManager.conf | dns=none
+    replace:
+      path: /etc/NetworkManager/NetworkManager.conf
+      regexp: 'dns=.*'
+      replace: 'dns=none'
+  - name: ensure network is running and enabled
+    service: name=network state=restarted enabled=yes
 
 - hosts: ns01
   become: yes
