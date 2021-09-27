@@ -15,3 +15,7 @@ $ORIGIN 50.168.192.in-addr.arpa.
 10              IN      PTR     ns01.dns.lab.
 11              IN      PTR     ns02.dns.lab.
 15              IN      PTR     web1.dns.lab.
+10              IN      PTR     ns01.newdns.lab.
+11              IN      PTR     ns02.newdns.lab.
+15              IN      PTR     www.newdns.lab.
+16              IN      PTR     www.newdns.lab.

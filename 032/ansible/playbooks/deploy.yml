@@ -25,9 +25,13 @@
     register: network_manager_conf
   - name: /etc/NetworkManager/NetworkManager.conf | dns=none | if did not set
     lineinfile:
-      insertafter: EOF
+      insertafter: '\[main\]'
       dest: /etc/NetworkManager/NetworkManager.conf
       line: "dns=none"
+#    replace:
+#      path: /etc/NetworkManager/NetworkManager.conf
+#      regexp: '[main]'
+#      replace: '[main]\ndns=none'
     when: not network_manager_conf is search("dns=")
   - name: /etc/NetworkManager/NetworkManager.conf | dns=none
     replace:

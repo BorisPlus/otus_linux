@@ -2,148 +2,15 @@
 PLAY [all] *********************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [client2]
-ok: [ns02]
 ok: [client1]
+ok: [ns02]
+ok: [client2]
 ok: [ns01]
 
 TASK [rollback to initial os state | rm -f /etc/resolv.conf] *******************
-changed: [client1]
 changed: [client2]
+changed: [client1]
 changed: [ns02]
 changed: [ns01]
 
 TASK [remove packages] *********************************************************
-changed: [client2] => (item=bind)
-changed: [client1] => (item=bind)
-changed: [client2] => (item=bind-utils)
-changed: [client1] => (item=bind-utils)
-changed: [ns02] => (item=bind)
-changed: [ns01] => (item=bind)
-changed: [client2] => (item=ntp)
-changed: [ns02] => (item=bind-utils)
-changed: [client1] => (item=ntp)
-changed: [ns01] => (item=bind-utils)
-changed: [ns02] => (item=ntp)
-changed: [ns01] => (item=ntp)
-
-TASK [install packages] ********************************************************
-changed: [ns02] => (item=bind)
-changed: [client1] => (item=bind)
-changed: [ns01] => (item=bind)
-changed: [ns02] => (item=bind-utils)
-changed: [client2] => (item=bind)
-changed: [client1] => (item=bind-utils)
-changed: [ns01] => (item=bind-utils)
-changed: [ns02] => (item=ntp)
-changed: [client1] => (item=ntp)
-changed: [client2] => (item=bind-utils)
-changed: [ns01] => (item=ntp)
-changed: [client2] => (item=ntp)
-
-TASK [copy transferkey to all servers and the client] **************************
-ok: [client1]
-ok: [ns01]
-ok: [client2]
-ok: [ns02]
-
-TASK [/etc/NetworkManager/NetworkManager.conf | content] ***********************
-changed: [ns01]
-changed: [ns02]
-changed: [client2]
-changed: [client1]
-
-TASK [/etc/NetworkManager/NetworkManager.conf | dns=none | if did not set] *****
-changed: [client1]
-changed: [ns01]
-changed: [client2]
-changed: [ns02]
-
-TASK [/etc/NetworkManager/NetworkManager.conf | dns=none] **********************
-ok: [client2]
-ok: [ns02]
-ok: [ns01]
-ok: [client1]
-
-TASK [ensure network is running and enabled] ***********************************
-changed: [client1]
-changed: [ns01]
-changed: [client2]
-changed: [ns02]
-
-PLAY [ns01] ********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [ns01]
-
-TASK [rollback to initial os state | rm -f /etc/named] *************************
-changed: [ns01]
-
-TASK [copy named.conf] *********************************************************
-changed: [ns01]
-
-TASK [copy zones] **************************************************************
-changed: [ns01] => (item=/home/b/pycharm_projects_2021_2/otus_linux/032/ansible/playbooks/named.dns.lab.client2)
-changed: [ns01] => (item=/home/b/pycharm_projects_2021_2/otus_linux/032/ansible/playbooks/named.dns.lab.rev.client1)
-changed: [ns01] => (item=/home/b/pycharm_projects_2021_2/otus_linux/032/ansible/playbooks/named.dns.lab.client1)
-changed: [ns01] => (item=/home/b/pycharm_projects_2021_2/otus_linux/032/ansible/playbooks/named.dns.lab.rev)
-changed: [ns01] => (item=/home/b/pycharm_projects_2021_2/otus_linux/032/ansible/playbooks/named.dns.lab)
-changed: [ns01] => (item=/home/b/pycharm_projects_2021_2/otus_linux/032/ansible/playbooks/named.dns.lab.rev.client2)
-changed: [ns01] => (item=/home/b/pycharm_projects_2021_2/otus_linux/032/ansible/playbooks/named.newdns.lab.client1)
-changed: [ns01] => (item=/home/b/pycharm_projects_2021_2/otus_linux/032/ansible/playbooks/named.newdns.lab.rev.client1)
-changed: [ns01] => (item=/home/b/pycharm_projects_2021_2/otus_linux/032/ansible/playbooks/named.newdns.lab.rev)
-changed: [ns01] => (item=/home/b/pycharm_projects_2021_2/otus_linux/032/ansible/playbooks/named.newdns.lab)
-
-TASK [copy resolv.conf to the servers] *****************************************
-changed: [ns01]
-
-TASK [set /etc/named permissions] **********************************************
-changed: [ns01]
-
-TASK [ensure named is running and enabled] *************************************
-changed: [ns01]
-
-PLAY [ns02] ********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [ns02]
-
-TASK [rollback to initial os state | rm -f /etc/named] *************************
-changed: [ns02]
-
-TASK [copy named.conf] *********************************************************
-changed: [ns02]
-
-TASK [copy resolv.conf to the servers] *****************************************
-changed: [ns02]
-
-TASK [set /etc/named permissions] **********************************************
-changed: [ns02]
-
-TASK [ensure named is running and enabled] *************************************
-changed: [ns02]
-
-PLAY [client1,client2] *********************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [client1]
-ok: [client2]
-
-TASK [copy resolv.conf to the client] ******************************************
-changed: [client1]
-changed: [client2]
-
-TASK [copy rndc conf file] *****************************************************
-ok: [client2]
-ok: [client1]
-
-TASK [copy motd to the client] *************************************************
-ok: [client2]
-ok: [client1]
-
-PLAY RECAP *********************************************************************
-client1                    : ok=13   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-client2                    : ok=13   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-ns01                       : ok=16   changed=12   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-ns02                       : ok=15   changed=11   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-
