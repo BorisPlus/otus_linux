@@ -1,2 +1,0 @@
-ns01.dns.lab.
-ns01.newdns.lab.
