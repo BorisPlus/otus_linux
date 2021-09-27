@@ -2,30 +2,30 @@
 PLAY [all] *********************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [client2]
 ok: [client1]
 ok: [ns02]
 ok: [ns01]
+ok: [client2]
 
 TASK [install packages] ********************************************************
 ok: [client1] => (item=bind)
 ok: [client2] => (item=bind)
-ok: [client2] => (item=bind-utils)
 ok: [client1] => (item=bind-utils)
 ok: [ns01] => (item=bind)
+ok: [client2] => (item=bind-utils)
+ok: [ns02] => (item=bind)
 ok: [client1] => (item=ntp)
 ok: [client2] => (item=ntp)
-ok: [ns02] => (item=bind)
 ok: [ns01] => (item=bind-utils)
 ok: [ns02] => (item=bind-utils)
 ok: [ns01] => (item=ntp)
 ok: [ns02] => (item=ntp)
 
 TASK [copy transferkey to all servers and the client] **************************
+ok: [ns02]
 ok: [client1]
 ok: [client2]
 ok: [ns01]
-ok: [ns02]
 
 PLAY [ns01] ********************************************************************
 
@@ -89,8 +89,8 @@ ok: [client1]
 ok: [client2]
 
 TASK [copy motd to the client] *************************************************
-ok: [client2]
 ok: [client1]
+ok: [client2]
 
 PLAY RECAP *********************************************************************
 client1                    : ok=7    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
