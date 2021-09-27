@@ -1,8 +1,8 @@
 zone dns.lab/IN: loaded serial 2711201407
-/etc/named/named.dns.lab.rev.client1:21: file does not end with newline
 zone 50.168.192.in-addr.arpa/IN: loaded serial 2711201407
 zone newdns.lab/IN: loaded serial 2711201407
 zone dns.lab/IN: loaded serial 2711201407
+zone 50.168.192.in-addr.arpa/IN: loaded serial 2711201407
 zone dns.lab/IN: loaded serial 2711201407
 zone 50.168.192.in-addr.arpa/IN: loaded serial 2711201407
 zone newdns.lab/IN: loaded serial 2711201407
