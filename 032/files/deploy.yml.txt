@@ -2,26 +2,26 @@
 PLAY [all] *********************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [client2]
 ok: [client1]
 ok: [ns02]
+ok: [client2]
 ok: [ns01]
 
 TASK [rollback to initial os state | rm -f /etc/resolv.conf] *******************
-changed: [client1]
 changed: [client2]
+changed: [client1]
 changed: [ns02]
 changed: [ns01]
 
 TASK [remove packages] *********************************************************
 changed: [client1] => (item=bind)
 changed: [client2] => (item=bind)
-changed: [client1] => (item=bind-utils)
 changed: [client2] => (item=bind-utils)
+changed: [client1] => (item=bind-utils)
 changed: [ns02] => (item=bind)
 changed: [ns01] => (item=bind)
-changed: [client1] => (item=ntp)
 changed: [client2] => (item=ntp)
+changed: [client1] => (item=ntp)
 changed: [ns02] => (item=bind-utils)
 changed: [ns01] => (item=bind-utils)
 changed: [ns02] => (item=ntp)
@@ -29,23 +29,23 @@ changed: [ns01] => (item=ntp)
 
 TASK [install packages] ********************************************************
 changed: [ns01] => (item=bind)
-changed: [client2] => (item=bind)
-changed: [ns02] => (item=bind)
 changed: [client1] => (item=bind)
+changed: [ns02] => (item=bind)
+changed: [client2] => (item=bind)
 changed: [ns01] => (item=bind-utils)
-changed: [client2] => (item=bind-utils)
 changed: [ns02] => (item=bind-utils)
 changed: [client1] => (item=bind-utils)
+changed: [client2] => (item=bind-utils)
 changed: [ns01] => (item=ntp)
-changed: [client2] => (item=ntp)
-changed: [ns02] => (item=ntp)
 changed: [client1] => (item=ntp)
+changed: [ns02] => (item=ntp)
+changed: [client2] => (item=ntp)
 
 TASK [copy transferkey to all servers and the client] **************************
+ok: [ns02]
 ok: [client1]
 ok: [ns01]
 ok: [client2]
-ok: [ns02]
 
 PLAY [ns01] ********************************************************************
 
@@ -108,8 +108,8 @@ changed: [client1]
 changed: [client2]
 
 TASK [copy rndc conf file] *****************************************************
-ok: [client1]
 ok: [client2]
+ok: [client1]
 
 TASK [copy motd to the client] *************************************************
 ok: [client1]
