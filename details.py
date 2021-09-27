@@ -52,28 +52,29 @@ if __name__ == '__main__':
 
                     rows_to_write.append('\n')
                     file_in_tmp = file_path
+                    rows_count = 0
                     with open(file_in_tmp) as f_in_tmp:
                         rows_count = len(f_in_tmp.readlines())
                         if not file_in_tmp.endswith('.md'):
                             if rows_count > rows_count_detail_limit:
                                 rows_to_write.append(f'<details><summary>см. {screen_name}</summary>\n')
                                 rows_to_write.append('\n')
-
-                    if file_in_tmp.endswith('.sh'):
-                        rows_to_write.append('```')
-                        rows_to_write.append('shell')
-                    elif file_in_tmp.endswith('.py'):
-                        rows_to_write.append('```')
-                        rows_to_write.append('python3')
-                    elif file_in_tmp.endswith('.md'):
-                        ...
-                    elif file_in_tmp.endswith('.yml'):
-                        rows_to_write.append('```')
-                        rows_to_write.append('properties')
-                    else:
-                        rows_to_write.append('```')
-                        rows_to_write.append('text')
-                    rows_to_write.append('\n')
+                    if rows_count:
+                        if file_in_tmp.endswith('.sh'):
+                            rows_to_write.append('```')
+                            rows_to_write.append('shell')
+                        elif file_in_tmp.endswith('.py'):
+                            rows_to_write.append('```')
+                            rows_to_write.append('python3')
+                        elif file_in_tmp.endswith('.md'):
+                            ...
+                        elif file_in_tmp.endswith('.yml'):
+                            rows_to_write.append('```')
+                            rows_to_write.append('properties')
+                        else:
+                            rows_to_write.append('```')
+                            rows_to_write.append('text')
+                        rows_to_write.append('\n')
 
                     with open(file_in_tmp) as f_in_tmp_2:
                         for row_in_tmp in f_in_tmp_2:
@@ -82,8 +83,11 @@ if __name__ == '__main__':
                     if file_in_tmp.endswith('.md'):
                         ...
                     else:
-                        rows_to_write.append('\n```\n')
-                    rows_to_write.append('\n')
+                        if rows_count:
+                            rows_to_write.append('\n```\n')
+
+                    if rows_count:
+                        rows_to_write.append('\n')
 
                     if not file_in_tmp.endswith('.md'):
                         if rows_count > rows_count_detail_limit:
