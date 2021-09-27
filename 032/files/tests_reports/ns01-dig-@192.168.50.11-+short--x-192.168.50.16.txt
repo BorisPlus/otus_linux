@@ -1,2 +1,1 @@
-web2.dns.lab.
 www.newdns.lab.

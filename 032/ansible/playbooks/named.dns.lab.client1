@@ -12,4 +12,4 @@ $ORIGIN dns.lab.
                 IN      NS      ns02.dns.lab.
 
 ; DNS Servers
-web1.dns.lab.   IN      A       192.168.50.15
+web1            IN      A       192.168.50.15

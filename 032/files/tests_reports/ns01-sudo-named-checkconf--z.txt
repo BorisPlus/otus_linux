@@ -1,0 +1,9 @@
+zone dns.lab/IN: NS 'ns01.dns.lab' has no address records (A or AAAA)
+zone dns.lab/IN: NS 'ns02.dns.lab' has no address records (A or AAAA)
+zone dns.lab/IN: not loaded due to errors.
+zone 50.168.192.in-addr.arpa/IN: loaded serial 2711201407
+zone newdns.lab/IN: loaded serial 2711201407
+zone dns.lab/IN: loaded serial 2711201407
+zone dns.lab/IN: loaded serial 2711201407
+zone 50.168.192.in-addr.arpa/IN: loaded serial 2711201407
+zone newdns.lab/IN: loaded serial 2711201407

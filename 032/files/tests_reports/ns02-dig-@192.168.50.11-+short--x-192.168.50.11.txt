@@ -1,1 +1,1 @@
-ns02.dns.lab.
+ns02.newdns.lab.

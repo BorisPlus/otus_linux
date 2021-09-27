@@ -31,6 +31,8 @@
       - dig @192.168.50.11 +short ns01.newdns.lab
       - dig @192.168.50.11 +short ns02.newdns.lab
       - dig @192.168.50.11 +short www.newdns.lab
+      - #
+      - sudo named-checkconf -z
     register: check_content
 
   - name: Store check to files

@@ -2,8 +2,18 @@
 - hosts: all
   become: yes
   tasks:
+  - name: rollback to initial os state | rm -f /etc/resolv.conf
+    shell: |
+      rm -f /etc/resolv.conf
+      systemctl restart network
+  - name: remove packages
+    yum: name={{ item }} state=absent
+    with_items:
+      - bind
+      - bind-utils
+      - ntp
   - name: install packages
-    yum: name={{ item }} state=latest 
+    yum: name={{ item }} state=latest
     with_items:
       - bind
       - bind-utils
@@ -15,11 +25,10 @@
 - hosts: ns01
   become: yes
   tasks:
-  - name: remove old
+  - name:  rollback to initial os state | rm -f /etc/named
     shell: |
       rm -f /etc/named.conf
-      rm -f /etc/named/named.dns.*
-      rm -f /etc/named/named.newdns.*
+      rm -f /etc/named/*
   - name: copy named.conf
     copy: src=master-named.conf dest=/etc/named.conf owner=root group=named mode=0640
   - name: copy zones
@@ -37,14 +46,16 @@
 - hosts: ns02
   become: yes
   tasks:
+  - name: rollback to initial os state | rm -f /etc/named
+    shell: |
+      rm -f /etc/named.conf
+      rm -f /etc/named/*
   - name: copy named.conf
     copy: src=slave-named.conf dest=/etc/named.conf owner=root group=named mode=0640
   - name: copy resolv.conf to the servers
     copy: src=servers-resolv.conf dest=/etc/resolv.conf owner=root group=root mode=0644
-
   - name: set /etc/named permissions
     file: path=/etc/named owner=root group=named mode=0670
-
   - name: ensure named is running and enabled
     service: name=named state=restarted enabled=yes
     
