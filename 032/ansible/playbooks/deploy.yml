@@ -4,6 +4,7 @@
   tasks:
   - name: rollback to initial os state | rm -f /etc/resolv.conf
     shell: |
+      chattr -i /etc/resolv.conf
       rm -f /etc/resolv.conf
       systemctl restart network
   - name: remove packages
@@ -20,20 +21,16 @@
       - ntp
   - name: copy transferkey to all servers and the client
     copy: src=named.zonetransfer.key dest=/etc/named.zonetransfer.key owner=root group=named mode=0644
-  - name: /etc/NetworkManager/NetworkManager.conf | content
+  - name: network manager war | /etc/NetworkManager/NetworkManager.conf | content
     command: /bin/cat /etc/NetworkManager/NetworkManager.conf
     register: network_manager_conf
-  - name: /etc/NetworkManager/NetworkManager.conf | dns=none | if did not set
+  - name: network manager war | /etc/NetworkManager/NetworkManager.conf | dns=none | if did not set
     lineinfile:
       insertafter: '\[main\]'
       dest: /etc/NetworkManager/NetworkManager.conf
       line: "dns=none"
-#    replace:
-#      path: /etc/NetworkManager/NetworkManager.conf
-#      regexp: '[main]'
-#      replace: '[main]\ndns=none'
     when: not network_manager_conf is search("dns=")
-  - name: /etc/NetworkManager/NetworkManager.conf | dns=none
+  - name: network manager war | /etc/NetworkManager/NetworkManager.conf | dns=none
     replace:
       path: /etc/NetworkManager/NetworkManager.conf
       regexp: 'dns=.*'
@@ -57,6 +54,8 @@
       - named.newdns.*
   - name: copy resolv.conf to the servers
     copy: src=servers-resolv.conf dest=/etc/resolv.conf owner=root group=root mode=0644
+  - name: network manager war | chattr +i /etc/resolv.conf
+    shell: chattr +i /etc/resolv.conf
   - name: set /etc/named permissions
     file: path=/etc/named owner=root group=named mode=0670
   - name: ensure named is running and enabled
@@ -73,6 +72,8 @@
     copy: src=slave-named.conf dest=/etc/named.conf owner=root group=named mode=0640
   - name: copy resolv.conf to the servers
     copy: src=servers-resolv.conf dest=/etc/resolv.conf owner=root group=root mode=0644
+  - name: network manager war | chattr +i /etc/resolv.conf
+    shell: chattr +i /etc/resolv.conf
   - name: set /etc/named permissions
     file: path=/etc/named owner=root group=named mode=0670
   - name: ensure named is running and enabled
@@ -85,6 +86,8 @@
   tasks:
   - name: copy resolv.conf to the client
     copy: src=client-resolv.conf dest=/etc/resolv.conf owner=root group=root mode=0644
+  - name: network manager war | rm -f /etc/resolv.conf
+    shell: chattr +i /etc/resolv.conf
   - name: copy rndc conf file
     copy: src=rndc.conf dest=/home/vagrant/rndc.conf owner=vagrant group=vagrant mode=0644
   - name: copy motd to the client
