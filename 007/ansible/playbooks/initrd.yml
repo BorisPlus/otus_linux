@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name:  delete "rhgb quiet"
+    shell: sed -i 's/ rhgb quiet//g' {{ item }}
+    loop:
+      - /boot/grub2/grub.cfg
+#      - /etc/default/grub
+  - name: example module dir
+    shell: mkdir -p /usr/lib/dracut/modules.d/01test
+  - name: example module module-setup.sh
+    copy: src=module-setup.sh dest=/usr/lib/dracut/modules.d/01test/module-setup.sh
+  - name: example module component
+    copy: src=test.sh dest=/usr/lib/dracut/modules.d/01test/test.sh
+#  - name: dracut -f -v
+#    shell: dracut -f -v
+  - name: mkinitrd -f -v /boot/initramfs-$(uname -r).img $(uname -r)
+    shell: mkinitrd -f -v /boot/initramfs-$(uname -r).img $(uname -r)
+  - name: lsinitrd -m /boot/initramfs-$(uname -r).img | grep test
+    shell: lsinitrd -m /boot/initramfs-$(uname -r).img | grep test
+    register: lsinitrd_content
+  - name: Print lsinitrd module exists check
+    debug: msg={{ lsinitrd_content['stdout'] }}

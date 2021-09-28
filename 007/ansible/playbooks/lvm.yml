@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: get current root name
+    shell: vgs | sed -n '2,2p' | awk '{print $1}'
+    register: current_root_name
+  - name: print
+    debug: msg={{current_root_name['stdout']}}
+  - name: vgrename to OtusRoot
+    shell: vgrename {{current_root_name['stdout']}} OtusRoot
+  - name: change /etc/fstab, /etc/default/grub и /boot/grub2/grub.cfg
+    shell: sed -i 's/{{ current_root_name['stdout'] }}/OtusRoot/g' {{ item }}
+    loop:
+      - /etc/fstab
+      - /etc/default/grub
+      - /boot/grub2/grub.cfg
+  - name: mkinitrd -f -v /boot/initramfs-$(uname -r).img $(uname -r)
+    shell: mkinitrd -f -v /boot/initramfs-$(uname -r).img $(uname -r)
+    register: mkinitrd_content
+  - name: print
+    debug: msg={{ mkinitrd_content['stdout'] }}
+  - name: reboot
+    reboot:
+      reboot_timeout: 600

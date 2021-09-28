@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: Get current root name
+    shell: vgs | sed -n '2,2p' | awk '{print $1}'
+    register: current_root_name
+  - name: Print current root name
+    debug: msg={{current_root_name['stdout']}}

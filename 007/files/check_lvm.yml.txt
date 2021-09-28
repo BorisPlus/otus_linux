@@ -1,0 +1,17 @@
+
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [default]
+
+TASK [Get current root name] ***************************************************
+changed: [default]
+
+TASK [Print current root name] *************************************************
+ok: [default] => {
+    "msg": "OtusRoot"
+}
+
+PLAY RECAP *********************************************************************
+default                    : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

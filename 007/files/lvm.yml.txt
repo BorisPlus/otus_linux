@@ -1,0 +1,44 @@
+
+PLAY [all] *********************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [default]
+
+TASK [get current root name] ***************************************************
+changed: [default]
+
+TASK [print] *******************************************************************
+ok: [default] => {
+    "msg": "centos_centos7"
+}
+
+TASK [vgrename to OtusRoot] ****************************************************
+changed: [default]
+
+TASK [change /etc/fstab, /etc/default/grub и /boot/grub2/grub.cfg] *************
+changed: [default] => (item=/etc/fstab)
+changed: [default] => (item=/etc/default/grub)
+changed: [default] => (item=/boot/grub2/grub.cfg)
+
+TASK [change /etc/default/grub и /boot/grub2/grub.cfg] *************************
+changed: [default] => (item=/etc/default/grub)
+changed: [default] => (item=/boot/grub2/grub.cfg)
+
+TASK [change /etc/default/grub и /boot/grub2/grub.cfg] *************************
+changed: [default] => (item=/etc/default/grub)
+changed: [default] => (item=/boot/grub2/grub.cfg)
+
+TASK [mkinitrd -f -v /boot/initramfs-$(uname -r).img $(uname -r)] **************
+changed: [default]
+
+TASK [print] *******************************************************************
+ok: [default] => {
+    "msg": ""
+}
+
+TASK [reboot] ******************************************************************
+changed: [default]
+
+PLAY RECAP *********************************************************************
+default                    : ok=10   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
