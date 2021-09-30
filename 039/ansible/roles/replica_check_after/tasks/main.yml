@@ -1,0 +1,48 @@
+---
+- name: Mysql | SLAVE | SHOW SLAVE STATUS
+  shell: mysql -uroot -p'{{ mysql_root_password }}' -e "{{ stmt }}"
+  vars:
+    stmt: "SHOW SLAVE STATUS \\G"
+  register: show_slave_status
+
+- name: Store check to file
+  local_action:
+    module: copy
+    content: "{{ show_slave_status['stdout'] }}"
+    dest: "../../files/replica_after-show_slave_status.txt"
+
+- name: Mysql | SLAVE | SHOW TABLES
+  shell: mysql -uroot -p'{{ mysql_root_password }}' -e "{{ stmt }}"
+  vars:
+    stmt: "USE bet; SHOW TABLES;"
+  register: slave_show_tables
+
+- name: Store check to file
+  local_action:
+    module: copy
+    content: "{{ slave_show_tables['stdout'] }}"
+    dest: "../../files/replica_after-slave_show_tables.txt"
+
+- name: Mysql | SLAVE | SELECT * FROM bookmaker
+  shell: mysql -uroot -p'{{ mysql_root_password }}' -e "{{ stmt }}"
+  vars:
+    stmt: "USE bet; SELECT * FROM bookmaker;"
+  register: select_from_bookmaker
+
+- name: Store check to file
+  local_action:
+    module: copy
+    content: "{{ select_from_bookmaker['stdout'] }}"
+    dest: "../../files/replica_after-select_from_bookmaker.txt"
+
+- name: Mysql | SLAVE | VARIABLES gtid_executed
+  shell: mysql -uroot -p'{{ mysql_root_password }}' -e "{{ stmt }}"
+  vars:
+    stmt: "SHOW VARIABLES LIKE 'gtid_executed';"
+  register: select_gtid_executed
+
+- name: Store check to file
+  local_action:
+    module: copy
+    content: "{{ select_gtid_executed['stdout'] }}"
+    dest: "../../files/replica_after-gtid_executed.txt"

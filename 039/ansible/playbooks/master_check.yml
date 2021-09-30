@@ -1,0 +1,7 @@
+---
+- name: Playbook of check MySQL master
+  hosts:
+    - master
+#  become: yes
+  roles:
+    - role: '../roles/master_check'

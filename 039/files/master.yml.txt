@@ -1,0 +1,94 @@
+
+PLAY [Playbook of MySQL master] ************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [master]
+
+TASK [../roles/master : Remove installed packages] *****************************
+changed: [master] => (item=percona)
+
+TASK [../roles/master : Remove files] ******************************************
+changed: [master] => (item=/etc/my.cnf_*)
+changed: [master] => (item=/etc/my.cnf.d*)
+changed: [master] => (item=/etc/my.cnf.d/)
+changed: [master] => (item=/etc/my.cnf)
+changed: [master] => (item=/var/lib/mysql/)
+changed: [master] => (item=/var/log/mysqld.log)
+changed: [master] => (item=/home/vagrant/common/*)
+
+TASK [../roles/master : Install https://repo.percona.com/yum/percona-release-latest.noarch.rpm] ***
+changed: [master]
+
+TASK [../roles/master : Get last Percona-Server-server version] ****************
+changed: [master]
+
+TASK [../roles/master : Print Last Percona Server version] *********************
+ok: [master] => {
+    "msg": "Last Percona Server version is 'Percona-Server-server-57'"
+}
+
+TASK [../roles/master : Install last Percona Server version: Percona-Server-server-57] ***
+changed: [master]
+
+TASK [../roles/master : Collect /etc/my.cnf.d/ files] **************************
+changed: [master]
+
+TASK [../roles/master : Collect /etc/my.cnf.d/ templated files] ****************
+changed: [master] => (item=my.cnf.d/00-bindaddress.cnf)
+changed: [master] => (item=my.cnf.d/01-base.cnf)
+changed: [master] => (item=my.cnf.d/05-binlog.cnf)
+
+TASK [../roles/master : Start MySQL] *******************************************
+changed: [master]
+
+TASK [../roles/master : MySQL root password] ***********************************
+changed: [master]
+
+TASK [../roles/master : Print MySQL root password] *****************************
+ok: [master] => {
+    "msg": "MySQL root password is 'wJ**1Q4ebGwp'"
+}
+
+TASK [../roles/master : Mysql | ALTER ROOT USER] *******************************
+changed: [master]
+
+TASK [../roles/master : Just for ansible example reexecuting] ******************
+changed: [master]
+
+TASK [../roles/master : Mysql | SELECT server_id] ******************************
+changed: [master]
+
+TASK [../roles/master : Print Mysql server id] *********************************
+ok: [master] => {
+    "msg": "@@server_id\n2"
+}
+
+TASK [../roles/master : Mysql | SELECT SHOW VARIABLES LIKE 'gtid_mode'] ********
+changed: [master]
+
+TASK [../roles/master : Mysql | 'gtid_mode' VARIABLES] *************************
+ok: [master] => {
+    "msg": "Mysql gtid mode is'Variable_name\tValue\ngtid_mode\tON'"
+}
+
+TASK [../roles/master : Mysql | CREATE DATABASE `bet`;] ************************
+changed: [master]
+
+TASK [../roles/master : Collect dump file] *************************************
+changed: [master]
+
+TASK [../roles/master : Mysql | Restore database `bet`;] ***********************
+changed: [master]
+
+TASK [../roles/master : Mysql | CREATE repl USER;] *****************************
+changed: [master]
+
+TASK [../roles/master : Mysql | Dump database all master databases] ************
+changed: [master]
+
+TASK [../roles/master : Start MySQL] *******************************************
+changed: [master]
+
+PLAY RECAP *********************************************************************
+master                     : ok=24   changed=19   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

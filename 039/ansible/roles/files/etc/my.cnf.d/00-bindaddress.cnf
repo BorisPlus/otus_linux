@@ -1,0 +1,6 @@
+[mysqld]
+{% if inventory_hostname == 'master' %}
+bind-address=192.168.39.10
+{% else %}
+bind-address=192.168.39.11
+{% endif %}

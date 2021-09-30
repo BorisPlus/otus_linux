@@ -1,0 +1,6 @@
+Tables_in_bet
+bookmaker
+competition
+market
+odds
+outcome

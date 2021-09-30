@@ -1,0 +1,7 @@
+---
+- name: Playbook of MySQL replica
+  hosts:
+    - replica
+  become: yes
+  roles:
+    - role: '../roles/replica'

@@ -1,0 +1,6 @@
+id	bookmaker_name
+1	1xbet
+4	betway
+5	bwin
+6	ladbrokes
+3	unibet

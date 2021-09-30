@@ -1,0 +1,7 @@
+
+- name: Playbook of check MySQL slave before master activity
+  hosts:
+    - replica
+#  become: yes
+  roles:
+    - role: '../roles/replica_check_before'

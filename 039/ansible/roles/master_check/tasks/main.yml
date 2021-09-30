@@ -1,0 +1,36 @@
+---
+- name: Mysql | MASTER | show master status
+  shell: mysql -uroot -p'{{ mysql_root_password }}' -e "{{ stmt }}"
+  vars:
+    stmt: "SHOW MASTER STATUS \\G"
+  register: show_master_status
+
+- name: Store check to file
+  local_action:
+    module: copy
+    content: "{{ show_master_status['stdout'] }}"
+    dest: "../../files/master_check-show_master_status.txt"
+
+- name: Mysql | MASTER | SELECT * FROM bookmaker (after INSERT)
+  shell: mysql -uroot -p'{{ mysql_root_password }}' -e "{{ stmt }}"
+  vars:
+    stmt: "USE bet; INSERT INTO bookmaker (id,bookmaker_name) VALUES(1,'1xbet'); SELECT * FROM bookmaker;"
+  register: master_select_after_insert
+
+- name: Store check to file
+  local_action:
+    module: copy
+    content: "{{ master_select_after_insert['stdout'] }}"
+    dest: "../../files/master_check-select_after_insert.txt"
+
+- name: Mysql | MASTER | SHOW BINLOG EVENTS
+  shell: mysql -uroot -p'{{ mysql_root_password }}' -e "{{ stmt }}"
+  vars:
+    stmt: "SHOW BINLOG EVENTS;"
+  register: show_binlog_events
+
+- name: Store check to file
+  local_action:
+    module: copy
+    content: "{{ show_binlog_events['stdout'] }}"
+    dest: "../../files/master_check-show_binlog_events.txt"
