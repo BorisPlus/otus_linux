@@ -163,7 +163,7 @@
     - deploy
 
 - name: Mysql | CREATE repl USER;
-  shell: mysql -uroot -p'{{ mysql_root_password }}' -e "CREATE USER 'repl'@'%' IDENTIFIED BY '!OtusLinux2018';GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%' IDENTIFIED BY '!OtusLinux2021';FLUSH PRIVILEGES;"
+  shell: mysql -uroot -p'{{ mysql_root_password }}' -e "CREATE USER 'repl'@'%' IDENTIFIED BY '!OtusLinux2021';GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%' IDENTIFIED BY '!OtusLinux2021';"
   register: database_tables
   tags:
     - get-mysql-database-tables

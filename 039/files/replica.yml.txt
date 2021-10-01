@@ -43,7 +43,7 @@ changed: [replica]
 
 TASK [../roles/replica : Print MySQL root password] ****************************
 ok: [replica] => {
-    "msg": "MySQL root password is 'h4r=r-C?)VFy'"
+    "msg": "MySQL root password is 'oI&dV!>DA9oD'"
 }
 
 TASK [../roles/replica : Mysql | ALTER ROOT USER] ******************************
@@ -73,7 +73,7 @@ changed: [replica] => (item=RESET MASTER;)
 changed: [replica] => (item=SOURCE /home/vagrant/common/master.sql;)
 changed: [replica] => (item=SHOW DATABASES LIKE 'bet';)
 changed: [replica] => (item=USE bet; SHOW TABLES;)
-changed: [replica] => (item=CHANGE MASTER TO MASTER_HOST='192.168.39.10', MASTER_PORT = 3306, MASTER_USER = 'repl', MASTER_PASSWORD = '!OtusLinux2018', MASTER_AUTO_POSITION = 1;)
+changed: [replica] => (item=CHANGE MASTER TO MASTER_HOST='192.168.39.10', MASTER_PORT = 3306, MASTER_USER = 'repl', MASTER_PASSWORD = '!OtusLinux2021', MASTER_AUTO_POSITION = 1;)
 changed: [replica] => (item=START SLAVE;)
 
 PLAY RECAP *********************************************************************

@@ -1,5 +1,5 @@
 *************************** 1. row ***************************
-               Slave_IO_State: Connecting to master
+               Slave_IO_State: 
                   Master_Host: 192.168.39.10
                   Master_User: repl
                   Master_Port: 3306
@@ -9,7 +9,7 @@
                Relay_Log_File: replica-relay-bin.000001
                 Relay_Log_Pos: 4
         Relay_Master_Log_File: 
-             Slave_IO_Running: Connecting
+             Slave_IO_Running: No
             Slave_SQL_Running: Yes
               Replicate_Do_DB: 
           Replicate_Ignore_DB: 
@@ -33,12 +33,12 @@
                Master_SSL_Key: 
         Seconds_Behind_Master: 0
 Master_SSL_Verify_Server_Cert: No
-                Last_IO_Errno: 1045
-                Last_IO_Error: error connecting to master 'repl@192.168.39.10:3306' - retry-time: 60  retries: 1
+                Last_IO_Errno: 1593
+                Last_IO_Error: Fatal error: The slave I/O thread stops because master and slave have equal MySQL server ids; these ids must be different for replication to work (or the --replicate-same-server-id option must be used on slave but this does not always make sense; please check the manual before using it).
                Last_SQL_Errno: 0
                Last_SQL_Error: 
   Replicate_Ignore_Server_Ids: 
-             Master_Server_Id: 0
+             Master_Server_Id: 2
                   Master_UUID: 
              Master_Info_File: /var/lib/mysql/master.info
                     SQL_Delay: 0
@@ -46,12 +46,12 @@ Master_SSL_Verify_Server_Cert: No
       Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates
            Master_Retry_Count: 86400
                   Master_Bind: 
-      Last_IO_Error_Timestamp: 211001 00:42:49
+      Last_IO_Error_Timestamp: 211001 00:59:57
      Last_SQL_Error_Timestamp: 
                Master_SSL_Crl: 
            Master_SSL_Crlpath: 
            Retrieved_Gtid_Set: 
-            Executed_Gtid_Set: da20ad8a-224f-11ec-b9cc-080027e0760b:1-41
+            Executed_Gtid_Set: 48551e9f-2252-11ec-904a-080027e0760b:1-40
                 Auto_Position: 1
          Replicate_Rewrite_DB: 
                  Channel_Name: 

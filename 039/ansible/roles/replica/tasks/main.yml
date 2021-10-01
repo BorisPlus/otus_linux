@@ -144,7 +144,7 @@
     - "SOURCE /home/vagrant/common/master.sql;"
     - "SHOW DATABASES LIKE 'bet';"
     - "USE bet; SHOW TABLES;"
-    - "CHANGE MASTER TO MASTER_HOST='192.168.39.10', MASTER_PORT = 3306, MASTER_USER = 'repl', MASTER_PASSWORD = '!OtusLinux2018', MASTER_AUTO_POSITION = 1;"
+    - "CHANGE MASTER TO MASTER_HOST='192.168.39.10', MASTER_PORT = 3306, MASTER_USER = 'repl', MASTER_PASSWORD = '!OtusLinux2021', MASTER_AUTO_POSITION = 1;"
     - "START SLAVE;"
   tags:
     - post-mysql-stmt
