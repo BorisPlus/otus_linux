@@ -12,16 +12,16 @@ ok: [replica] => {
     "msg": {
         "changed": true,
         "cmd": "mysql -uroot -p'P@ssw0rd' -e \"SHOW SLAVE STATUS \\G\"",
-        "delta": "0:00:00.286809",
-        "end": "2021-09-30 23:41:32.485032",
+        "delta": "0:00:00.150064",
+        "end": "2021-10-01 00:42:53.902900",
         "failed": false,
         "rc": 0,
-        "start": "2021-09-30 23:41:32.198223",
+        "start": "2021-10-01 00:42:53.752836",
         "stderr": "mysql: [Warning] Using a password on the command line interface can be insecure.",
         "stderr_lines": [
             "mysql: [Warning] Using a password on the command line interface can be insecure."
         ],
-        "stdout": "*************************** 1. row ***************************\n               Slave_IO_State: Connecting to master\n                  Master_Host: 192.168.39.10\n                  Master_User: repl\n                  Master_Port: 3306\n                Connect_Retry: 60\n              Master_Log_File: \n          Read_Master_Log_Pos: 4\n               Relay_Log_File: replica-relay-bin.000001\n                Relay_Log_Pos: 4\n        Relay_Master_Log_File: \n             Slave_IO_Running: Connecting\n            Slave_SQL_Running: Yes\n              Replicate_Do_DB: \n          Replicate_Ignore_DB: \n           Replicate_Do_Table: \n       Replicate_Ignore_Table: bet.events_on_demand,bet.v_same_event\n      Replicate_Wild_Do_Table: \n  Replicate_Wild_Ignore_Table: \n                   Last_Errno: 0\n                   Last_Error: \n                 Skip_Counter: 0\n          Exec_Master_Log_Pos: 0\n              Relay_Log_Space: 154\n              Until_Condition: None\n               Until_Log_File: \n                Until_Log_Pos: 0\n           Master_SSL_Allowed: No\n           Master_SSL_CA_File: \n           Master_SSL_CA_Path: \n              Master_SSL_Cert: \n            Master_SSL_Cipher: \n               Master_SSL_Key: \n        Seconds_Behind_Master: 0\nMaster_SSL_Verify_Server_Cert: No\n                Last_IO_Errno: 2003\n                Last_IO_Error: error connecting to master 'repl@192.168.39.10:3306' - retry-time: 60  retries: 2\n               Last_SQL_Errno: 0\n               Last_SQL_Error: \n  Replicate_Ignore_Server_Ids: \n             Master_Server_Id: 0\n                  Master_UUID: \n             Master_Info_File: /var/lib/mysql/master.info\n                    SQL_Delay: 0\n          SQL_Remaining_Delay: NULL\n      Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates\n           Master_Retry_Count: 86400\n                  Master_Bind: \n      Last_IO_Error_Timestamp: 210930 23:40:53\n     Last_SQL_Error_Timestamp: \n               Master_SSL_Crl: \n           Master_SSL_Crlpath: \n           Retrieved_Gtid_Set: \n            Executed_Gtid_Set: 918fd2cd-2246-11ec-9562-080027e0760b:1-41\n                Auto_Position: 1\n         Replicate_Rewrite_DB: \n                 Channel_Name: \n           Master_TLS_Version: ",
+        "stdout": "*************************** 1. row ***************************\n               Slave_IO_State: Connecting to master\n                  Master_Host: 192.168.39.10\n                  Master_User: repl\n                  Master_Port: 3306\n                Connect_Retry: 60\n              Master_Log_File: \n          Read_Master_Log_Pos: 4\n               Relay_Log_File: replica-relay-bin.000001\n                Relay_Log_Pos: 4\n        Relay_Master_Log_File: \n             Slave_IO_Running: Connecting\n            Slave_SQL_Running: Yes\n              Replicate_Do_DB: \n          Replicate_Ignore_DB: \n           Replicate_Do_Table: \n       Replicate_Ignore_Table: bet.events_on_demand,bet.v_same_event\n      Replicate_Wild_Do_Table: \n  Replicate_Wild_Ignore_Table: \n                   Last_Errno: 0\n                   Last_Error: \n                 Skip_Counter: 0\n          Exec_Master_Log_Pos: 0\n              Relay_Log_Space: 154\n              Until_Condition: None\n               Until_Log_File: \n                Until_Log_Pos: 0\n           Master_SSL_Allowed: No\n           Master_SSL_CA_File: \n           Master_SSL_CA_Path: \n              Master_SSL_Cert: \n            Master_SSL_Cipher: \n               Master_SSL_Key: \n        Seconds_Behind_Master: 0\nMaster_SSL_Verify_Server_Cert: No\n                Last_IO_Errno: 1045\n                Last_IO_Error: error connecting to master 'repl@192.168.39.10:3306' - retry-time: 60  retries: 1\n               Last_SQL_Errno: 0\n               Last_SQL_Error: \n  Replicate_Ignore_Server_Ids: \n             Master_Server_Id: 0\n                  Master_UUID: \n             Master_Info_File: /var/lib/mysql/master.info\n                    SQL_Delay: 0\n          SQL_Remaining_Delay: NULL\n      Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates\n           Master_Retry_Count: 86400\n                  Master_Bind: \n      Last_IO_Error_Timestamp: 211001 00:42:49\n     Last_SQL_Error_Timestamp: \n               Master_SSL_Crl: \n           Master_SSL_Crlpath: \n           Retrieved_Gtid_Set: \n            Executed_Gtid_Set: da20ad8a-224f-11ec-b9cc-080027e0760b:1-41\n                Auto_Position: 1\n         Replicate_Rewrite_DB: \n                 Channel_Name: \n           Master_TLS_Version: ",
         "stdout_lines": [
             "*************************** 1. row ***************************",
             "               Slave_IO_State: Connecting to master",
@@ -58,8 +58,8 @@ ok: [replica] => {
             "               Master_SSL_Key: ",
             "        Seconds_Behind_Master: 0",
             "Master_SSL_Verify_Server_Cert: No",
-            "                Last_IO_Errno: 2003",
-            "                Last_IO_Error: error connecting to master 'repl@192.168.39.10:3306' - retry-time: 60  retries: 2",
+            "                Last_IO_Errno: 1045",
+            "                Last_IO_Error: error connecting to master 'repl@192.168.39.10:3306' - retry-time: 60  retries: 1",
             "               Last_SQL_Errno: 0",
             "               Last_SQL_Error: ",
             "  Replicate_Ignore_Server_Ids: ",
@@ -71,12 +71,12 @@ ok: [replica] => {
             "      Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates",
             "           Master_Retry_Count: 86400",
             "                  Master_Bind: ",
-            "      Last_IO_Error_Timestamp: 210930 23:40:53",
+            "      Last_IO_Error_Timestamp: 211001 00:42:49",
             "     Last_SQL_Error_Timestamp: ",
             "               Master_SSL_Crl: ",
             "           Master_SSL_Crlpath: ",
             "           Retrieved_Gtid_Set: ",
-            "            Executed_Gtid_Set: 918fd2cd-2246-11ec-9562-080027e0760b:1-41",
+            "            Executed_Gtid_Set: da20ad8a-224f-11ec-b9cc-080027e0760b:1-41",
             "                Auto_Position: 1",
             "         Replicate_Rewrite_DB: ",
             "                 Channel_Name: ",
@@ -92,14 +92,14 @@ TASK [../roles/replica_check_before : Mysql | SLAVE | SHOW TABLES] *************
 changed: [replica]
 
 TASK [../roles/replica_check_before : Store check to file] *********************
-changed: [replica -> localhost]
+ok: [replica -> localhost]
 
 TASK [../roles/replica_check_before : Mysql | SLAVE | SELECT * FROM bookmaker] ***
 changed: [replica]
 
 TASK [../roles/replica_check_before : Store check to file] *********************
-changed: [replica -> localhost]
+ok: [replica -> localhost]
 
 PLAY RECAP *********************************************************************
-replica                    : ok=8    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+replica                    : ok=8    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 

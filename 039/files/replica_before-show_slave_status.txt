@@ -33,8 +33,8 @@
                Master_SSL_Key: 
         Seconds_Behind_Master: 0
 Master_SSL_Verify_Server_Cert: No
-                Last_IO_Errno: 2003
-                Last_IO_Error: error connecting to master 'repl@192.168.39.10:3306' - retry-time: 60  retries: 2
+                Last_IO_Errno: 1045
+                Last_IO_Error: error connecting to master 'repl@192.168.39.10:3306' - retry-time: 60  retries: 1
                Last_SQL_Errno: 0
                Last_SQL_Error: 
   Replicate_Ignore_Server_Ids: 
@@ -46,12 +46,12 @@ Master_SSL_Verify_Server_Cert: No
       Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates
            Master_Retry_Count: 86400
                   Master_Bind: 
-      Last_IO_Error_Timestamp: 210930 23:40:53
+      Last_IO_Error_Timestamp: 211001 00:42:49
      Last_SQL_Error_Timestamp: 
                Master_SSL_Crl: 
            Master_SSL_Crlpath: 
            Retrieved_Gtid_Set: 
-            Executed_Gtid_Set: 918fd2cd-2246-11ec-9562-080027e0760b:1-41
+            Executed_Gtid_Set: da20ad8a-224f-11ec-b9cc-080027e0760b:1-41
                 Auto_Position: 1
          Replicate_Rewrite_DB: 
                  Channel_Name: 

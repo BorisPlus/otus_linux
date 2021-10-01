@@ -148,14 +148,6 @@
     - post-mysql-create-database
     - deploy
 
-#- name: Mysql | print bet.dmp content
-#  debug: msg="{{ bet_dmp }}"
-#  vars:
-#    bet_dmp: "{{ lookup('file', './files/bet.dmp') }}"
-#  tags:
-#    - lookup-bet-dmp
-#    - deploy
-
 - name: Collect dump file
   copy:
     src: ../files/bet.dmp
@@ -171,7 +163,7 @@
     - deploy
 
 - name: Mysql | CREATE repl USER;
-  shell: mysql -uroot -p'{{ mysql_root_password }}' -e "CREATE USER 'repl'@'%' IDENTIFIED BY '!OtusLinux2018';GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%' IDENTIFIED BY '!OtusLinux2018';FLUSH PRIVILEGES;"
+  shell: mysql -uroot -p'{{ mysql_root_password }}' -e "CREATE USER 'repl'@'%' IDENTIFIED BY '!OtusLinux2018';GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%' IDENTIFIED BY '!OtusLinux2021';FLUSH PRIVILEGES;"
   register: database_tables
   tags:
     - get-mysql-database-tables
@@ -189,4 +181,14 @@
     name: mysql
   tags:
     - systemctl-start-mysql
+    - deploy
+
+- name: Mysql | iptables
+  shell: |
+    iptables -I INPUT -p udp --dport 3306 -j ACCEPT
+    iptables -I INPUT -p tcp --dport 3306 --syn -j ACCEPT
+    iptables-save
+    exit 0
+  tags:
+    - iptables
     - deploy

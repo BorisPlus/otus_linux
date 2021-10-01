@@ -14,14 +14,14 @@ TASK [../roles/master_check : Mysql | MASTER | SELECT * FROM bookmaker (after IN
 changed: [master]
 
 TASK [../roles/master_check : Store check to file] *****************************
-changed: [master -> localhost]
+ok: [master -> localhost]
 
 TASK [../roles/master_check : Mysql | MASTER | SHOW BINLOG EVENTS] *************
 changed: [master]
 
 TASK [../roles/master_check : Store check to file] *****************************
-changed: [master -> localhost]
+ok: [master -> localhost]
 
 PLAY RECAP *********************************************************************
-master                     : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+master                     : ok=7    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 

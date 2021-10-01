@@ -46,7 +46,7 @@ changed: [master]
 
 TASK [../roles/master : Print MySQL root password] *****************************
 ok: [master] => {
-    "msg": "MySQL root password is 'wJ**1Q4ebGwp'"
+    "msg": "MySQL root password is 'K.4F_GD2neMJ'"
 }
 
 TASK [../roles/master : Mysql | ALTER ROOT USER] *******************************
@@ -89,6 +89,9 @@ changed: [master]
 TASK [../roles/master : Start MySQL] *******************************************
 changed: [master]
 
+TASK [../roles/master : Mysql | iptables] **************************************
+changed: [master]
+
 PLAY RECAP *********************************************************************
-master                     : ok=24   changed=19   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+master                     : ok=25   changed=20   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
