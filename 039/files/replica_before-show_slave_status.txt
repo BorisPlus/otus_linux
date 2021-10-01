@@ -1,15 +1,15 @@
 *************************** 1. row ***************************
-               Slave_IO_State: 
+               Slave_IO_State: Waiting for master to send event
                   Master_Host: 192.168.39.10
                   Master_User: repl
                   Master_Port: 3306
                 Connect_Retry: 60
-              Master_Log_File: 
-          Read_Master_Log_Pos: 4
-               Relay_Log_File: replica-relay-bin.000001
-                Relay_Log_Pos: 4
-        Relay_Master_Log_File: 
-             Slave_IO_Running: No
+              Master_Log_File: mysql-bin.000003
+          Read_Master_Log_Pos: 194
+               Relay_Log_File: replica-relay-bin.000002
+                Relay_Log_Pos: 367
+        Relay_Master_Log_File: mysql-bin.000003
+             Slave_IO_Running: Yes
             Slave_SQL_Running: Yes
               Replicate_Do_DB: 
           Replicate_Ignore_DB: 
@@ -20,8 +20,8 @@
                    Last_Errno: 0
                    Last_Error: 
                  Skip_Counter: 0
-          Exec_Master_Log_Pos: 0
-              Relay_Log_Space: 154
+          Exec_Master_Log_Pos: 194
+              Relay_Log_Space: 576
               Until_Condition: None
                Until_Log_File: 
                 Until_Log_Pos: 0
@@ -33,25 +33,25 @@
                Master_SSL_Key: 
         Seconds_Behind_Master: 0
 Master_SSL_Verify_Server_Cert: No
-                Last_IO_Errno: 1593
-                Last_IO_Error: Fatal error: The slave I/O thread stops because master and slave have equal MySQL server ids; these ids must be different for replication to work (or the --replicate-same-server-id option must be used on slave but this does not always make sense; please check the manual before using it).
+                Last_IO_Errno: 0
+                Last_IO_Error: 
                Last_SQL_Errno: 0
                Last_SQL_Error: 
   Replicate_Ignore_Server_Ids: 
-             Master_Server_Id: 2
-                  Master_UUID: 
+             Master_Server_Id: 1
+                  Master_UUID: 8fb97be6-2254-11ec-a39a-080027e0760b
              Master_Info_File: /var/lib/mysql/master.info
                     SQL_Delay: 0
           SQL_Remaining_Delay: NULL
       Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates
            Master_Retry_Count: 86400
                   Master_Bind: 
-      Last_IO_Error_Timestamp: 211001 00:59:57
+      Last_IO_Error_Timestamp: 
      Last_SQL_Error_Timestamp: 
                Master_SSL_Crl: 
            Master_SSL_Crlpath: 
            Retrieved_Gtid_Set: 
-            Executed_Gtid_Set: 48551e9f-2252-11ec-904a-080027e0760b:1-40
+            Executed_Gtid_Set: 8fb97be6-2254-11ec-a39a-080027e0760b:1-40
                 Auto_Position: 1
          Replicate_Rewrite_DB: 
                  Channel_Name: 

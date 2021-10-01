@@ -1,4 +1,4 @@
 Log_name	Pos	Event_type	Server_id	End_log_pos	Info
-mysql-bin.000001	4	Format_desc	2	123	Server ver: 5.7.35-38-log, Binlog ver: 4
-mysql-bin.000001	123	Previous_gtids	2	154	
-mysql-bin.000001	154	Stop	2	177	
+mysql-bin.000001	4	Format_desc	1	123	Server ver: 5.7.35-38-log, Binlog ver: 4
+mysql-bin.000001	123	Previous_gtids	1	154	
+mysql-bin.000001	154	Stop	1	177	

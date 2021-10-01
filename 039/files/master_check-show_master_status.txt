@@ -3,4 +3,4 @@
          Position: 194
      Binlog_Do_DB: 
  Binlog_Ignore_DB: 
-Executed_Gtid_Set: 48551e9f-2252-11ec-904a-080027e0760b:1-40
+Executed_Gtid_Set: 8fb97be6-2254-11ec-a39a-080027e0760b:1-40

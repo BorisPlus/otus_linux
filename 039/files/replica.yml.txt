@@ -43,7 +43,7 @@ changed: [replica]
 
 TASK [../roles/replica : Print MySQL root password] ****************************
 ok: [replica] => {
-    "msg": "MySQL root password is 'oI&dV!>DA9oD'"
+    "msg": "MySQL root password is '+h%WrpC6UraE'"
 }
 
 TASK [../roles/replica : Mysql | ALTER ROOT USER] ******************************

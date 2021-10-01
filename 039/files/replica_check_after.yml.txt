@@ -20,7 +20,7 @@ TASK [../roles/replica_check_after : Mysql | SLAVE | SELECT * FROM bookmaker] **
 changed: [replica]
 
 TASK [../roles/replica_check_after : Store check to file] **********************
-ok: [replica -> localhost]
+changed: [replica -> localhost]
 
 TASK [../roles/replica_check_after : Mysql | SLAVE | VARIABLES gtid_executed] ***
 changed: [replica]
@@ -29,5 +29,5 @@ TASK [../roles/replica_check_after : Store check to file] **********************
 ok: [replica -> localhost]
 
 PLAY RECAP *********************************************************************
-replica                    : ok=9    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+replica                    : ok=9    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
