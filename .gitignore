@@ -1,5 +1,6 @@
 **/.vagrant
 **/guest
 **/guest/**
+**/common/**
 **/**.log
 **/ansible/inventories/hosts
