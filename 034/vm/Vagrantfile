@@ -1,0 +1,27 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  # "centos/7"
+  config.vm.box = "generic/centos7"
+  # vagrant-gatling-rsync is starting the sync engine
+  # because you have at least one rsync folder.
+  # To disable this behavior, set `config.gatling.rsync_on_startup = false` in your Vagrantfile.
+  config.gatling.rsync_on_startup = false
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.cpus = 2
+  end
+
+  config.vm.define "server" do |server|
+    server.vm.network "private_network", ip: "192.168.34.10", virtualbox__intnet: "ldap"
+    server.vm.hostname = "server"
+  end
+
+  config.vm.define "client" do |client|
+    client.vm.network "private_network", ip: "192.168.34.11", virtualbox__intnet: "ldap"
+    client.vm.hostname = "client"
+  end
+
+end

@@ -1,0 +1,11 @@
+---
+- name: Check firewall-cmd state
+  shell: firewall-cmd --state
+  register: firewall_cmd_state
+
+- name: Store to file firewall-cmd state
+  local_action:
+    module: copy
+    content: "{{ firewall_cmd_state['stdout'] }}"
+    dest:  "../../files/{{ inventory_hostname }}-firewall_cmd_state.txt"
+  become: false

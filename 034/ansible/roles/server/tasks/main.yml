@@ -1,0 +1,256 @@
+---
+- name: Check firewall-cmd state
+  shell: firewall-cmd --state
+  register: firewall_cmd_state
+  tags:
+    - deploy
+
+- name: Store to file firewall-cmd state
+  local_action:
+    module: copy
+    content: "{{ firewall_cmd_state['stdout'] }}"
+    dest:  "../../files/{{ inventory_hostname }}-firewall_cmd_state.txt"
+  become: false
+  tags:
+    - deploy
+
+- name: Install python-pip for pexpect promt answering
+  yum:
+    name: python-pip
+    state: latest
+  tags:
+    - deploy
+    - install-python-pip
+    - clean-up-previos-configure
+    - reconfigure-ipa-server
+  notify:
+    - Uninstall python-pip
+
+- name: Pip install pexpect
+  pip:
+    name: pexpect
+  tags:
+    - install-pexpect
+    - deploy
+    - clean-up-previos-configure
+    - clean-up-previos-deploy
+    - reconfigure-ipa-server
+  notify:
+    - Pip uninstall pexpect
+
+- name: Reconfigure ipa-client
+  expect:
+    command: ipa-client-install --uninstall
+    responses:
+      '(.*)Do you want to reboot the machine(.*)': 'no'
+    timeout: 600
+  register: ipa_client_reconfigure_log
+  tags:
+    - clean-up-previos-configure
+
+- name:  Clean up | uninstall freeipa-client
+  yum:
+    name: freeipa-client
+    state: removed
+  tags:
+    - clean-up-previos-deploy
+
+- name:  Clean up | restart network
+  systemd:
+    name: network
+    enabled: yes
+    state: restarted
+  tags:
+    - clean-up-previos-deploy
+
+- name: Set time zone
+  copy:
+    src: /usr/share/zoneinfo/Europe/Moscow
+    dest: /etc/localtime
+  tags:
+    - set-tz
+    - deploy
+
+- name: Synchronize datetime | Install chrony
+  yum:
+    name: chrony
+    state: latest
+  tags:
+    - configure-datetime
+    - deploy
+
+- name: Synchronize datetime | Turn on chronyd
+  systemd:
+    name: chronyd
+    enabled: yes
+    state: restarted
+  notify:
+    - systemctl daemon reload
+  tags:
+    - configure-datetime
+    - deploy
+
+- name: Set hostname
+  shell: hostnamectl set-hostname server.otus.local
+  tags:
+    - set-hostname
+    - deploy
+
+- name: Set hostname | In order to apply the new hostname
+  reboot:
+    reboot_timeout: 600
+  tags:
+    - set-hostname
+    - deploy
+
+- name: Configure iptables
+  shell: |
+    firewall-cmd --permanent --add-port=53/{tcp,udp} --add-port={80,443}/tcp --add-port={88,464}/{tcp,udp} --add-port=123/udp --add-port={389,636}/tcp
+    firewall-cmd --reload
+  tags:
+    - configure-iptables
+    - deploy
+
+- name: /etc/sysctl.d/99-sysctl.conf | get content
+  command: /bin/cat /etc/sysctl.d/99-sysctl.conf
+  register: sysctl_content
+  tags:
+    - deploy
+
+- name: /etc/sysctl.d/99-sysctl.conf | set net.ipv6.conf.lo.disable_ipv6=0 | if did not set
+  lineinfile:
+    insertafter: EOF
+    dest: /etc/sysctl.d/99-sysctl.conf
+    line: "net.ipv6.conf.lo.disable_ipv6=0"
+  when: not sysctl_content is search("net.ipv6.conf.lo.disable_ipv6")
+  tags:
+    - deploy
+
+- name: /etc/sysctl.d/99-sysctl.conf | set net.ipv6.conf.lo.disable_ipv6=0 | if 1
+  replace:
+    path: /etc/sysctl.d/99-sysctl.conf
+    regexp: 'net\.ipv6\.conf\.lo\.disable_ipv6.*'
+    replace: 'net.ipv6.conf.lo.disable_ipv6=0'
+  tags:
+    - remove-ipv6-protocol
+    - deploy
+
+- name: Unconfigure ipv6 at grub
+  shell: |
+    sed -i 's/ipv6\.disable=1//g' /etc/default/grub
+    grub2-mkconfig -o /boot/grub2/grub.cfg
+  tags:
+    - remove-ipv6-protocol
+    - deploy
+
+- name: Reboot VM
+  reboot:
+    reboot_timeout: 600
+  tags:
+    - deploy
+
+- name: Install ipa-server
+  yum:
+    name: ipa-server
+    state: latest
+  tags:
+    - deploy
+    - install-ipa-server
+
+- name: Install ipa-server-dns
+  yum:
+    name: ipa-server-dns
+    state: latest
+  tags:
+    - deploy
+    - install-ipa-server
+    - install-ipa-server-dns
+
+- name: Reconfigure ipa-server
+  expect:
+    command: ipa-server-install --uninstall
+    responses:
+      '(.*)Are you sure you want to continue with the uninstall procedure(.*)': 'yes'
+    timeout: 600
+  tags:
+    - reconfigure-ipa-server
+
+- name: Configure ipa-server
+  expect:
+    command: ipa-server-install
+    responses:
+      # Using last defined value only
+      '(.*)Do you want to configure integrated DNS(.*)': 'yes'
+      '(.*)Server host name(.*)': 'server.otus.local'
+      '(.*)Please confirm the domain name(.*)': 'otus.local'
+      '(.*)Please provide a realm name(.*)': 'OTUS.LOCAL'
+      '(.*)Directory Manager password(.*)': 'P@ssw0rd'
+      '(.*)Password \(confirm\)(.*)': 'P@ssw0rd'
+      '(.*)IPA admin password(.*)': 'P@ssw0rd'
+      '(.*)Do you want to configure DNS forwarders(.*)': 'yes'
+      '(.*)Do you want to configure these servers as DNS forwarders(.*)': 'yes'
+      '(.*)Do you want to search for missing reverse zones(.*)': 'yes'
+      '(.*)You can enter additional addresses now(.*)Enter an IP address for a DNS forwarder, or press Enter to skip(.*)': '77.88.8.8'
+      '(.*)You may add another(.*)Enter an IP address for a DNS forwarder, or press Enter to skip(.*)': ''
+      '(.*)Do you want to create reverse zone for IP(.*)': 'yes'
+      '(.*)Please specify the reverse zone name(.*)': ''
+      '(.*)Continue to configure the system with these values(.*)': 'yes'
+      'restarting directory server': 'yes'
+    timeout: 36000
+  register: ipa_server_configure_log
+  tags:
+    - deploy
+    - configure-ipa-server
+
+- name: Save ipa_server_configure_log
+  local_action:
+    module: copy
+    content: "{{ ipa_server_configure_log['stdout'] }}"
+    dest:  "../../files/ipa_server_configure_log.txt"
+  become: false
+  tags:
+    - deploy
+    - configure-ipa-server
+
+- name: Check kinit admin
+  expect:
+    command: kinit admin
+    responses:
+      '(.*)Password for(.*)': 'P@ssw0rd'
+  register: kinit_admin_content
+  tags:
+    - deploy
+    - check-kinit-admin
+    - check-kinit
+    - check-k
+
+- name: Store kinit admin log to file
+  local_action:
+    module: copy
+    content: "{{ kinit_admin_content['stdout'] }}"
+    dest: "../../files/server-kinit_admin_content.txt"
+  become: false
+  tags:
+    - deploy
+    - check-kinit-admin
+    - check-kinit
+    - check-k
+
+- name: Check klist
+  shell: klist
+  register: klist_content
+  tags:
+    - deploy
+    - check-klist
+    - check-k
+
+- name: Store klist log to file
+  local_action:
+    module: copy
+    content: "{{ klist_content['stdout'] }}"
+    dest: "../../files/server-klist_content.txt"
+  become: false
+  tags:
+    - deploy
+    - check-kinit
+    - check-k

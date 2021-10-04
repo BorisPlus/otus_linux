@@ -1,0 +1,87 @@
+
+PLAY [Playbook of server initialization] ***************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [server]
+
+TASK [../roles/server : Check firewall-cmd state] ******************************
+changed: [server]
+
+TASK [../roles/server : Store to file firewall-cmd state] **********************
+changed: [server -> localhost]
+
+TASK [../roles/server : Install python-pip for pexpect promt answering] ********
+changed: [server]
+
+TASK [../roles/server : Pip install pexpect] ***********************************
+changed: [server]
+
+TASK [../roles/server : Set time zone] *****************************************
+changed: [server]
+
+TASK [../roles/server : Synchronize datetime | Install chrony] *****************
+ok: [server]
+
+TASK [../roles/server : Synchronize datetime | Turn on chronyd] ****************
+changed: [server]
+
+TASK [../roles/server : Set hostname] ******************************************
+changed: [server]
+
+TASK [../roles/server : Set hostname | In order to apply the new hostname] *****
+changed: [server]
+
+TASK [../roles/server : Configure iptables] ************************************
+changed: [server]
+
+TASK [../roles/server : /etc/sysctl.d/99-sysctl.conf | get content] ************
+changed: [server]
+
+TASK [../roles/server : /etc/sysctl.d/99-sysctl.conf | set net.ipv6.conf.lo.disable_ipv6=0 | if did not set] ***
+changed: [server]
+
+TASK [../roles/server : /etc/sysctl.d/99-sysctl.conf | set net.ipv6.conf.lo.disable_ipv6=0 | if 1] ***
+ok: [server]
+
+TASK [../roles/server : Unconfigure ipv6 at grub] ******************************
+changed: [server]
+
+TASK [../roles/server : Reboot VM] *********************************************
+changed: [server]
+
+TASK [../roles/server : Install ipa-server] ************************************
+changed: [server]
+
+TASK [../roles/server : Install ipa-server-dns] ********************************
+changed: [server]
+
+TASK [../roles/server : Configure ipa-server] **********************************
+changed: [server]
+
+TASK [../roles/server : Save ipa_server_configure_log] *************************
+changed: [server -> localhost]
+
+TASK [../roles/server : Check kinit admin] *************************************
+changed: [server]
+
+TASK [../roles/server : Store kinit admin log to file] *************************
+changed: [server -> localhost]
+
+TASK [../roles/server : Check klist] *******************************************
+changed: [server]
+
+TASK [../roles/server : Store klist log to file] *******************************
+changed: [server -> localhost]
+
+RUNNING HANDLER [../roles/server : systemctl daemon reload] ********************
+ok: [server]
+
+RUNNING HANDLER [../roles/server : Pip uninstall pexpect] **********************
+changed: [server]
+
+RUNNING HANDLER [../roles/server : Uninstall python-pip] ***********************
+changed: [server]
+
+PLAY RECAP *********************************************************************
+server                     : ok=27   changed=23   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

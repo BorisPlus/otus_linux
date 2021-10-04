@@ -1,0 +1,14 @@
+---
+- name: systemctl daemon reload
+  systemd:
+    daemon_reload: yes
+
+- name: Pip uninstall pexpect
+  pip:
+    name: pexpect
+    state: absent
+
+- name: Uninstall python-pip
+  yum:
+    name: python-pip
+    state: removed

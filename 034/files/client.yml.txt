@@ -1,0 +1,81 @@
+
+PLAY [Playbook of client initialization] ***************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [client]
+
+TASK [../roles/client : copy resolv.conf] **************************************
+changed: [client]
+
+TASK [../roles/client : network manager war | chattr +i /etc/resolv.conf] ******
+changed: [client]
+
+TASK [../roles/client : Check firewall-cmd state] ******************************
+changed: [client]
+
+TASK [../roles/client : Store to file firewall-cmd state] **********************
+changed: [client -> localhost]
+
+TASK [../roles/client : Set time zone] *****************************************
+changed: [client]
+
+TASK [../roles/client : Synchronize datetime | Install chrony] *****************
+ok: [client]
+
+TASK [../roles/client : Synchronize datetime | Turn on chronyd] ****************
+changed: [client]
+
+TASK [../roles/client : Set hostname] ******************************************
+changed: [client]
+
+TASK [../roles/client : Set hostname | In order to apply the new hostname] *****
+changed: [client]
+
+TASK [../roles/client : Install python-pip for pexpect promt answering] ********
+changed: [client]
+
+TASK [../roles/client : Pip install pexpect] ***********************************
+changed: [client]
+
+TASK [../roles/client : Configure iptables] ************************************
+changed: [client]
+
+TASK [../roles/client : Update network] ****************************************
+changed: [client]
+
+TASK [../roles/client : Install freeipa-client] ********************************
+changed: [client]
+
+TASK [../roles/client : Reboot VM] *********************************************
+changed: [client]
+
+TASK [../roles/client : Configure ipa-client] **********************************
+changed: [client]
+
+TASK [../roles/client : Save client_configure_log] *****************************
+changed: [client -> localhost]
+
+TASK [../roles/client : Check kinit admin] *************************************
+changed: [client]
+
+TASK [../roles/client : Store kinit admin log to file] *************************
+changed: [client -> localhost]
+
+TASK [../roles/client : Check klist] *******************************************
+changed: [client]
+
+TASK [../roles/client : Store klist log to file] *******************************
+changed: [client -> localhost]
+
+RUNNING HANDLER [../roles/client : systemctl daemon reload] ********************
+ok: [client]
+
+RUNNING HANDLER [../roles/client : Pip uninstall pexpect] **********************
+changed: [client]
+
+RUNNING HANDLER [../roles/client : Uninstall python-pip] ***********************
+changed: [client]
+
+PLAY RECAP *********************************************************************
+client                     : ok=25   changed=22   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

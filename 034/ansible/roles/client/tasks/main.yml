@@ -1,0 +1,250 @@
+---
+- name: copy resolv.conf
+  copy:
+    src: ../files/resolv.conf
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    mode: 0640
+  tags:
+    - deploy
+    - setup-resolv-conf
+
+- name: network manager war | chattr +i /etc/resolv.conf
+  shell: chattr +i /etc/resolv.conf
+  tags:
+    - configure-dns
+    - deploy
+    - setup-resolv-conf
+
+- name: Check firewall-cmd state
+  shell: firewall-cmd --state
+  register: firewall_cmd_state
+  tags:
+    - deploy
+    - check-firewall-cmd-state
+
+- name: Store to file firewall-cmd state
+  local_action:
+    module: copy
+    content: "{{ firewall_cmd_state['stdout'] }}"
+    dest:  "../../files/{{ inventory_hostname }}-firewall_cmd_state.txt"
+  become: false
+  tags:
+    - deploy
+    - check-firewall-cmd-state
+
+- name: Set time zone
+  copy:
+    src: /usr/share/zoneinfo/Europe/Moscow
+    dest: /etc/localtime
+  tags:
+    - set-tz
+    - deploy
+
+- name: Synchronize datetime | Install chrony
+  yum:
+    name: chrony
+    state: latest
+  tags:
+    - configure-datetime
+    - deploy
+
+# How pass extra args --now
+- name: Synchronize datetime | Turn on chronyd
+  service:
+    name: chronyd
+    enabled: yes
+    state: restarted
+  notify:
+    - systemctl daemon reload
+  tags:
+    - configure-datetime
+    - deploy
+
+- name: Set hostname
+  shell: hostnamectl set-hostname client.otus.local
+  tags:
+    - set-hostname
+    - deploy
+
+- name: Set hostname | In order to apply the new hostname
+  reboot:
+    reboot_timeout: 600
+  tags:
+    - set-hostname
+    - deploy
+
+- name: Install python-pip for pexpect promt answering
+  yum:
+    name: python-pip
+    state: latest
+  tags:
+    - configure-ipa-client
+    - install-python-pip
+    - deploy
+    - clean-up-previos-configure
+  notify:
+    - Uninstall python-pip
+
+- name: Pip install pexpect
+  pip:
+    name: pexpect
+  tags:
+    - configure-ipa-client
+    - install-pexpect
+    - deploy
+    - clean-up-previos-configure
+    - clean-up-previos-deploy
+  notify:
+    - Pip uninstall pexpect
+
+#- name: Clean up | remove files
+#  shell: |
+#    chattr -i /etc/resolv.conf
+#    rm -f /etc/resolv.conf
+#  tags:
+#    - clean-up-previos-deploy
+
+- name: Reconfigure ipa-client
+  expect:
+    command: ipa-client-install --uninstall
+    responses:
+      '(.*)Do you want to reboot the machine(.*)': 'no'
+    timeout: 600
+  register: ipa_client_reconfigure_log
+  tags:
+    - clean-up-previos-configure
+
+- name: Save ipa-client_reconfigure_log
+  local_action:
+    module: copy
+    content: "{{ ipa_client_reconfigure_log['stdout'] }}"
+    dest:  "../../files/ipa_client_reconfigure_log.txt"
+  become: false
+  tags:
+    - clean-up-previos-configure
+
+- name:  Clean up | uninstall freeipa-client
+  yum:
+    name: freeipa-client
+    state: removed
+  tags:
+    - clean-up-previos-deploy
+
+#- name:  Clean up | restart network
+#  systemd:
+#    name: network
+#    enabled: yes
+#    state: restarted
+#  tags:
+#    - clean-up-previos-deploy
+
+# Please make sure the following ports are opened in the firewall settings:
+#     TCP: 80, 88, 389
+#     UDP: 88 (at least one of TCP/UDP ports 88 has to be open)
+# Also note that following ports are necessary for ipa-client working properly after enrollment:
+#     TCP: 464
+#     UDP: 464, 123 (if NTP enabled)
+
+- name: Configure iptables
+  shell: |
+    firewall-cmd --permanent --add-port={80,88,389,464}/tcp --add-port={88,464,123}/{tcp,udp}
+    firewall-cmd --reload
+  tags:
+    - configure-ipa-client
+    - configure-iptables
+    - deploy
+
+- name:  Update network
+  systemd:
+    name: network
+    enabled: yes
+    state: restarted
+  tags:
+    - configure-dns
+    - deploy
+
+- name: Install freeipa-client
+  yum:
+    name: freeipa-client
+    state: latest
+  tags:
+    - configure-ipa-client
+    - install-freeipa-client
+    - deploy
+
+- name: Reboot VM
+  reboot:
+    reboot_timeout: 600
+  tags:
+    - configure-ipa-client
+    - deploy
+
+- name: Configure ipa-client
+  expect:
+    command: ipa-client-install --mkhomedir --force-join
+    responses:
+      '(.*)Continue to configure the system with these values(.*)': 'yes'
+      '(.*)User authorized to enroll computers(.*)': 'admin'
+      '(.*)Password for(.*)': 'P@ssw0rd'
+    timeout: 36000
+  register: client_configure_log
+  tags:
+    - configure-ipa-client
+    - mkhomedir-ipa-client
+    - deploy
+
+- name: Save client_configure_log
+  local_action:
+    module: copy
+    content: "{{ client_configure_log['stdout'] }}"
+    dest:  "../../files/client_configure_log.txt"
+  become: false
+  tags:
+    - configure-ipa-client
+    - mkhomedir-ipa-client
+    - deploy
+
+- name: Check kinit admin
+  expect:
+    command: kinit admin
+    responses:
+      '(.*)Password for(.*)': 'P@ssw0rd'
+  register: kinit_admin_content
+  tags:
+    - deploy
+    - check-kinit-admin
+    - check-kinit
+    - check-k
+
+- name: Store kinit admin log to file
+  local_action:
+    module: copy
+    content: "{{ kinit_admin_content['stdout'] }}"
+    dest: "../../files/client-kinit_admin_content.txt"
+  become: false
+  tags:
+    - deploy
+    - check-kinit-admin
+    - check-kinit
+    - check-k
+
+- name: Check klist
+  shell: klist
+  register: klist_content
+  tags:
+    - deploy
+    - check-klist
+    - check-k
+
+- name: Store klist log to file
+  local_action:
+    module: copy
+    content: "{{ klist_content['stdout'] }}"
+    dest: "../../files/client-klist_content.txt"
+  become: false
+  tags:
+    - deploy
+    - check-kinit
+    - check-k

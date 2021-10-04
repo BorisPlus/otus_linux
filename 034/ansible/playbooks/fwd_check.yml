@@ -1,0 +1,8 @@
+---
+- name: Playbook of server initialization
+  hosts:
+    - server
+    - client
+  become: true
+  roles:
+    - role: '../roles/fwd_check'

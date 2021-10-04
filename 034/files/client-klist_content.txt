@@ -1,0 +1,5 @@
+Ticket cache: KEYRING:persistent:0:0
+Default principal: admin@OTUS.LOCAL
+
+Valid starting       Expires              Service principal
+04.10.2021 20:56:11  05.10.2021 20:56:10  krbtgt/OTUS.LOCAL@OTUS.LOCAL

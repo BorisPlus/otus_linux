@@ -1,0 +1,6 @@
+---
+- name: Playbook of client initialization
+  hosts: client
+  become: true
+  roles:
+    - role: '../roles/client'
