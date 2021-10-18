@@ -129,13 +129,6 @@
     - postgres-replication-init
     - deploy
 
-- name: Create PostgreSQL database
-  become_user: postgres
-  shell: psql postgres -c "CREATE DATABASE test"
-  tags:
-    - postgres-user-init
-    - deploy
-
 - name: Create PostgreSQL user
   become_user: postgres
   shell: psql postgres -c "CREATE USER test WITH ENCRYPTED PASSWORD 'test'; GRANT ALL PRIVILEGES ON DATABASE test TO test;"
@@ -150,18 +143,18 @@
     - postgres-replication-init
     - deploy
 
-- name: Create PostgreSQL super barman user
-  become_user: postgres
-  shell: psql postgres -c "CREATE USER super_barman WITH SUPERUSER PASSWORD 'barman'"
-  tags:
-    - postgres-replication-init
-    - deploy-barman
-    - deploy
-
-- name: Create PostgreSQL replicator barman user
-  become_user: postgres
-  shell: psql postgres -c "CREATE USER replicator_barman WITH REPLICATION PASSWORD 'barman'"
-  tags:
-    - postgres-replication-init
-    - deploy-barman
-    - deploy
+#- name: Create PostgreSQL super barman user
+#  become_user: postgres
+#  shell: psql postgres -c "CREATE USER super_barman WITH SUPERUSER PASSWORD 'barman'"
+#  tags:
+#    - postgres-replication-init
+#    - deploy-barman
+#    - deploy
+#
+#- name: Create PostgreSQL replicator barman user
+#  become_user: postgres
+#  shell: psql postgres -c "CREATE USER replicator_barman WITH REPLICATION PASSWORD 'barman'"
+#  tags:
+#    - postgres-replication-init
+#    - deploy-barman
+#    - deploy
