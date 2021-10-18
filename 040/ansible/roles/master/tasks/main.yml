@@ -129,12 +129,12 @@
     - postgres-replication-init
     - deploy
 
-- name: Create PostgreSQL user
-  become_user: postgres
-  shell: psql postgres -c "CREATE USER test WITH ENCRYPTED PASSWORD 'test'; GRANT ALL PRIVILEGES ON DATABASE test TO test;"
-  tags:
-    - postgres-user-init
-    - deploy
+#- name: Create PostgreSQL user
+#  become_user: postgres
+#  shell: psql postgres -c "CREATE USER test WITH ENCRYPTED PASSWORD 'test'; GRANT ALL PRIVILEGES ON DATABASE test TO test;"
+#  tags:
+#    - postgres-user-init
+#    - deploy
 
 - name: Create PostgreSQL replicator user
   become_user: postgres

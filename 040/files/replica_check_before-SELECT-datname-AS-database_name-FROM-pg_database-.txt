@@ -4,5 +4,4 @@
  postgres
  template1
  template0
- test
-(4 строки)
+(3 строки)

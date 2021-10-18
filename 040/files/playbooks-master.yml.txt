@@ -29,11 +29,12 @@ changed: [master]
 TASK [../roles/master : Create PostgreSQL slot] ********************************
 changed: [master]
 
-TASK [../roles/master : Create PostgreSQL user] ********************************
-fatal: [master]: FAILED! => {"changed": true, "cmd": "psql postgres -c \"CREATE USER test WITH ENCRYPTED PASSWORD 'test'; GRANT ALL PRIVILEGES ON DATABASE test TO test;\"", "delta": "0:00:00.026045", "end": "2021-10-18 05:05:17.515718", "msg": "non-zero return code", "rc": 1, "start": "2021-10-18 05:05:17.489673", "stderr": "ERROR:  database \"test\" does not exist", "stderr_lines": ["ERROR:  database \"test\" does not exist"], "stdout": "", "stdout_lines": []}
+TASK [../roles/master : Create PostgreSQL replicator user] *********************
+changed: [master]
 
 RUNNING HANDLER [../roles/master : restart-postgresql] *************************
+changed: [master]
 
 PLAY RECAP *********************************************************************
-master                     : ok=9    changed=7    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+master                     : ok=11   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
