@@ -1,0 +1,29 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+
+  config.vm.box = "centos/7"
+  # config.vm.box_check_update = false
+
+  # vagrant-gatling-rsync is starting the sync engine
+  # because you have at least one rsync folder.
+  # To disable this behavior, set `config.gatling.rsync_on_startup = false` in your Vagrantfile.
+  config.gatling.rsync_on_startup = false
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 256
+    v.cpus = 1
+  end
+
+  config.vm.define "master" do |master|
+    master.vm.network "private_network",  ip: "192.168.40.10", virtualbox__intnet: "postgresql"
+    master.vm.hostname = "master"
+  end
+
+  config.vm.define "replica" do |replica|
+    replica.vm.network "private_network", ip: "192.168.40.11", virtualbox__intnet: "postgresql"
+    replica.vm.hostname = "replica"
+  end
+
+end

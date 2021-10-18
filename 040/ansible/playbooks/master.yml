@@ -1,0 +1,7 @@
+---
+- name: Playbook of PostgreSQL master
+  hosts:
+    - master
+  become: yes
+  roles:
+    - role: '../roles/master'

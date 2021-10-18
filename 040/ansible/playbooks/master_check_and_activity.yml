@@ -1,0 +1,6 @@
+---
+- name: Playbook of check master
+  hosts:
+    - master
+  roles:
+    - role: '../roles/master_check_and_activity'

@@ -1,0 +1,8 @@
+-- SELECT datname AS database_name FROM pg_database;
+ database_name 
+---------------
+ postgres
+ template1
+ template0
+ test
+(4 строки)

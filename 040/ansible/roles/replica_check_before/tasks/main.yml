@@ -1,0 +1,20 @@
+---
+- name: PostgreSQL master checker
+  shell: sudo -iu postgres psql -c "{{ item }}"
+  loop:
+    - "SELECT datname AS database_name FROM pg_database;"
+    - "SELECT schema_name FROM information_schema.schemata;"
+    - "SELECT schemaname, tablename FROM pg_catalog.pg_tables;"
+  register: check
+
+#- name: Print check
+#  debug:
+#    msg: "{{ check }}"
+#  loop: "{{ check['results'] }}"
+
+- name: Store check to file
+  local_action:
+    module: copy
+    content: "-- {{ item['item'] }}\n{{ item['stdout'] }}"
+    dest: "../../files/replica_check_before-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') }}.txt"
+  loop: "{{ check['results'] }}"

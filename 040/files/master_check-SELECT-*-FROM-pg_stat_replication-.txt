@@ -1,0 +1,5 @@
+-- SELECT * FROM pg_stat_replication;
+  pid  | usesysid |  usename   | application_name |  client_addr  | client_hostname | client_port |         backend_start         | backend_xmin |   state   | sent_lsn  | write_lsn | flush_lsn | replay_lsn |    write_lag    |    flush_lag    |   replay_lag    | sync_priority | sync_state 
+-------+----------+------------+------------------+---------------+-----------------+-------------+-------------------------------+--------------+-----------+-----------+-----------+-----------+------------+-----------------+-----------------+-----------------+---------------+------------
+ 29792 |    16386 | replicator | walreceiver      | 192.168.40.11 |                 |       48334 | 2021-10-18 00:02:02.526574+00 |              | streaming | 0/3000060 | 0/3000060 | 0/3000060 | 0/3000060  | 00:00:00.073367 | 00:00:00.073962 | 00:00:00.074367 |             0 | async
+(1 строка)

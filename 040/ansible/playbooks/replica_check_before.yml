@@ -1,0 +1,6 @@
+---
+- name: Playbook of check replica before master activity
+  hosts:
+    - replica
+  roles:
+    - role: '../roles/replica_check_before'

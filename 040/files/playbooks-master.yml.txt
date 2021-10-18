@@ -1,0 +1,52 @@
+
+PLAY [Playbook of PostgreSQL master] *******************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [master]
+
+TASK [../roles/master : Install PostgreSQL repo] *******************************
+changed: [master]
+
+TASK [../roles/master : Install PostgreSQL] ************************************
+changed: [master]
+
+TASK [../roles/master : Uninstall PostgreSQL] **********************************
+ok: [master]
+
+TASK [../roles/master : Remove PostgreSQL data dir] ****************************
+changed: [master]
+
+TASK [../roles/master : Init PostgreSQL] ***************************************
+changed: [master]
+
+TASK [../roles/master : Collect-pg.conf-files] *********************************
+changed: [master] => (item=pg_hba.conf)
+changed: [master] => (item=postgresql.conf)
+
+TASK [../roles/master : Force restart PostgreSQL] ******************************
+changed: [master]
+
+TASK [../roles/master : Create PostgreSQL slot] ********************************
+changed: [master]
+
+TASK [../roles/master : Create PostgreSQL database] ****************************
+changed: [master]
+
+TASK [../roles/master : Create PostgreSQL user] ********************************
+changed: [master]
+
+TASK [../roles/master : Create PostgreSQL replicator user] *********************
+changed: [master]
+
+TASK [../roles/master : Create PostgreSQL super barman user] *******************
+changed: [master]
+
+TASK [../roles/master : Create PostgreSQL replicator barman user] **************
+changed: [master]
+
+RUNNING HANDLER [../roles/master : restart-postgresql] *************************
+changed: [master]
+
+PLAY RECAP *********************************************************************
+master                     : ok=15   changed=13   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

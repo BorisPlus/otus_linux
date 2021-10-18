@@ -1,0 +1,5 @@
+-- SELECT application_name, state, sync_priority, sync_state FROM pg_stat_replication;
+ application_name |   state   | sync_priority | sync_state 
+------------------+-----------+---------------+------------
+ walreceiver      | streaming |             0 | async
+(1 строка)

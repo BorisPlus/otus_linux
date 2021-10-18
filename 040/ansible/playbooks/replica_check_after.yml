@@ -1,0 +1,6 @@
+---
+- name: Playbook of check replica after master activity
+  hosts:
+    - replica
+  roles:
+    - role: '../roles/replica_check_after'

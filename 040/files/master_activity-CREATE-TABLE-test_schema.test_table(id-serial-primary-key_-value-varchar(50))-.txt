@@ -1,0 +1,2 @@
+-- CREATE TABLE test_schema.test_table(id serial primary key, value varchar(50));
+CREATE TABLE

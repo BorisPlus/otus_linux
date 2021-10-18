@@ -1,0 +1,11 @@
+-- SELECT schema_name FROM information_schema.schemata;
+    schema_name     
+--------------------
+ test_schema
+ information_schema
+ public
+ pg_catalog
+ pg_toast_temp_1
+ pg_temp_1
+ pg_toast
+(7 строк)
