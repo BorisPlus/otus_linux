@@ -38,7 +38,7 @@ TASK [../roles/replica : Clear PostgreSQL data dir] ****************************
 changed: [replica]
 
 TASK [../roles/replica : Copy database from master to slave] *******************
-fatal: [replica]: FAILED! => {"changed": true, "cmd": "pg_basebackup -X stream -h 192.168.40.10 -D /var/lib/pgsql/11/data/ -P -U replicator -W", "delta": "0:00:00.254287", "end": "2021-10-18 01:09:15.142713", "msg": "non-zero return code", "rc": 1, "start": "2021-10-18 01:09:14.888426", "stdout": "Пароль: \r\npg_basebackup: FATAL:  password authentication failed for user \"replicator\"", "stdout_lines": ["Пароль: ", "pg_basebackup: FATAL:  password authentication failed for user \"replicator\""]}
+fatal: [replica]: FAILED! => {"changed": true, "cmd": "pg_basebackup -X stream -h 192.168.40.10 -D /var/lib/pgsql/11/data/ -P -U replicator -W", "delta": "0:00:00.251136", "end": "2021-10-18 01:32:00.486004", "msg": "non-zero return code", "rc": 1, "start": "2021-10-18 01:32:00.234868", "stdout": "Пароль: \r\npg_basebackup: FATAL:  password authentication failed for user \"replicator\"", "stdout_lines": ["Пароль: ", "pg_basebackup: FATAL:  password authentication failed for user \"replicator\""]}
 
 PLAY RECAP *********************************************************************
 replica                    : ok=12   changed=9    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   

@@ -30,7 +30,7 @@ TASK [../roles/master : Create PostgreSQL slot] ********************************
 changed: [master]
 
 TASK [../roles/master : Create PostgreSQL user] ********************************
-fatal: [master]: FAILED! => {"changed": true, "cmd": "psql postgres -c \"CREATE USER test WITH ENCRYPTED PASSWORD 'test'; GRANT ALL PRIVILEGES ON DATABASE test TO test;\"", "delta": "0:00:00.025669", "end": "2021-10-18 01:06:38.439865", "msg": "non-zero return code", "rc": 1, "start": "2021-10-18 01:06:38.414196", "stderr": "ERROR:  database \"test\" does not exist", "stderr_lines": ["ERROR:  database \"test\" does not exist"], "stdout": "", "stdout_lines": []}
+fatal: [master]: FAILED! => {"changed": true, "cmd": "psql postgres -c \"CREATE USER test WITH ENCRYPTED PASSWORD 'test'; GRANT ALL PRIVILEGES ON DATABASE test TO test;\"", "delta": "0:00:00.026607", "end": "2021-10-18 01:29:52.378651", "msg": "non-zero return code", "rc": 1, "start": "2021-10-18 01:29:52.352044", "stderr": "ERROR:  database \"test\" does not exist", "stderr_lines": ["ERROR:  database \"test\" does not exist"], "stdout": "", "stdout_lines": []}
 
 RUNNING HANDLER [../roles/master : restart-postgresql] *************************
 
