@@ -1,0 +1,18 @@
+module pg_ssh 1.0;
+require {
+        type sshd_t;
+        type postgresql_db_t;
+        class file read;
+}
+require {
+        type sshd_t;
+        type postgresql_db_t;
+        class file open;
+}
+require {
+        type sshd_t;
+        type postgresql_db_t;
+        class file getattr;
+}
+#============= OK =============#
+allow sshd_t postgresql_db_t:file { open read getattr };

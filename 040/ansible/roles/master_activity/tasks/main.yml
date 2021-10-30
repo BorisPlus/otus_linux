@@ -1,0 +1,4 @@
+---
+- name: PostgreSQL master activity
+  shell: sudo -iu postgres psql -c "INSERT INTO test_schema.test_table(value) VALUES ('Test no.{{ item }}');"
+  with_sequence: start=1 end=10

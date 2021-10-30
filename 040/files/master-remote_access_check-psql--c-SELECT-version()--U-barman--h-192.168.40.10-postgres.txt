@@ -1,0 +1,5 @@
+-- psql -c 'SELECT version()' -U barman -h 192.168.40.10 postgres
+                                                 version                                                  
+----------------------------------------------------------------------------------------------------------
+ PostgreSQL 11.13 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-44), 64-bit
+(1 строка)

@@ -1,0 +1,6 @@
+---
+- name: Playbook of activity master
+  hosts:
+    - master
+  roles:
+    - role: '../roles/master_activity'

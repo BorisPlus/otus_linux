@@ -1,0 +1,2 @@
+-- INSERT INTO test_schema.test_table(value) VALUES ('first'),('second');
+INSERT 0 2

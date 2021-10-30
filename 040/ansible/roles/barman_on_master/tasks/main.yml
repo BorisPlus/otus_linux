@@ -1,0 +1,116 @@
+---
+- name: DROP PostgreSQL users
+  become_user: postgres
+  shell: psql postgres -c "{{ item }};"
+  loop:
+      - REVOKE ALL PRIVILEGES ON FUNCTION pg_stop_backup() FROM streaming_barman
+      - REVOKE ALL PRIVILEGES ON FUNCTION pg_stop_backup() FROM streaming_barman
+      - REVOKE ALL PRIVILEGES ON FUNCTION pg_stop_backup() FROM streaming_barman
+      - REVOKE ALL PRIVILEGES ON FUNCTION pg_stop_backup(boolean, boolean) FROM streaming_barman
+      - REVOKE ALL PRIVILEGES ON FUNCTION pg_start_backup(text,boolean,boolean) FROM streaming_barman
+      - REVOKE ALL PRIVILEGES ON FUNCTION pg_switch_wal() FROM streaming_barman
+      - REVOKE ALL PRIVILEGES ON FUNCTION pg_create_restore_point(text) FROM streaming_barman
+      - REVOKE pg_read_all_settings FROM streaming_barman
+      - REVOKE pg_read_all_stats FROM streaming_barman
+      - DROP OWNED BY streaming_barman
+      - DROP USER IF EXISTS streaming_barman
+      -
+      - DROP USER IF EXISTS barman
+  tags:
+    - postgres-drop-data
+    - redeploy
+    - clear
+
+- name: Create PostgreSQL barman user
+  become_user: postgres
+  shell: psql postgres -c "{{ item }};"
+  loop:
+    - DROP USER IF EXISTS barman;
+    - CREATE USER barman SUPERUSER;
+  tags:
+    - postgres-create-barman
+    - postgres-create-barmans
+    - deploy
+    - redeploy
+
+- name: Create PostgreSQL streaming barman user
+  become_user: postgres
+  shell: psql postgres -c "{{ item }};"
+  loop:
+    - CREATE USER streaming_barman REPLICATION;
+    - GRANT EXECUTE ON FUNCTION pg_start_backup(text, boolean, boolean) to streaming_barman;
+    - GRANT EXECUTE ON FUNCTION pg_stop_backup() to streaming_barman;
+    - GRANT EXECUTE ON FUNCTION pg_stop_backup(boolean, boolean) to streaming_barman;
+    - GRANT EXECUTE ON FUNCTION pg_switch_wal() to streaming_barman;
+    - GRANT EXECUTE ON FUNCTION pg_create_restore_point(text) to streaming_barman;
+    - GRANT pg_read_all_settings TO streaming_barman;
+    - GRANT pg_read_all_stats TO streaming_barman;
+  tags:
+    - postgres-create-streaming_barman
+    - postgres-create-barmans
+    - deploy
+    - redeploy
+
+- name: Collect PostgreSQL *.conf files
+  copy:
+    src: ../files/{{ item }}
+    dest: /var/lib/pgsql/11/data/{{ item }}
+  loop:
+    - pg_hba.conf
+    - postgresql.conf
+  notify:
+    - restart-postgresql
+  tags:
+    - collect-postgres-conf-files
+    - deploy
+    - redeploy
+
+- name: Force restart PostgreSQL
+  systemd:
+    name: postgresql-11.service
+    state: restarted
+  tags:
+    - collect-postgres-conf-files
+    - deploy
+    - redeploy
+
+- name: Check local PostgreSQL access
+  become_user: postgres
+  shell: "{{ item }}"
+  loop:
+    - psql -c 'SELECT version()' -U barman -h 127.0.0.1 postgres
+    - psql -U streaming_barman -h 127.0.0.1 -c "IDENTIFY_SYSTEM" replication=1
+  register: local_access_check
+  tags:
+    - local-access-check
+    - deploy
+    - redeploy
+
+- name: Store result of check local PostgreSQL access
+  become: no
+  local_action:
+    module: copy
+    content: "-- {{ item['item'] }}\n{{ item['stdout'] }}"
+    dest: "../../files/master-local_access_check-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') | replace(\"'\", '') }}.txt"
+  loop: "{{ local_access_check['results'] }}"
+  tags:
+    - local-access-check
+    - deploy
+    - redeploy
+
+- name: Install EPEL Repo package from standart repo
+  yum:
+    name: epel-release
+    state: present
+  tags:
+    - install-epel-repo
+    - deploy
+    - redeploy
+
+- name: Install Barman Client for backup with streaming
+  yum:
+    name: barman-cli
+  tags:
+    - install-barman-cli
+    - deploy
+    - redeploy

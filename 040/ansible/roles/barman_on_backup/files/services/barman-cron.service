@@ -1,0 +1,11 @@
+[Unit]
+Description=Barman cron
+Wants=barman-cron.timer
+
+[Service]
+User=barman
+Type=oneshot
+ExecStart=/usr/bin/barman cron
+
+[Install]
+WantedBy=multi-user.target

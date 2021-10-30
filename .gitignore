@@ -1,4 +1,6 @@
 **/.vagrant
+**/.ansible/**
+**/tmp
 **/guest
 **/guest/**
 **/common/**

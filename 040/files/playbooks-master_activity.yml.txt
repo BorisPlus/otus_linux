@@ -1,0 +1,21 @@
+
+PLAY [Playbook of activity master] *********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [master]
+
+TASK [../roles/master_activity : PostgreSQL master activity] *******************
+changed: [master] => (item=1)
+changed: [master] => (item=2)
+changed: [master] => (item=3)
+changed: [master] => (item=4)
+changed: [master] => (item=5)
+changed: [master] => (item=6)
+changed: [master] => (item=7)
+changed: [master] => (item=8)
+changed: [master] => (item=9)
+changed: [master] => (item=10)
+
+PLAY RECAP *********************************************************************
+master                     : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

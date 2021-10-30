@@ -1,0 +1,10 @@
+[Unit]
+Description=Barman cron scheduled
+Requires=barman-cron.service
+
+[Timer]
+Unit=barman-cron.service
+OnUnitActiveSec=60
+
+[Install]
+WantedBy=timers.target

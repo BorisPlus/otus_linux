@@ -26,4 +26,9 @@ Vagrant.configure(2) do |config|
     replica.vm.hostname = "replica"
   end
 
+  config.vm.define "backup" do |backup|
+    backup.vm.network "private_network", ip: "192.168.40.12", virtualbox__intnet: "postgresql"
+    backup.vm.hostname = "backup"
+  end
+
 end

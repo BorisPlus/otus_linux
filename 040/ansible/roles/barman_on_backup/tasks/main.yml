@@ -1,0 +1,275 @@
+---
+- name: clear
+  shell: "{{ item }}"
+  loop:
+    - yum remove postgresql11-server -y
+    - yum remove postgresql11-libs.x86_64 -y
+    - yum remove barman -y
+    - rm -rf /var/lib/barman
+    - rm -rf /var/lib/pgsql/11/data/
+    - rm -rf /usr/pgsql-11/bin
+  tags:
+    - clear
+
+- name: Install PostgreSQL repo
+  yum:
+    name: http://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+    state: present
+  tags:
+    - install-postgresql
+    - install-postgresql-repo
+    - install-postgresql-server-with-req
+    - deploy
+
+- name: Install PostgreSQL server
+  yum:
+    name: postgresql11-server
+  tags:
+    - install-postgresql
+    - install-postgresql-server-with-req
+    - install-postgresql-server
+    - deploy
+
+- name: Remote access check
+  shell: "{{ item }}"
+  loop:
+    - psql -c 'SELECT version()' -U barman -h 192.168.40.10 postgres
+    - psql -U streaming_barman -h 192.168.40.10 -c "IDENTIFY_SYSTEM" replication=1
+  register: remote_access_check
+  tags:
+    - install-postgresql
+    - remote-access-check
+    - deploy
+
+- name: Store remote access check
+  become: no
+  local_action:
+    module: copy
+    content: "-- {{ item['item'] }}\n{{ item['stdout'] }}"
+    dest: "../../files/master-remote_access_check-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') | replace(\"'\", '') }}.txt"
+  loop: "{{ remote_access_check['results'] }}"
+  tags:
+    - install-postgresql
+    - remote-access-check
+    - deploy
+
+#
+
+- name: Install EPEL Repo package from standart repo
+  yum:
+    name: epel-release
+    state: present
+  tags:
+    - install-epel-repo
+    - install-and-configure-barman
+    - deploy
+
+- name: Yum install Barman requirements
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - postgresql11-libs.x86_64
+  tags:
+    - yum-barman-requirements
+    - install-and-configure-barman
+    - deploy
+
+- name: Install Barman package
+  yum:
+    name: barman
+    state: present
+  tags:
+    - install-barman-package
+    - install-barman-with-req
+    - install-and-configure-barman
+    - deploy
+
+- name: Update PATH - /etc/environment - not bug, just feature - for pg_receivexlog OK
+  shell: |
+    echo "export PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/pgsql-11/bin" > /etc/environment
+    source /etc/environment && export PATH
+  tags:
+    - add-path
+    - install-and-configure-barman
+    - deploy
+
+- name: Update PATH - ~/.* - not bug, just feature - for pg_receivexlog OK
+  shell: |
+    echo "export PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/pgsql-11/bin" > /var/lib/barman/.bashrc
+    chown barman:barman /var/lib/barman/.bashrc
+    source /var/lib/barman/.bashrc
+    echo "export PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/pgsql-11/bin" > /var/lib/barman/.bash_profile
+    chown barman:barman /var/lib/barman/.bash_profile
+    source /var/lib/barman/.bash_profile
+    echo "export PATH=/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/pgsql-11/bin" > /var/lib/barman/.profile
+    chown barman:barman /var/lib/barman/.profile
+    source /var/lib/barman/.profile
+  tags:
+    - add-path
+    - install-and-configure-barman
+    - deploy
+
+- name: Configure barman
+  copy:
+    src: ./files{{ item }}
+    dest: "{{ item }}"
+    mode: 0600
+    owner: barman
+    group: barman
+  loop:
+    - /etc/barman.conf
+    - /etc/barman.d/pg.conf
+  tags:
+    - copy-config-files
+    - configure-barman
+    - install-and-configure-barman
+    - deploy
+
+- name: Create barman slot
+  become_user: barman
+  shell: barman receive-wal --create-slot pg
+  tags:
+    - create-barman-slot
+    - configure-barman
+    - install-and-configure-barman
+    - deploy
+
+- name: Barman Cron as timed serviсe
+  copy:
+    src: ../files/services/{{ item }}
+    dest: /etc/systemd/system/{{ item }}
+  loop:
+    - barman-cron.service
+    - barman-cron.timer
+  tags:
+    - barman-cron-service
+    - install-and-configure-barman
+    - deploy
+
+#systemclt enable
+#systemclt start
+- name: systemctl start barman-cron.timer
+  systemd:
+    name: barman-cron.timer
+    state: restarted
+    enabled: true
+  tags:
+    - barman-cron-restart
+    - barman-cron-service
+    - install-and-configure-barman
+    - deploy
+
+- name: Check barman cron as timed serviсe
+  shell: journalctl -u barman-cron
+  register: check_barman_cron_service
+  tags:
+    - check-barman-cron-service
+    - install-and-configure-barman
+    - deploy
+
+- name: temporary print
+  debug:
+    msg: "{{ check_barman_cron_service }}"
+  tags:
+    - check-barman-cron-service
+
+- name: Store barman cron as timed serviсe check
+  become: no
+  local_action:
+    module: copy
+    content: "-- {{ check_barman_cron_service['cmd'] }}\n{{ check_barman_cron_service['stdout'] }}"
+    dest: "../../files/backup-check_barman_cron_service-{{ check_barman_cron_service['cmd'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') | replace(\"'\", '') }}.txt"
+  tags:
+    - check-barman-cron-service
+    - install-and-configure-barman
+    - deploy
+
+- name: Complex check of barman work
+  shell: |
+    "{{ item }}"
+    exit 0
+  become_user: barman
+  loop:
+    - barman status pg
+    - barman show-servers pg
+    - barman show-server pg
+    - barman check pg
+  register: complex_check_of_barman_work
+  tags:
+    - complex-check-of-barman-work
+
+- name: Store complex barman work check
+  become: no
+  local_action:
+    module: copy
+    content: "-- {{ item['item'] }}\n{{ item['stdout'] }}"
+    dest: "../../files/backup-complex_check_of_barman_work-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') | replace(\"'\", '') }}.txt"
+  loop: "{{ complex_check_of_barman_work['results'] }}"
+  tags:
+    - complex-check-of-barman-work
+
+# master: activity
+# backup: barman-cron
+# backup: barman-force-switch-wal
+
+- name: Barman check
+  shell: |
+    barman check pg
+    exit 0 # because may be fail
+  become_user: barman
+  register: barman_check
+  tags:
+    - barman-check
+    - install-and-configure-barman
+    - deploy
+
+- name: result of `barman check pg`
+  debug:
+    msg: "{{ barman_check }}"
+  tags:
+    - barman-check
+    - install-and-configure-barman
+    - deploy
+
+
+#- name: Store barman check
+#  become: no
+#  local_action:
+#    module: copy
+#    content: "-- {{ item['item'] }}\n{{ item['stdout'] }}"
+#    dest: "../../files/backup-barman_check-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') | replace(\"'\", '') }}.txt"
+#  loop: "{{ barman_check['results'] }}"
+#  tags:
+#    - barman-check
+
+- name: Barman switch-wal
+  shell: barman switch-wal pg
+  become_user: barman
+  tags:
+    - barman-switch-wal
+
+- name: Barman cron
+  shell: barman cron
+  become_user: barman
+  tags:
+    - barman-cron
+
+- name: Barman switch-wal force archive
+  become_user: barman
+  shell: |
+    barman switch-wal --force --archive pg
+    exit 0 # because may be fail
+  register: barman_force_switch_wal_log
+  tags:
+    - barman-force-switch-wal
+    - install-and-configure-barman
+    - deploy
+
+- name: result of `barman switch-wal --force --archive pg`
+  debug:
+    msg: "{{ barman_force_switch_wal_log }}"
+  tags:
+    - barman-force-switch-wal
+    - install-and-configure-barman
+    - deploy

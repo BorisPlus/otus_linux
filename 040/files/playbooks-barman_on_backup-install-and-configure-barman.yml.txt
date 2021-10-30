@@ -1,0 +1,111 @@
+
+PLAY [Playbook of PostgreSQL barman on backup] *********************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [backup]
+
+TASK [../roles/barman_on_backup : Install EPEL Repo package from standart repo] ***
+ok: [backup]
+
+TASK [../roles/barman_on_backup : Yum install Barman requirements] *************
+ok: [backup] => (item=postgresql11-libs.x86_64)
+
+TASK [../roles/barman_on_backup : Install Barman package] **********************
+ok: [backup]
+
+TASK [../roles/barman_on_backup : Update PATH - /etc/environment - not bug, just feature - for pg_receivexlog OK] ***
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Update PATH - ~/.* - not bug, just feature - for pg_receivexlog OK] ***
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Configure barman] ****************************
+ok: [backup] => (item=/etc/barman.conf)
+ok: [backup] => (item=/etc/barman.d/pg.conf)
+
+TASK [../roles/barman_on_backup : Create barman slot] **************************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Barman Cron as timed serviсe] ****************
+changed: [backup] => (item=barman-cron.service)
+changed: [backup] => (item=barman-cron.timer)
+
+TASK [../roles/barman_on_backup : systemctl start barman-cron.timer] ***********
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Check barman cron as timed serviсe] **********
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Store barman cron as timed serviсe check] ****
+changed: [backup -> localhost]
+
+TASK [../roles/barman_on_backup : Barman check] ********************************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : result of `barman check pg`] *****************
+ok: [backup] => {
+    "msg": {
+        "changed": true,
+        "cmd": "barman check pg\nexit 0 # because may be fail\n",
+        "delta": "0:00:00.590807",
+        "end": "2021-10-29 23:54:31.154369",
+        "failed": false,
+        "rc": 0,
+        "start": "2021-10-29 23:54:30.563562",
+        "stderr": "",
+        "stderr_lines": [],
+        "stdout": "Server pg:\n\tWAL archive: FAILED (please make sure WAL shipping is setup)\n\tPostgreSQL: OK\n\tsuperuser or standard user with backup privileges: OK\n\tPostgreSQL streaming: OK\n\twal_level: OK\n\treplication slot: FAILED (slot 'barman' not initialised: is 'receive-wal' running?)\n\tdirectories: OK\n\tretention policy settings: OK\n\tbackup maximum age: FAILED (interval provided: 4 days, latest backup age: No available backups)\n\tcompression settings: OK\n\tfailed backups: OK (there are 0 failed backups)\n\tminimum redundancy requirements: FAILED (have 0 backups, expected at least 1)\n\tpg_basebackup: OK\n\tpg_basebackup compatible: OK\n\tpg_basebackup supports tablespaces mapping: OK\n\tsystemid coherence: OK (no system Id stored on disk)\n\tpg_receivexlog: OK\n\tpg_receivexlog compatible: OK\n\treceive-wal running: FAILED (See the Barman log file for more details)\n\tarchiver errors: OK",
+        "stdout_lines": [
+            "Server pg:",
+            "\tWAL archive: FAILED (please make sure WAL shipping is setup)",
+            "\tPostgreSQL: OK",
+            "\tsuperuser or standard user with backup privileges: OK",
+            "\tPostgreSQL streaming: OK",
+            "\twal_level: OK",
+            "\treplication slot: FAILED (slot 'barman' not initialised: is 'receive-wal' running?)",
+            "\tdirectories: OK",
+            "\tretention policy settings: OK",
+            "\tbackup maximum age: FAILED (interval provided: 4 days, latest backup age: No available backups)",
+            "\tcompression settings: OK",
+            "\tfailed backups: OK (there are 0 failed backups)",
+            "\tminimum redundancy requirements: FAILED (have 0 backups, expected at least 1)",
+            "\tpg_basebackup: OK",
+            "\tpg_basebackup compatible: OK",
+            "\tpg_basebackup supports tablespaces mapping: OK",
+            "\tsystemid coherence: OK (no system Id stored on disk)",
+            "\tpg_receivexlog: OK",
+            "\tpg_receivexlog compatible: OK",
+            "\treceive-wal running: FAILED (See the Barman log file for more details)",
+            "\tarchiver errors: OK"
+        ]
+    }
+}
+
+TASK [../roles/barman_on_backup : Barman switch-wal force archive] *************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : result of `barman switch-wal --force --archive pg`] ***
+ok: [backup] => {
+    "msg": {
+        "changed": true,
+        "cmd": "barman switch-wal --force --archive pg\nexit 0 # because may be fail\n",
+        "delta": "0:00:30.753896",
+        "end": "2021-10-29 23:55:02.564228",
+        "failed": false,
+        "rc": 0,
+        "start": "2021-10-29 23:54:31.810332",
+        "stderr": "ERROR: The WAL file 000000010000000000000004 has not been received in 30 seconds",
+        "stderr_lines": [
+            "ERROR: The WAL file 000000010000000000000004 has not been received in 30 seconds"
+        ],
+        "stdout": "The WAL file 000000010000000000000004 has been closed on server 'pg'\nWaiting for the WAL file 000000010000000000000004 from server 'pg' (max: 30 seconds)",
+        "stdout_lines": [
+            "The WAL file 000000010000000000000004 has been closed on server 'pg'",
+            "Waiting for the WAL file 000000010000000000000004 from server 'pg' (max: 30 seconds)"
+        ]
+    }
+}
+
+PLAY RECAP *********************************************************************
+backup                     : ok=16   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

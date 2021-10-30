@@ -1,0 +1,34 @@
+
+PLAY [Playbook of PostgreSQL barman on backup] *********************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [backup]
+
+TASK [../roles/barman_on_backup : Barman switch-wal force archive] *************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : result of `barman switch-wal --force --archive pg`] ***
+ok: [backup] => {
+    "msg": {
+        "changed": true,
+        "cmd": "barman switch-wal --force --archive pg\nexit 0 # because may be fail\n",
+        "delta": "0:00:30.720946",
+        "end": "2021-10-30 00:04:50.526839",
+        "failed": false,
+        "rc": 0,
+        "start": "2021-10-30 00:04:19.805893",
+        "stderr": "ERROR: The WAL file 000000010000000000000005 has not been received in 30 seconds",
+        "stderr_lines": [
+            "ERROR: The WAL file 000000010000000000000005 has not been received in 30 seconds"
+        ],
+        "stdout": "The WAL file 000000010000000000000005 has been closed on server 'pg'\nWaiting for the WAL file 000000010000000000000005 from server 'pg' (max: 30 seconds)",
+        "stdout_lines": [
+            "The WAL file 000000010000000000000005 has been closed on server 'pg'",
+            "Waiting for the WAL file 000000010000000000000005 from server 'pg' (max: 30 seconds)"
+        ]
+    }
+}
+
+PLAY RECAP *********************************************************************
+backup                     : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

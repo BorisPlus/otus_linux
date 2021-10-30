@@ -1,0 +1,47 @@
+
+PLAY [Playbook of PostgreSQL barman on master] *********************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [master]
+
+TASK [../roles/barman_on_master : Create PostgreSQL barman user] ***************
+changed: [master] => (item=DROP USER IF EXISTS barman;)
+changed: [master] => (item=CREATE USER barman SUPERUSER;)
+
+TASK [../roles/barman_on_master : Create PostgreSQL streaming barman user] *****
+changed: [master] => (item=CREATE USER streaming_barman REPLICATION;)
+changed: [master] => (item=GRANT EXECUTE ON FUNCTION pg_start_backup(text, boolean, boolean) to streaming_barman;)
+changed: [master] => (item=GRANT EXECUTE ON FUNCTION pg_stop_backup() to streaming_barman;)
+changed: [master] => (item=GRANT EXECUTE ON FUNCTION pg_stop_backup(boolean, boolean) to streaming_barman;)
+changed: [master] => (item=GRANT EXECUTE ON FUNCTION pg_switch_wal() to streaming_barman;)
+changed: [master] => (item=GRANT EXECUTE ON FUNCTION pg_create_restore_point(text) to streaming_barman;)
+changed: [master] => (item=GRANT pg_read_all_settings TO streaming_barman;)
+changed: [master] => (item=GRANT pg_read_all_stats TO streaming_barman;)
+
+TASK [../roles/barman_on_master : Collect PostgreSQL *.conf files] *************
+changed: [master] => (item=pg_hba.conf)
+changed: [master] => (item=postgresql.conf)
+
+TASK [../roles/barman_on_master : Force restart PostgreSQL] ********************
+changed: [master]
+
+TASK [../roles/barman_on_master : Check local PostgreSQL access] ***************
+changed: [master] => (item=psql -c 'SELECT version()' -U barman -h 127.0.0.1 postgres)
+changed: [master] => (item=psql -U streaming_barman -h 127.0.0.1 -c "IDENTIFY_SYSTEM" replication=1)
+
+TASK [../roles/barman_on_master : Store result of check local PostgreSQL access] ***
+changed: [master -> localhost] => (item={'changed': True, 'end': '2021-10-29 23:52:37.929853', 'stdout': '                                                 version                                                  \n----------------------------------------------------------------------------------------------------------\n PostgreSQL 11.13 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-44), 64-bit\n(1 строка)', 'cmd': "psql -c 'SELECT version()' -U barman -h 127.0.0.1 postgres", 'rc': 0, 'start': '2021-10-29 23:52:37.891152', 'stderr': '', 'delta': '0:00:00.038701', 'invocation': {'module_args': {'creates': None, 'executable': None, '_uses_shell': True, 'strip_empty_ends': True, '_raw_params': "psql -c 'SELECT version()' -U barman -h 127.0.0.1 postgres", 'removes': None, 'argv': None, 'warn': False, 'chdir': None, 'stdin_add_newline': True, 'stdin': None}}, 'stdout_lines': ['                                                 version                                                  ', '----------------------------------------------------------------------------------------------------------', ' PostgreSQL 11.13 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-44), 64-bit', '(1 строка)'], 'stderr_lines': [], 'failed': False, 'item': "psql -c 'SELECT version()' -U barman -h 127.0.0.1 postgres", 'ansible_loop_var': 'item'})
+changed: [master -> localhost] => (item={'changed': True, 'end': '2021-10-29 23:52:38.513522', 'stdout': '      systemid       | timeline |  xlogpos  | dbname \n---------------------+----------+-----------+--------\n 7024633752451234416 |        1 | 0/302B4B8 | \n(1 строка)', 'cmd': 'psql -U streaming_barman -h 127.0.0.1 -c "IDENTIFY_SYSTEM" replication=1', 'rc': 0, 'start': '2021-10-29 23:52:38.488641', 'stderr': '', 'delta': '0:00:00.024881', 'invocation': {'module_args': {'creates': None, 'executable': None, '_uses_shell': True, 'strip_empty_ends': True, '_raw_params': 'psql -U streaming_barman -h 127.0.0.1 -c "IDENTIFY_SYSTEM" replication=1', 'removes': None, 'argv': None, 'warn': False, 'chdir': None, 'stdin_add_newline': True, 'stdin': None}}, 'stdout_lines': ['      systemid       | timeline |  xlogpos  | dbname ', '---------------------+----------+-----------+--------', ' 7024633752451234416 |        1 | 0/302B4B8 | ', '(1 строка)'], 'stderr_lines': [], 'failed': False, 'item': 'psql -U streaming_barman -h 127.0.0.1 -c "IDENTIFY_SYSTEM" replication=1', 'ansible_loop_var': 'item'})
+
+TASK [../roles/barman_on_master : Install EPEL Repo package from standart repo] ***
+changed: [master]
+
+TASK [../roles/barman_on_master : Install Barman Client for backup with streaming] ***
+changed: [master]
+
+RUNNING HANDLER [../roles/barman_on_master : restart-postgresql] ***************
+changed: [master]
+
+PLAY RECAP *********************************************************************
+master                     : ok=10   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

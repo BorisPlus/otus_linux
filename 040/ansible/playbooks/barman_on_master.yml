@@ -1,0 +1,7 @@
+---
+- name: Playbook of PostgreSQL barman on master
+  hosts:
+    - master
+  become: yes
+  roles:
+    - role: '../roles/barman_on_master'
