@@ -1,0 +1,85 @@
+
+PLAY [Playbook of PostgreSQL barman on backup] *********************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [backup]
+
+TASK [../roles/barman_on_backup : Install EPEL Repo package from standart repo] ***
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Yum install Barman requirements] *************
+ok: [backup] => (item=postgresql13-libs.x86_64)
+
+TASK [../roles/barman_on_backup : Install Barman package] **********************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Update PATH - /etc/environment - not bug, just feature - for pg_receivexlog OK] ***
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Update PATH - ~/.* - not bug, just feature - for pg_receivexlog OK] ***
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Configure barman] ****************************
+changed: [backup] => (item=/etc/barman.conf)
+changed: [backup] => (item=/etc/barman.d/pg.conf)
+changed: [backup] => (item=/var/lib/barman/.pgpass)
+changed: [backup] => (item=/var/lib/barman/.ssh/)
+
+TASK [../roles/barman_on_backup : Create barman slot] **************************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Barman Cron as timed serviсe] ****************
+changed: [backup] => (item=barman-cron.service)
+changed: [backup] => (item=barman-cron.timer)
+
+TASK [../roles/barman_on_backup : systemctl enable barman-cron.service] ********
+changed: [backup]
+
+TASK [../roles/barman_on_backup : systemctl start barman-cron.timer] ***********
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Check barman cron as timed serviсe] **********
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Store barman cron as timed serviсe check] ****
+changed: [backup -> localhost]
+
+TASK [../roles/barman_on_backup : Barman switch-wal force archive] *************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : result of `barman switch-wal --force --archive pg`] ***
+ok: [backup] => {
+    "msg": {
+        "changed": true,
+        "cmd": "barman switch-wal --force --archive pg\nexit 0 # because may be fail\n",
+        "delta": "0:00:12.941913",
+        "end": "2021-11-22 21:54:12.677971",
+        "failed": false,
+        "rc": 0,
+        "start": "2021-11-22 21:53:59.736058",
+        "stderr": "",
+        "stderr_lines": [],
+        "stdout": "The WAL file 000000010000000000000004 has been closed on server 'pg'\nWaiting for the WAL file 000000010000000000000004 from server 'pg' (max: 30 seconds)\nProcessing xlog segments from file archival for pg\n\t000000010000000000000001\nProcessing xlog segments from file archival for pg\n\t000000010000000000000002\nProcessing xlog segments from file archival for pg\n\t000000010000000000000002.00000028.backup\nProcessing xlog segments from file archival for pg\n\t000000010000000000000003\nProcessing xlog segments from file archival for pg\n\t000000010000000000000004",
+        "stdout_lines": [
+            "The WAL file 000000010000000000000004 has been closed on server 'pg'",
+            "Waiting for the WAL file 000000010000000000000004 from server 'pg' (max: 30 seconds)",
+            "Processing xlog segments from file archival for pg",
+            "\t000000010000000000000001",
+            "Processing xlog segments from file archival for pg",
+            "\t000000010000000000000002",
+            "Processing xlog segments from file archival for pg",
+            "\t000000010000000000000002.00000028.backup",
+            "Processing xlog segments from file archival for pg",
+            "\t000000010000000000000003",
+            "Processing xlog segments from file archival for pg",
+            "\t000000010000000000000004"
+        ]
+    }
+}
+
+RUNNING HANDLER [../roles/barman_on_backup : systemd-daemon-reload] ************
+ok: [backup]
+
+PLAY RECAP *********************************************************************
+backup                     : ok=16   changed=12   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

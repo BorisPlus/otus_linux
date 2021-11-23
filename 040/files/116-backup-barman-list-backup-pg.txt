@@ -1,0 +1,3 @@
+-- barman list-backup pg
+pg 20211123T043300 - Tue Nov 23 04:33:10 2021 - Size: 24.1 MiB - WAL Size: 0 B
+pg 20211123T043156 - Tue Nov 23 04:32:06 2021 - Size: 24.1 MiB - WAL Size: 48.2 KiB

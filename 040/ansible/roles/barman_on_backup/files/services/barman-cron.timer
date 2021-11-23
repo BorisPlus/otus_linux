@@ -4,7 +4,7 @@ Requires=barman-cron.service
 
 [Timer]
 Unit=barman-cron.service
-OnUnitActiveSec=60
+OnUnitActiveSec=10
 
 [Install]
 WantedBy=timers.target

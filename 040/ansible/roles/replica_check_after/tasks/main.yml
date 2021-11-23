@@ -6,11 +6,12 @@
     - "SELECT schema_name FROM information_schema.schemata;"
     - "SELECT schemaname, tablename FROM pg_catalog.pg_tables;"
     - "SELECT * FROM test_schema.test_table;"
+#    - "SELECT name, setting, category, short_desc, context, pending_restart FROM pg_catalog.pg_settings WHERE category IN('Write-Ahead Log / Archive Recovery','Write-Ahead Log / Recovery Target') OR name IN ('primary_conninfo','primary_slot_name','promote_trigger_file','recovery_min_apply_delay') ORDER BY category, name;"
   register: check
 
 - name: Store check to file
   local_action:
     module: copy
     content: "-- {{ item['item'] }}\n{{ item['stdout'] }}"
-    dest: "../../files/replica_check_after-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') }}.txt"
+    dest: "../../files/005_replica_check_after-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') }}.txt"
   loop: "{{ check['results'] }}"

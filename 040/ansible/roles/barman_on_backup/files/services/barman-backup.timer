@@ -1,0 +1,11 @@
+[Unit]
+Description=Barman backup scheduled
+Requires=barman-backup.service
+
+[Timer]
+Unit=barman-backup.service
+# 60 - just for example
+OnUnitActiveSec=60
+
+[Install]
+WantedBy=timers.target

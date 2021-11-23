@@ -1,0 +1,15 @@
+-- barman backup pg
+Starting backup using postgres method for server pg in /var/lib/barman/pg/base/20211123T043300
+Backup start at LSN: 0/70000C8 (000000010000000000000007, 000000C8)
+Starting backup copy via pg_basebackup for 20211123T043300
+Copy done (time: 9 seconds)
+Finalising the backup.
+Backup size: 24.1 MiB
+Backup end at LSN: 0/9000060 (000000010000000000000009, 00000060)
+Backup completed (start time: 2021-11-23 04:33:00.512537, elapsed time: 10 seconds)
+Processing xlog segments from streaming for pg
+	000000010000000000000008
+	000000010000000000000009
+Processing xlog segments from file archival for pg
+	000000010000000000000008
+	000000010000000000000008.00000028.backup

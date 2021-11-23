@@ -18,7 +18,7 @@
 
 - name: Uninstall PostgreSQL
   yum:
-    name: postgresql11-server
+    name: postgresql13-server
     state: absent
   tags:
     - uninstall-postgresql
@@ -26,7 +26,7 @@
 
 - name: Remove PostgreSQL data dir
   file:
-    path: "/var/lib/pgsql/11/data"
+    path: "/var/lib/pgsql/13/data"
     state: absent
   tags:
     - remove-postgresql-data-dir
@@ -35,22 +35,22 @@
 
 - name: Install PostgreSQL
   yum:
-    name: postgresql11-server
+    name: postgresql13-server
   tags:
     - install-postgresql
     - deploy
 
 - name: Init PostgreSQL
-  shell: /usr/pgsql-11/bin/postgresql-11-setup initdb
+  shell: /usr/pgsql-13/bin/postgresql-13-setup initdb
   args:
-    creates: /var/lib/pgsql/11/data/postgresql.conf
+    creates: /var/lib/pgsql/13/data/postgresql.conf
   tags:
     - init-postgresql
     - deploy
 
 - name: Force clear PostgreSQL data dir
   file:
-    path: "/var/lib/pgsql/11/data"
+    path: "/var/lib/pgsql/13/data"
     state: absent
   tags:
     - force-clear-postgresql-data-dir
@@ -58,7 +58,7 @@
 
 - name: Create PostgreSQL data
   file:
-    path: "/var/lib/pgsql/11/data"
+    path: "/var/lib/pgsql/13/data"
     state: directory
     owner: postgres
     group: postgres
@@ -118,7 +118,7 @@
 
 - name: Clear PostgreSQL data dir
   file:
-    path: "/var/lib/pgsql/11/data"
+    path: "/var/lib/pgsql/13/data"
     state: absent
   tags:
     - clear-postgresql-data-dir
@@ -129,32 +129,33 @@
 - name: Copy database from master to slave
   become_user: postgres
   expect:
-    command: pg_basebackup -X stream -h 192.168.40.10 -D /var/lib/pgsql/11/data/ -P -U replicator -W
+    command: pg_basebackup -X stream -h 192.168.40.10 -D /var/lib/pgsql/13/data/ -P -U replicator -W
     responses:
       '(.*):(.*)': 'replicator'
   notify:
     - restart-postgresql
-  register:  copy_master_data_dir_log
+  register: copy_master_data_dir_log
   tags:
     - copy-master-data-dir
     - copy-master-data
     - deploy
 
 - name: Copy database from master to slave
-  shell: pg_basebackup -X stream -h 192.168.40.10 -D /var/lib/pgsql/11/data/ -P -U replicator
+  shell: pg_basebackup -X stream -h 192.168.40.10 -D /var/lib/pgsql/13/data/ -P -U replicator
   tags:
-    - copy-master-data-trust
+    - copy-master-data-as-trust
 
 - name: Collect pg.conf-files
   copy:
     src: ../files/{{ item }}
-    dest: /var/lib/pgsql/11/data/{{ item }}
+    dest: /var/lib/pgsql/13/data/{{ item }}
     owner: postgres
     group: postgres
     force: yes
   loop:
-    - recovery.conf
     - postgresql.conf
+    - recovery.signal
+    - standby.signal
   tags:
     - collect-pg.conf-files
     - deploy

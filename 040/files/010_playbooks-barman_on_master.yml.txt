@@ -1,0 +1,26 @@
+
+PLAY [Playbook of PostgreSQL barman on master] *********************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [master]
+
+TASK [../roles/barman_on_master : Create PostgreSQL barman user] ***************
+changed: [master] => (item=DROP USER IF EXISTS barman;)
+changed: [master] => (item=CREATE USER barman SUPERUSER;)
+changed: [master] => (item=ALTER USER barman WITH ENCRYPTED PASSWORD 'barman';)
+changed: [master] => (item=DROP USER IF EXISTS superbarman;)
+
+TASK [../roles/barman_on_master : Create PostgreSQL streaming barman user] *****
+failed: [master] (item=CREATE USER streaming_barman REPLICATION;) => {"ansible_loop_var": "item", "changed": true, "cmd": "psql postgres -c \"CREATE USER streaming_barman REPLICATION;;\"", "delta": "0:00:00.026038", "end": "2021-11-22 22:07:54.988637", "item": "CREATE USER streaming_barman REPLICATION;", "msg": "non-zero return code", "rc": 1, "start": "2021-11-22 22:07:54.962599", "stderr": "ERROR:  role \"streaming_barman\" already exists", "stderr_lines": ["ERROR:  role \"streaming_barman\" already exists"], "stdout": "", "stdout_lines": []}
+changed: [master] => (item=ALTER USER streaming_barman WITH ENCRYPTED PASSWORD 'barman';)
+changed: [master] => (item=GRANT EXECUTE ON FUNCTION pg_start_backup(text, boolean, boolean) to streaming_barman;)
+changed: [master] => (item=GRANT EXECUTE ON FUNCTION pg_stop_backup() to streaming_barman;)
+changed: [master] => (item=GRANT EXECUTE ON FUNCTION pg_stop_backup(boolean, boolean) to streaming_barman;)
+changed: [master] => (item=GRANT EXECUTE ON FUNCTION pg_switch_wal() to streaming_barman;)
+changed: [master] => (item=GRANT EXECUTE ON FUNCTION pg_create_restore_point(text) to streaming_barman;)
+changed: [master] => (item=GRANT pg_read_all_settings TO streaming_barman;)
+changed: [master] => (item=GRANT pg_read_all_stats TO streaming_barman;)
+
+PLAY RECAP *********************************************************************
+master                     : ok=2    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+

@@ -1,0 +1,1 @@
+barman_check_2['stdout']

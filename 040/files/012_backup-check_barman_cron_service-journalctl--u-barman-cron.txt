@@ -1,0 +1,6 @@
+-- journalctl -u barman-cron
+-- Logs begin at Пн 2021-11-22 20:59:12 UTC, end at Пн 2021-11-22 21:53:58 UTC. --
+ноя 22 21:53:56 backup systemd[1]: Starting Barman cron...
+ноя 22 21:53:57 backup barman[18405]: Starting WAL archiving for server pg
+ноя 22 21:53:57 backup barman[18405]: Starting streaming archiver for server pg
+ноя 22 21:53:57 backup systemd[1]: Started Barman cron.

@@ -1,5 +1,0 @@
--- psql -U streaming_barman -h 127.0.0.1 -c "IDENTIFY_SYSTEM" replication=1
-      systemid       | timeline |  xlogpos  | dbname 
----------------------+----------+-----------+--------
- 7024633752451234416 |        1 | 0/302B4B8 | 
-(1 строка)

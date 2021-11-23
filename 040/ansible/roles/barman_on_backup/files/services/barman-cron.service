@@ -4,7 +4,9 @@ Wants=barman-cron.timer
 
 [Service]
 User=barman
+#User=root
 Type=oneshot
+#Type=simple
 ExecStart=/usr/bin/barman cron
 
 [Install]

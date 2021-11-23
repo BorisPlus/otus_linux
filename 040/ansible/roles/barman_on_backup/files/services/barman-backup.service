@@ -1,0 +1,11 @@
+[Unit]
+Description=Barman backup
+Wants=barman-backup.timer
+
+[Service]
+User=barman
+Type=oneshot
+ExecStart=/usr/bin/barman backup pg
+
+[Install]
+WantedBy=multi-user.target

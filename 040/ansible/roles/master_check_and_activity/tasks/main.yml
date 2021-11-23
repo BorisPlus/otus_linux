@@ -7,13 +7,16 @@
     - "SELECT datname AS database_name FROM pg_database;"
     - "SELECT schema_name FROM information_schema.schemata;"
     - "SELECT schemaname, tablename FROM pg_catalog.pg_tables;"
+    - "SHOW archive_mode;"
+    - "SHOW archive_command;"
   register: check
+
 
 - name: Store check to file
   local_action:
     module: copy
     content: "-- {{ item['item'] }}\n{{ item['stdout'] }}"
-    dest: "../../files/master_check-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') }}.txt"
+    dest: "../../files/004_master_check-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') }}.txt"
   loop: "{{ check['results'] }}"
 
 - name: PostgreSQL master activity
@@ -28,5 +31,5 @@
   local_action:
     module: copy
     content: "-- {{ item['item'] }}\n{{ item['stdout'] }}"
-    dest: "../../files/master_activity-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') | replace(\"'\", '') }}.txt"
+    dest: "../../files/004_master_activity-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') | replace(\"'\", '') }}.txt"
   loop: "{{ activity['results'] }}"

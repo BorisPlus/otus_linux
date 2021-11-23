@@ -1,0 +1,60 @@
+
+PLAY [Playbook of PostgreSQL barman on backup] *********************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [backup]
+
+TASK [../roles/barman_on_backup : Install PostgreSQL repo] *********************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Install PostgreSQL server] *******************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Install EPEL Repo package from standart repo] ***
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Install Barman package] **********************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Update PATH - /etc/environment - not bug, just feature - for pg_receivexlog OK] ***
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Update PATH - ~/.* - not bug, just feature - for pg_receivexlog OK] ***
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Configure barman] ****************************
+changed: [backup] => (item=/etc/barman.conf)
+changed: [backup] => (item=/etc/barman.d/pg.conf)
+changed: [backup] => (item=/var/lib/barman/.pgpass)
+changed: [backup] => (item=/var/lib/barman/.ssh/)
+
+TASK [../roles/barman_on_backup : Remote access check] *************************
+changed: [backup] => (item=psql -c 'SELECT version()' -U barman -h 192.168.40.10 postgres)
+changed: [backup] => (item=psql -U streaming_barman -h 192.168.40.10 -c "IDENTIFY_SYSTEM" replication=1)
+
+TASK [../roles/barman_on_backup : Print remote access check result] ************
+ok: [backup] => (item={'changed': True, 'end': '2021-11-22 23:52:20.524844', 'stdout': '                                                 version                                                 \n---------------------------------------------------------------------------------------------------------\n PostgreSQL 13.5 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-44), 64-bit\n(1 строка)', 'cmd': "psql -c 'SELECT version()' -U barman -h 192.168.40.10 postgres", 'rc': 0, 'start': '2021-11-22 23:52:13.399426', 'stderr': '', 'delta': '0:00:07.125418', 'invocation': {'module_args': {'creates': None, 'executable': None, '_uses_shell': True, 'strip_empty_ends': True, '_raw_params': "psql -c 'SELECT version()' -U barman -h 192.168.40.10 postgres", 'removes': None, 'argv': None, 'warn': False, 'chdir': None, 'stdin_add_newline': True, 'stdin': None}}, 'stdout_lines': ['                                                 version                                                 ', '---------------------------------------------------------------------------------------------------------', ' PostgreSQL 13.5 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-44), 64-bit', '(1 строка)'], 'stderr_lines': [], 'failed': False, 'item': "psql -c 'SELECT version()' -U barman -h 192.168.40.10 postgres", 'ansible_loop_var': 'item'}) => {
+    "msg": "psql -c 'SELECT version()' -U barman -h 192.168.40.10 postgres => [RESULT] =>                                                  version                                                 \n---------------------------------------------------------------------------------------------------------\n PostgreSQL 13.5 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 4.8.5 20150623 (Red Hat 4.8.5-44), 64-bit\n(1 строка)"
+}
+ok: [backup] => (item={'changed': True, 'end': '2021-11-22 23:52:21.098693', 'stdout': '      systemid       | timeline |  xlogpos  | dbname \n---------------------+----------+-----------+--------\n 7033544742882521115 |        1 | 0/40000D8 | \n(1 строка)', 'cmd': 'psql -U streaming_barman -h 192.168.40.10 -c "IDENTIFY_SYSTEM" replication=1', 'rc': 0, 'start': '2021-11-22 23:52:21.069041', 'stderr': '', 'delta': '0:00:00.029652', 'invocation': {'module_args': {'creates': None, 'executable': None, '_uses_shell': True, 'strip_empty_ends': True, '_raw_params': 'psql -U streaming_barman -h 192.168.40.10 -c "IDENTIFY_SYSTEM" replication=1', 'removes': None, 'argv': None, 'warn': False, 'chdir': None, 'stdin_add_newline': True, 'stdin': None}}, 'stdout_lines': ['      systemid       | timeline |  xlogpos  | dbname ', '---------------------+----------+-----------+--------', ' 7033544742882521115 |        1 | 0/40000D8 | ', '(1 строка)'], 'stderr_lines': [], 'failed': False, 'item': 'psql -U streaming_barman -h 192.168.40.10 -c "IDENTIFY_SYSTEM" replication=1', 'ansible_loop_var': 'item'}) => {
+    "msg": "psql -U streaming_barman -h 192.168.40.10 -c \"IDENTIFY_SYSTEM\" replication=1 => [RESULT] =>       systemid       | timeline |  xlogpos  | dbname \n---------------------+----------+-----------+--------\n 7033544742882521115 |        1 | 0/40000D8 | \n(1 строка)"
+}
+
+TASK [../roles/barman_on_backup : Create barman slot] **************************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Cron /usr/bin/barman backup] *****************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Cron /usr/bin/barman cron] *******************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : barman check] ********************************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Store result of `barman check`] **************
+fatal: [backup -> localhost]: FAILED! => {"msg": "The task includes an option with an undefined variable. The error was: 'dict object' has no attribute 'item'\n\nThe error appears to be in '/home/b/pycharm_projects_2021_2/otus_linux/040/ansible/roles/barman_on_backup/tasks/main.yml': line 347, column 3, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n\n- name: Store result of `barman check`\n  ^ here\n"}
+
+PLAY RECAP *********************************************************************
+backup                     : ok=14   changed=12   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+

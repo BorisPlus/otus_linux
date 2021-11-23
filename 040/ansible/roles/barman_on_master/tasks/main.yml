@@ -27,17 +27,21 @@
   loop:
     - DROP USER IF EXISTS barman;
     - CREATE USER barman SUPERUSER;
+    - ALTER USER barman WITH ENCRYPTED PASSWORD 'barman';
+    - DROP USER IF EXISTS superbarman;
   tags:
     - postgres-create-barman
     - postgres-create-barmans
     - deploy
     - redeploy
+    - feature-deploy
 
 - name: Create PostgreSQL streaming barman user
   become_user: postgres
   shell: psql postgres -c "{{ item }};"
   loop:
     - CREATE USER streaming_barman REPLICATION;
+    - ALTER USER streaming_barman WITH ENCRYPTED PASSWORD 'barman';
     - GRANT EXECUTE ON FUNCTION pg_start_backup(text, boolean, boolean) to streaming_barman;
     - GRANT EXECUTE ON FUNCTION pg_stop_backup() to streaming_barman;
     - GRANT EXECUTE ON FUNCTION pg_stop_backup(boolean, boolean) to streaming_barman;
@@ -50,29 +54,36 @@
     - postgres-create-barmans
     - deploy
     - redeploy
+    - feature-deploy
 
-- name: Collect PostgreSQL *.conf files
+- name: Collect SSH and PG files
   copy:
     src: ../files/{{ item }}
-    dest: /var/lib/pgsql/11/data/{{ item }}
+    dest: "{{ item }}"
+    mode: 0600
+    owner: postgres
+    group: postgres
   loop:
-    - pg_hba.conf
-    - postgresql.conf
+    - /var/lib/pgsql/13/data/pg_hba.conf
+    - /var/lib/pgsql/13/data/postgresql.conf
+    - /var/lib/pgsql/.ssh/ # кстати, отсутсвие слеша в конце дает фичу доп вложенности
   notify:
     - restart-postgresql
   tags:
-    - collect-postgres-conf-files
+    - collect-files
     - deploy
     - redeploy
+    - feature-deploy
 
 - name: Force restart PostgreSQL
   systemd:
-    name: postgresql-11.service
+    name: postgresql-13.service
     state: restarted
   tags:
-    - collect-postgres-conf-files
+    - collect-files
     - deploy
     - redeploy
+    - feature-deploy
 
 - name: Check local PostgreSQL access
   become_user: postgres
@@ -85,13 +96,23 @@
     - local-access-check
     - deploy
     - redeploy
+    - feature-deploy
+
+- name: Print result of check local PostgreSQL access
+  debug:
+    msg: |
+      {{ item['item'] }}
+      {{ item['stdout'] }}
+  loop: "{{ local_access_check['results'] }}"
+  tags:
+    - feature-deploy
 
 - name: Store result of check local PostgreSQL access
   become: no
   local_action:
     module: copy
     content: "-- {{ item['item'] }}\n{{ item['stdout'] }}"
-    dest: "../../files/master-local_access_check-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') | replace(\"'\", '') }}.txt"
+    dest: "../../files/010_master-local_access_check-{{ item['item'] | replace(',', '_') | replace(';', '-') | replace(' ', '-') | replace(\"'\", '') }}.txt"
   loop: "{{ local_access_check['results'] }}"
   tags:
     - local-access-check
@@ -106,6 +127,7 @@
     - install-epel-repo
     - deploy
     - redeploy
+    - feature-deploy
 
 - name: Install Barman Client for backup with streaming
   yum:
@@ -114,3 +136,4 @@
     - install-barman-cli
     - deploy
     - redeploy
+    - feature-deploy

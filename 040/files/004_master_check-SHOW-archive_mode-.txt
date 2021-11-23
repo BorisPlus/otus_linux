@@ -1,0 +1,5 @@
+-- SHOW archive_mode;
+ archive_mode 
+--------------
+ on
+(1 строка)

@@ -10,20 +10,20 @@
 
 - name: Install PostgreSQL
   yum:
-    name: postgresql11-server
+    name: postgresql13-server
   tags:
-    - install-postgresql
+    - install-postgresqlyum search
     - deploy
 
 - name: Uninstall PostgreSQL
   yum:
-    name: postgresql11-server
+    name: postgresql13-server
   tags:
     - install-postgresql
     - deploy
 
 - name: Remove PostgreSQL data dir
-  shell: rm -rf /var/lib/pgsql/11
+  shell: rm -rf /var/lib/pgsql/13
   tags:
     - remove-postgresql-data-dir
     - deploy
@@ -54,7 +54,7 @@
 #    - ansibled-postgresql
 
 - name: Init PostgreSQL
-  shell: /usr/pgsql-11/bin/postgresql-11-setup initdb
+  shell: /usr/pgsql-13/bin/postgresql-13-setup initdb
   tags:
     - init-postgresql
     - deploy
@@ -62,7 +62,7 @@
 - name: Collect-pg.conf-files
   copy:
     src: ../files/{{ item }}
-    dest: /var/lib/pgsql/11/data/{{ item }}
+    dest: /var/lib/pgsql/13/data/{{ item }}
   loop:
     - pg_hba.conf
     - postgresql.conf
@@ -74,7 +74,7 @@
 
 - name: Force restart PostgreSQL
   systemd:
-    name: postgresql-11
+    name: postgresql-13
     state: restarted
     enabled: true
   tags:
@@ -84,7 +84,7 @@
 
 - name: download barman
   get_url:
-    url: https://dl.2ndquadrant.com/default/release/get/11/rpm
+    url: https://dl.2ndquadrant.com/default/release/get/13/rpm
     dest: /home/vagrant/barman-repo.sh
     mode: 0777
   tags:
@@ -94,7 +94,7 @@
 - name: install barman-repo
   shell: /home/vagrant/barman-repo.sh
   args:
-    creates: /etc/yum.repos.d/2ndquadrant-dl-default-release-pg11.repo
+    creates: /etc/yum.repos.d/2ndquadrant-dl-default-release-pg13.repo
   tags:
     - install-barman-repo
     - deploy-barman
@@ -118,9 +118,9 @@
     - deploy-barman
 
 - name: PostgreSQL init db
-  shell: /usr/pgsql-11/bin/postgresql-11-setup initdb
+  shell: /usr/pgsql-13/bin/postgresql-13-setup initdb
   args:
-    creates: /var/lib/pgsql/11/data/postgresql.conf
+    creates: /var/lib/pgsql/13/data/postgresql.conf
 
 - name: Create PostgreSQL slot
   become_user: postgres
@@ -140,6 +140,7 @@
   become_user: postgres
   shell: psql postgres -c "CREATE USER replicator WITH REPLICATION PASSWORD 'replicator'"
   tags:
+    - create-postgres-replication-user
     - postgres-replication-init
     - deploy
 

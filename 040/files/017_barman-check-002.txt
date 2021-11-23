@@ -1,0 +1,17 @@
+
+PLAY [Playbook of PostgreSQL barman on backup] *********************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [backup]
+
+TASK [../roles/barman_on_backup : barman check] ********************************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : result of `barman-check`] ********************
+ok: [backup] => {
+    "msg": "Server pg:\n\tPostgreSQL: OK\n\tsuperuser or standard user with backup privileges: OK\n\tPostgreSQL streaming: OK\n\twal_level: OK\n\treplication slot: OK\n\tdirectories: OK\n\tretention policy settings: OK\n\tbackup maximum age: FAILED (interval provided: 4 days, latest backup age: No available backups)\n\tcompression settings: OK\n\tfailed backups: OK (there are 0 failed backups)\n\tminimum redundancy requirements: FAILED (have 0 backups, expected at least 1)\n\tpg_basebackup: OK\n\tpg_basebackup compatible: OK\n\tpg_basebackup supports tablespaces mapping: OK\n\tsystemid coherence: OK (no system Id stored on disk)\n\tpg_receivexlog: OK\n\tpg_receivexlog compatible: OK\n\treceive-wal running: OK\n\tarchive_mode: OK\n\tarchive_command: OK\n\tcontinuous archiving: OK\n\tarchiver errors: OK"
+}
+
+PLAY RECAP *********************************************************************
+backup                     : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

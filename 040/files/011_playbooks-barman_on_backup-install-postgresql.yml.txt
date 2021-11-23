@@ -1,0 +1,15 @@
+
+PLAY [Playbook of PostgreSQL barman on backup] *********************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [backup]
+
+TASK [../roles/barman_on_backup : Install PostgreSQL repo] *********************
+changed: [backup]
+
+TASK [../roles/barman_on_backup : Install PostgreSQL server] *******************
+changed: [backup]
+
+PLAY RECAP *********************************************************************
+backup                     : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

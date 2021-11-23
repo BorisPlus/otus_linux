@@ -1,0 +1,53 @@
+
+PLAY [Playbook of PostgreSQL replica] ******************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [replica]
+
+TASK [../roles/replica : Install EPEL Repo package from standart repo] *********
+changed: [replica]
+
+TASK [../roles/replica : Install PostgreSQL repo] ******************************
+changed: [replica]
+
+TASK [../roles/replica : Uninstall PostgreSQL] *********************************
+ok: [replica]
+
+TASK [../roles/replica : Remove PostgreSQL data dir] ***************************
+ok: [replica]
+
+TASK [../roles/replica : Install PostgreSQL] ***********************************
+changed: [replica]
+
+TASK [../roles/replica : Init PostgreSQL] **************************************
+changed: [replica]
+
+TASK [../roles/replica : Force clear PostgreSQL data dir] **********************
+changed: [replica]
+
+TASK [../roles/replica : Create PostgreSQL data] *******************************
+changed: [replica]
+
+TASK [../roles/replica : Install python-pip for pexpect promt answering] *******
+changed: [replica]
+
+TASK [../roles/replica : Pip install pexpect] **********************************
+changed: [replica]
+
+TASK [../roles/replica : Clear PostgreSQL data dir] ****************************
+changed: [replica]
+
+TASK [../roles/replica : Copy database from master to slave] *******************
+changed: [replica]
+
+TASK [../roles/replica : Collect pg.conf-files] ********************************
+changed: [replica] => (item=postgresql.conf)
+changed: [replica] => (item=recovery.signal)
+changed: [replica] => (item=standby.signal)
+
+RUNNING HANDLER [../roles/replica : restart-postgresql] ************************
+changed: [replica]
+
+PLAY RECAP *********************************************************************
+replica                    : ok=15   changed=12   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

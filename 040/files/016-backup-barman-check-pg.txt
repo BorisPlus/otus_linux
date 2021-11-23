@@ -1,0 +1,24 @@
+-- barman check pg
+Server pg:
+	PostgreSQL: OK
+	superuser or standard user with backup privileges: OK
+	PostgreSQL streaming: OK
+	wal_level: OK
+	replication slot: OK
+	directories: OK
+	retention policy settings: OK
+	backup maximum age: OK (interval provided: 4 days, latest backup age: 2 minutes, 40 seconds)
+	compression settings: OK
+	failed backups: OK (there are 0 failed backups)
+	minimum redundancy requirements: OK (have 3 backups, expected at least 1)
+	pg_basebackup: OK
+	pg_basebackup compatible: OK
+	pg_basebackup supports tablespaces mapping: OK
+	systemid coherence: OK
+	pg_receivexlog: OK
+	pg_receivexlog compatible: OK
+	receive-wal running: OK
+	archive_mode: OK
+	archive_command: OK
+	continuous archiving: OK
+	archiver errors: OK

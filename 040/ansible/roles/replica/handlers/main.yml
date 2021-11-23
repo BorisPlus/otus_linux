@@ -1,5 +1,5 @@
 ---
 - name: restart-postgresql
   systemd:
-    name: postgresql-11.service
+    name: postgresql-13.service
     state: restarted
